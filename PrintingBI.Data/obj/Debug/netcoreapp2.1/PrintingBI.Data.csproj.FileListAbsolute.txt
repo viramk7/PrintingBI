@@ -1,0 +1,9 @@
+C:\Data\Projects\PrintingBI\PrintingBI API\PrintingBI\PrintingBI.Data\bin\Debug\netcoreapp2.1\PrintingBI.Data.deps.json
+C:\Data\Projects\PrintingBI\PrintingBI API\PrintingBI\PrintingBI.Data\bin\Debug\netcoreapp2.1\PrintingBI.Data.dll
+C:\Data\Projects\PrintingBI\PrintingBI API\PrintingBI\PrintingBI.Data\bin\Debug\netcoreapp2.1\PrintingBI.Data.pdb
+C:\Data\Projects\PrintingBI\PrintingBI API\PrintingBI\PrintingBI.Data\obj\Debug\netcoreapp2.1\PrintingBI.Data.csprojAssemblyReference.cache
+C:\Data\Projects\PrintingBI\PrintingBI API\PrintingBI\PrintingBI.Data\obj\Debug\netcoreapp2.1\PrintingBI.Data.csproj.CoreCompileInputs.cache
+C:\Data\Projects\PrintingBI\PrintingBI API\PrintingBI\PrintingBI.Data\obj\Debug\netcoreapp2.1\PrintingBI.Data.AssemblyInfoInputs.cache
+C:\Data\Projects\PrintingBI\PrintingBI API\PrintingBI\PrintingBI.Data\obj\Debug\netcoreapp2.1\PrintingBI.Data.AssemblyInfo.cs
+C:\Data\Projects\PrintingBI\PrintingBI API\PrintingBI\PrintingBI.Data\obj\Debug\netcoreapp2.1\PrintingBI.Data.dll
+C:\Data\Projects\PrintingBI\PrintingBI API\PrintingBI\PrintingBI.Data\obj\Debug\netcoreapp2.1\PrintingBI.Data.pdb
