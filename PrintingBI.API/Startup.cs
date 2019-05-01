@@ -32,6 +32,8 @@ namespace PrintingBI.API
                 {
                     o.UseNpgsql(Configuration.GetConnectionString("PrintingBICS"));
                 });
+
+            DependencyRegistrar.Resolve(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

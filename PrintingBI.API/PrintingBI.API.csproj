@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PrintingBI.Data\PrintingBI.Data.csproj" />
+    <ProjectReference Include="..\PrintingBI.Services\PrintingBI.Services.csproj" />
   </ItemGroup>
 
 </Project>
