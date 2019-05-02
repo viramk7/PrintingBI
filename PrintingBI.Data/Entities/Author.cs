@@ -9,8 +9,12 @@ namespace PrintingBI.Data.Entities
     {
         [Required]
         [MaxLength(100)]
-        public string Name { get; set; }
-        
+        public string FirstName { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string LastName { get; set; }
+
         public IList<Book> Books { get; set; }
     }
 }

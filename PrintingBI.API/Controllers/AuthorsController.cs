@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using PrintingBI.API.Models;
 using PrintingBI.Services.Author;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace PrintingBI.API.Controllers
 {
@@ -13,17 +12,19 @@ namespace PrintingBI.API.Controllers
     public class AuthorsController : ControllerBase
     {
         private readonly IAuthorService _service;
+        private readonly IMapper _mapper;
 
-        public AuthorsController(IAuthorService service)
+        public AuthorsController(IAuthorService service, IMapper mapper)
         {
             _service = service;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<AuthorsDto>> Get()
         {
             var authors = _service.GetAll();
-            return authors.Select(s => new AuthorsDto(s.Id, s.Name)).ToList();
+            return _mapper.Map<IEnumerable<AuthorsDto>>(authors).ToList();
         }
     }
 }

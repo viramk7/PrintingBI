@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -27,11 +28,15 @@ namespace PrintingBI.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddEntityFrameworkNpgsql()
-                .AddDbContext<PrintingBIDbContext>(o => 
-                {
-                    o.UseNpgsql(Configuration.GetConnectionString("PrintingBICS"));
-                });
+            services.AddEntityFrameworkNpgsql().AddDbContext<PrintingBIDbContext>(o => 
+            {
+                o.UseNpgsql(Configuration.GetConnectionString("PrintingBICS"));
+            });
+            
+            services.AddSingleton(new MapperConfiguration(c =>
+            {
+                c.AddProfile(new Mappings());
+            }).CreateMapper());
 
             DependencyRegistrar.Resolve(services);
         }
@@ -43,7 +48,7 @@ namespace PrintingBI.API
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            
             app.UseMvc();
         }
     }
