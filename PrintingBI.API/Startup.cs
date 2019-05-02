@@ -43,12 +43,12 @@ namespace PrintingBI.API
             {
                 options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme).RequireAuthenticatedUser().Build();
             });
-
-
+            
             services.AddSingleton(new MapperConfiguration(c =>
             {
                 c.AddProfile(new Mappings());
             }).CreateMapper());
+
             DependencyRegistrar.Resolve(services);
         }
 

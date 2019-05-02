@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PrintingBI.API.Models;
 using PrintingBI.Services.Author;
@@ -7,6 +8,7 @@ using System.Linq;
 
 namespace PrintingBI.API.Controllers
 {
+    [Authorize]
     [Route("api/authors")]
     [ApiController]
     public class AuthorsController : ControllerBase

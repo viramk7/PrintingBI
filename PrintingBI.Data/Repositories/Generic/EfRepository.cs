@@ -16,7 +16,7 @@ namespace PrintingBI.Data.Repositories.Generic
 
         protected readonly PrintingBIDbContext _context;
 
-        protected DbSet<TEntity> _entities;
+        private DbSet<TEntity> _entities;
 
         #endregion
 

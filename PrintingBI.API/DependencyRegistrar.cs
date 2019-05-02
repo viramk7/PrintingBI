@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PrintingBI.Data;
 using PrintingBI.Data.Repositories.Author;
 using PrintingBI.Data.Repositories.Generic;
 using PrintingBI.Data.Repositories.User;
@@ -11,6 +10,11 @@ namespace PrintingBI.API
 {
     public class DependencyRegistrar
     {
+        protected DependencyRegistrar()
+        {
+
+        }
+
         internal static void Resolve(IServiceCollection services)
         {
             // Infrastructure
@@ -26,21 +30,6 @@ namespace PrintingBI.API
             services.AddScoped<IAuthorService, AuthorService>();
             services.AddScoped<IUserService, UserService>();
             //services.AddScoped(IJwtConfiguration, JwtConfiguration);
-
-            //services.AddScoped(ITest, Test);
         }
     }
-
-    //public class Test : ITest
-    //{
-    //    public void TestA()
-    //    {
-    //        var a = 10 * 20;
-    //    }
-    //}
-
-    //public interface ITest
-    //{
-    //    void TestA();
-    //}
 }

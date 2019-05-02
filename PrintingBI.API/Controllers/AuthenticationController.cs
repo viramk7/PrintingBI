@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using PrintingBI.Services.User;
 using System;
 using System.Collections.Generic;
@@ -12,12 +13,21 @@ namespace PrintingBI.API.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly IJwtConfiguration _jwtConfiguration;
 
-        public AuthenticationController(IUserService userService, IJwtConfiguration jwtConfiguration)
+        private readonly string _JwtKey;
+        private readonly string _JwtAudience;
+        private readonly string _JwtIssuer;
+        private readonly string _JwtExpireTime ;
+
+        public AuthenticationController(IUserService userService, IConfiguration configuration)
         {
             _userService = userService;
-            _jwtConfiguration = jwtConfiguration;
+
+            _JwtKey = configuration["Tokens:key"];
+            _JwtAudience = configuration["Tokens:audience"];
+            _JwtIssuer = configuration["Tokens:issuer"];
+            _JwtExpireTime = configuration["Tokens:expiretime"];
+
         }
 
         [HttpGet]
@@ -31,15 +41,15 @@ namespace PrintingBI.API.Controllers
             var token = TokenBuilder.CreateJsonWebToken(
                             email,
                             new List<string>() { "Administrator" },
-                            _jwtConfiguration.JwtAudience,
-                            _jwtConfiguration.JwtIssuer,
+                            _JwtAudience,
+                            _JwtIssuer,
                             Guid.NewGuid(),
-                            DateTime.UtcNow.AddMinutes(Convert.ToInt32(_jwtConfiguration.JwtExpireTime)));
+                            DateTime.UtcNow.AddMinutes(Convert.ToInt32(_JwtExpireTime)));
 
             return Ok(new
             {
                 token,
-                expires = _jwtConfiguration.JwtExpireTime
+                expires = _JwtExpireTime
             });
 
         }

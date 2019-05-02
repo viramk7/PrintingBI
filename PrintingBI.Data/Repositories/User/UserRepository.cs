@@ -14,7 +14,7 @@ namespace PrintingBI.Data.Repositories.User
 
         public bool AuthenticateUser(string email, string password)
         {
-            var user = _entities.Where(w => w.Email.Equals(email, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+            var user = Entities.Where(w => w.Email.Equals(email, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
             if (user == null)
                 return false;
 
