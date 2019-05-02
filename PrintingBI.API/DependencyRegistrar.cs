@@ -2,26 +2,45 @@
 using PrintingBI.Data;
 using PrintingBI.Data.Repositories.Author;
 using PrintingBI.Data.Repositories.Generic;
+using PrintingBI.Data.Repositories.User;
 using PrintingBI.Services.Author;
 using PrintingBI.Services.Entities;
+using PrintingBI.Services.User;
 
 namespace PrintingBI.API
 {
-    public static  class DependencyRegistrar
+    public class DependencyRegistrar
     {
-        public static void Resolve(IServiceCollection services)
+        internal static void Resolve(IServiceCollection services)
         {
             // Infrastructure
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
-            //services.AddScoped<IDbContext, PrintingBIDbContext>();
+
 
             // Repositories
             services.AddScoped<IAuthorRepository, AuthorRepository>();
-            
+            services.AddScoped<IUserRepository, UserRepository>();
+
             // Services
             services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
             services.AddScoped<IAuthorService, AuthorService>();
+            services.AddScoped<IUserService, UserService>();
+            //services.AddScoped(IJwtConfiguration, JwtConfiguration);
 
+            //services.AddScoped(ITest, Test);
         }
     }
+
+    //public class Test : ITest
+    //{
+    //    public void TestA()
+    //    {
+    //        var a = 10 * 20;
+    //    }
+    //}
+
+    //public interface ITest
+    //{
+    //    void TestA();
+    //}
 }

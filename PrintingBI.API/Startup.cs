@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -20,24 +22,33 @@ namespace PrintingBI.API
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            _jwtConfiguration = new JwtConfiguration(configuration);
         }
 
         public IConfiguration Configuration { get; }
+        private readonly IJwtConfiguration _jwtConfiguration;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddEntityFrameworkNpgsql().AddDbContext<PrintingBIDbContext>(o => 
+            services.AddCors();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddEntityFrameworkNpgsql().AddDbContext<PrintingBIDbContext>(o =>
             {
                 o.UseNpgsql(Configuration.GetConnectionString("PrintingBICS"));
             });
-            
+
+            services.ConfigureJwtAuthentication(_jwtConfiguration);
+            services.AddAuthorization(options =>
+            {
+                options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme).RequireAuthenticatedUser().Build();
+            });
+
+
             services.AddSingleton(new MapperConfiguration(c =>
             {
                 c.AddProfile(new Mappings());
             }).CreateMapper());
-
             DependencyRegistrar.Resolve(services);
         }
 
@@ -48,7 +59,14 @@ namespace PrintingBI.API
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+
+            app.UseCors(builder =>
+            builder.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod());
+
+            app.UseAuthentication();
+
             app.UseMvc();
         }
     }
