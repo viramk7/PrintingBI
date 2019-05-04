@@ -9,8 +9,8 @@ using PrintingBI.Data;
 namespace PrintingBI.Data.Migrations
 {
     [DbContext(typeof(PrintingBIDbContext))]
-    [Migration("20190502142436_M2")]
-    partial class M2
+    [Migration("20190504094421_M1")]
+    partial class M1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -61,6 +61,37 @@ namespace PrintingBI.Data.Migrations
                     b.HasIndex("AuthorId");
 
                     b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("PrintingBI.Data.Entities.UserMaster", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(150);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1,
+                            Email = "viramk7@gmail.com",
+                            Name = "viram",
+                            Password = "123456"
+                        });
                 });
 
             modelBuilder.Entity("PrintingBI.Data.Entities.Book", b =>

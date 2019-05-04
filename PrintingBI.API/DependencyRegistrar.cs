@@ -29,7 +29,7 @@ namespace PrintingBI.API
             services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
             services.AddScoped<IAuthorService, AuthorService>();
             services.AddScoped<IUserService, UserService>();
-            //services.AddScoped(IJwtConfiguration, JwtConfiguration);
+            services.AddScoped<IJwtConfiguration, JwtConfiguration>();
         }
     }
 }

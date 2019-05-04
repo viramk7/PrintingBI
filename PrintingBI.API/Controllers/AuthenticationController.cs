@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+using PrintingBI.API.Models;
 using PrintingBI.Services.User;
 using System;
 using System.Collections.Generic;
@@ -8,48 +8,42 @@ using System.Threading.Tasks;
 
 namespace PrintingBI.API.Controllers
 {
-    [Route("api/authentication")]
+    [Route("api/auth")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IJwtConfiguration _jwtConfiguration;
 
-        private readonly string _JwtKey;
-        private readonly string _JwtAudience;
-        private readonly string _JwtIssuer;
-        private readonly string _JwtExpireTime ;
-
-        public AuthenticationController(IUserService userService, IConfiguration configuration)
+        public AuthenticationController(IUserService userService, IJwtConfiguration jwtConfiguration)
         {
             _userService = userService;
-
-            _JwtKey = configuration["Tokens:key"];
-            _JwtAudience = configuration["Tokens:audience"];
-            _JwtIssuer = configuration["Tokens:issuer"];
-            _JwtExpireTime = configuration["Tokens:expiretime"];
-
+            _jwtConfiguration = jwtConfiguration;
         }
 
-        [HttpGet]
-        public ActionResult AuthenticateUser(string email, string password)
+        [HttpPost("authenticateuser")]
+        public ActionResult AuthenticateUser([FromForm]AuthenticateUserInputDto model)
         {
-            var isAuthenticated = _userService.AuthenticateUser(email, password);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var isAuthenticated = _userService.AuthenticateUser(model.Email, model.Password);
 
             if (!isAuthenticated)
                 return BadRequest();
 
             var token = TokenBuilder.CreateJsonWebToken(
-                            email,
+                            model.Email,
                             new List<string>() { "Administrator" },
-                            _JwtAudience,
-                            _JwtIssuer,
+                            _jwtConfiguration.JwtAudience,
+                            _jwtConfiguration.JwtIssuer,
                             Guid.NewGuid(),
-                            DateTime.UtcNow.AddMinutes(Convert.ToInt32(_JwtExpireTime)));
+                            DateTime.UtcNow.AddMinutes(Convert.ToInt32(_jwtConfiguration.JwtExpireTime)));
 
             return Ok(new
             {
                 token,
-                expires = _JwtExpireTime
+                expires = _jwtConfiguration.JwtExpireTime
             });
 
         }
