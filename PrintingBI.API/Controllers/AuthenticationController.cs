@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using PrintingBI.API.Models;
 using PrintingBI.Services.User;
 using System;
@@ -14,16 +15,22 @@ namespace PrintingBI.API.Controllers
     {
         private readonly IUserService _userService;
         private readonly IJwtConfiguration _jwtConfiguration;
+        private readonly ILogger<AuthenticationController> _logger;
 
-        public AuthenticationController(IUserService userService, IJwtConfiguration jwtConfiguration)
+        public AuthenticationController(IUserService userService, 
+                                        IJwtConfiguration jwtConfiguration,
+                                        ILogger<AuthenticationController> logger)
         {
             _userService = userService;
             _jwtConfiguration = jwtConfiguration;
+            _logger = logger;
         }
 
         [HttpPost("authenticateuser")]
         public ActionResult AuthenticateUser([FromForm]AuthenticateUserInputDto model)
         {
+            _logger.LogError("First log");
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
