@@ -9,8 +9,9 @@ namespace PrintingBI.API
         public Mappings()
         {
             CreateMap<Author, AuthorsDto>()
-                .ForMember(d => d.Name, s => s.MapFrom(m => $"{m.FirstName} {m.LastName}"))
-                .ReverseMap();
+                .ForMember(d => d.Name, s => s.MapFrom(m => $"{m.FirstName} {m.LastName}"));
+
+            CreateMap<AuthorCreateDto, Author>();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using PrintingBI.Data.Entities;
+﻿using AutoMapper;
+using PrintingBI.Data.Entities;
 using PrintingBI.Data.Repositories.User;
 using PrintingBI.Services.Entities;
 using System;
@@ -11,7 +12,8 @@ namespace PrintingBI.Services.User
     {
         private readonly IUserRepository _userRepository;
 
-        public UserService(IUserRepository userRepository) : base(userRepository)
+        public UserService(IUserRepository userRepository,
+                           IMapper mapper) : base(userRepository, mapper)
         {
             _userRepository = userRepository;
         }

@@ -210,6 +210,28 @@ namespace PrintingBI.Data.Repositories.Generic
             }
         }
 
+        /// <summary>
+        /// Delete entity By Id
+        /// </summary>
+        /// <param name="id">Id</param>
+        public virtual void Delete(object id)
+        {
+            if (id == null)
+                throw new ArgumentNullException(nameof(id));
+
+            try
+            {
+                var entity = Entities.Find(id);
+                Entities.Remove(entity);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException exception)
+            {
+                //ensure that the detailed error text is saved in the Log
+                throw new Exception(GetFullErrorTextAndRollbackEntityChanges(exception), exception);
+            }
+        }
+
         #endregion
 
         #region Properties

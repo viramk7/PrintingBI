@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace PrintingBI.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/authors")]
     [ApiController]
     public class AuthorsController : ControllerBase
@@ -27,6 +27,19 @@ namespace PrintingBI.API.Controllers
         {
             var authors = _service.GetAll();
             return _mapper.Map<IEnumerable<AuthorsDto>>(authors).ToList();
+        }
+
+        [HttpGet("GetAuthors")]
+        public ActionResult<IEnumerable<AuthorsDto>> GetAuthors()
+        {
+            return _service.GetAll<IEnumerable<AuthorsDto>>().ToList();
+        }
+
+        [HttpPost]
+        public ActionResult Post([FromForm] AuthorCreateDto authorCreateDto)
+        {
+            _service.Insert(authorCreateDto);
+            return Ok();
         }
     }
 }
