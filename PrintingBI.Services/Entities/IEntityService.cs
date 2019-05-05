@@ -25,6 +25,8 @@ namespace PrintingBI.Services.Entities
 
         void Update<TDto>(TDto dto);
 
+        void Update<TDto>(object id, TDto dto);
+
         void Update(IEnumerable<TEntity> entities);
 
         void Update<TDto>(IEnumerable<TDto> dtos);

@@ -12,6 +12,7 @@ namespace PrintingBI.API
                 .ForMember(d => d.Name, s => s.MapFrom(m => $"{m.FirstName} {m.LastName}"));
 
             CreateMap<AuthorCreateDto, Author>();
+            CreateMap<AuthorUpdateDto, Author>();
         }
     }
 }

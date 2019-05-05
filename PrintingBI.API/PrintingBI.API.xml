@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PrintingBI.API</name>
+    </assembly>
+    <members>
+        <member name="M:PrintingBI.API.Controllers.AuthorController.GetAllAuthors">
+            <summary>
+            Gets all the authors
+            </summary>
+            <returns>List of authors</returns>
+        </member>
+        <member name="M:PrintingBI.API.Controllers.AuthorController.GetAuthor(System.Int32)">
+            <summary>
+            Gets the author by id
+            </summary>
+            <param name="id"></param>
+            <returns>Individual author</returns>
+        </member>
+        <member name="M:PrintingBI.API.Controllers.AuthorController.CreateAuthor(PrintingBI.API.Models.AuthorCreateDto)">
+            <summary>
+            Create new author
+            </summary>
+            <param name="authorCreateDto">fistname and last name</param>
+            <returns></returns>
+        </member>
+        <member name="T:PrintingBI.API.Models.AuthorCreateDto">
+            <summary>
+            Model to create new author
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.AuthorCreateDto.FirstName">
+            <summary>
+            First name of the author
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.AuthorCreateDto.LastName">
+            <summary>
+            Last name of the auther
+            </summary>
+        </member>
+        <member name="T:PrintingBI.API.Models.AuthorsDto">
+            <summary>
+            An author with id and name
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.AuthorsDto.Id">
+            <summary>
+            The unique id of the author
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.AuthorsDto.Name">
+            <summary>
+            The name of the author
+            </summary>
+        </member>
+    </members>
+</doc>

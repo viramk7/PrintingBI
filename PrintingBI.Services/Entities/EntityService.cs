@@ -75,6 +75,13 @@ namespace PrintingBI.Services.Entities
             _repository.Update(entity);
         }
 
+        public void Update<TDto>(object id,TDto dto)
+        {
+            var oldEntity = _repository.GetById(id);
+            var entity = _mapper.Map(dto, oldEntity);
+            _repository.Update(entity);
+        }
+
         public void Update(IEnumerable<TEntity> entities)
         {
             _repository.Update(entities);
