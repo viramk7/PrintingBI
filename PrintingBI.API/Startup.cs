@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NLog;
+using PrintingBI.Authentication;
 using PrintingBI.Data;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -72,7 +75,16 @@ namespace PrintingBI.API
                     }
                 }
 
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddEntityFrameworkNpgsql().AddDbContext<PrintingBIAuthContext>(opt =>
+            {
+                opt.UseNpgsql(Configuration.GetConnectionString("PrintingBICS"),
+                                sql => sql.MigrationsAssembly("PrintingBI.Authentication"));
+            });
+
+            services.AddIdentityCore<UserMaster>(options => { });
+            services.AddScoped<IUserStore<UserMaster>, UserOnlyStore<UserMaster, PrintingBIAuthContext>>();
 
             services.AddEntityFrameworkNpgsql().AddDbContext<PrintingBIDbContext>(o =>
             {
