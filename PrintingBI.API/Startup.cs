@@ -83,7 +83,28 @@ namespace PrintingBI.API
                                 sql => sql.MigrationsAssembly("PrintingBI.Authentication"));
             });
 
-            services.AddIdentityCore<UserMaster>(options => { });
+            services.AddIdentityCore<UserMaster>(options => 
+            {
+                // Options
+                options.Tokens.EmailConfirmationTokenProvider = "emailconf";
+
+                options.User.RequireUniqueEmail = true;
+
+                options.Lockout.AllowedForNewUsers = true;
+                options.Lockout.MaxFailedAccessAttempts = 3;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+            })
+            .AddEntityFrameworkStores<PrintingBIAuthContext>()
+            .AddDefaultTokenProviders()
+            .AddTokenProvider<EmailConfirmationTokenProvider<UserMaster>>("emailconf")
+            .AddPasswordValidator<DoesNotContainPasswordValidator<UserMaster>>();
+
+            services.Configure<DataProtectionTokenProviderOptions>(opt =>
+                opt.TokenLifespan = TimeSpan.FromHours(3));
+
+            services.Configure<EmailConfirmationTokenProviderOptions>(options =>
+                options.TokenLifespan = TimeSpan.FromDays(2));
+
             services.AddScoped<IUserStore<UserMaster>, UserOnlyStore<UserMaster, PrintingBIAuthContext>>();
 
             services.AddEntityFrameworkNpgsql().AddDbContext<PrintingBIDbContext>(o =>
