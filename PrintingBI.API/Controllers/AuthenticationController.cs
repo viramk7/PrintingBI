@@ -13,6 +13,10 @@ using System.Threading.Tasks;
 
 namespace PrintingBI.API.Controllers
 {
+
+    /// <summary>
+    /// Authentication handler
+    /// </summary>
     [Route("api/auth")]
     [ApiController]
     [Produces("application/json")]
@@ -29,7 +33,20 @@ namespace PrintingBI.API.Controllers
             _userManager = userManager;
         }
 
-        [HttpPost("authenticateuser")]
+        /// <summary>
+        /// Authenticates the user
+        /// </summary>
+        /// <param name="model">Email and password</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Password policy : 1 UC, 1 LC, min 6 char, 1 special char \
+        /// 3 failed attempt will lockout the user for 10 mins \
+        /// Successfull attempt will result in token \
+        /// Token has to be passed with everyrequest as Authorization attribute \
+        /// in header of the request prefixed with Beared
+        /// </remarks>
+        [HttpPost("AuthenticateUser")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> AuthenticateUser(AuthenticateUserInputDto model)
         {
             if (!ModelState.IsValid)
@@ -37,8 +54,14 @@ namespace PrintingBI.API.Controllers
 
             var user = await _userManager.FindByEmailAsync(model.Email);
 
-            if (user != null && !await _userManager.IsLockedOutAsync(user))
+            if (user != null)
             {
+                if(await _userManager.IsLockedOutAsync(user))
+                {
+                    ModelState.AddModelError("validation", "User is locked. Please try after some time");
+                    return BadRequest(ModelState);
+                }
+
                 if(await _userManager.CheckPasswordAsync(user, model.Password))
                 {
                     if (!await _userManager.IsEmailConfirmedAsync(user))
@@ -77,7 +100,7 @@ namespace PrintingBI.API.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpPost("register")]
+        [HttpPost("Register")]
         public async Task<ActionResult> Register(RegisterInputDto model)
         {
             if (!ModelState.IsValid)
@@ -119,7 +142,50 @@ namespace PrintingBI.API.Controllers
             }
         }
 
-        [HttpPost("forgotpassword")]
+        [HttpPost("ResendConfirmationEmail")]
+        public async Task<ActionResult> ResendConfirmationEmail(ResendConfirmationEmailInputDto model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError("validation", "Invalid request");
+                return BadRequest(ModelState);
+            }
+
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            // TODO: Send an email to the user with confirm email
+            await System.IO.File.WriteAllTextAsync("ConfirmEmailToken.txt",token);
+
+            return Ok();
+        }
+
+        [HttpPost("ConfirmEmail")]
+        public async Task<ActionResult> ConfirmEmail(ConfirmEmailInputDto model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Invalid request");
+                return BadRequest(ModelState);
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, model.Token);
+
+            if (result.Succeeded)
+                return Ok();
+
+            ModelState.AddModelError("", "Could not confirm the email.");
+            return BadRequest(ModelState);
+        }
+
+        [HttpPost("ForgotPassword")]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordInputDto model)
         {
             if (!ModelState.IsValid)
@@ -136,7 +202,7 @@ namespace PrintingBI.API.Controllers
             return Ok(token);
         }
 
-        [HttpPost("resetpassword")]
+        [HttpPost("ResetPassword")]
         public async Task<ActionResult> ResetPassword(ResetPasswordInputDto model)
         {
             if (!ModelState.IsValid)
@@ -168,8 +234,8 @@ namespace PrintingBI.API.Controllers
             return Ok();
         }
 
-        [HttpPost("confirmemail")]
-        public async Task<ActionResult> ConfirmEmail(ConfirmEmailInputDto model)
+        [HttpPost("ChangePassword")]
+        public async Task<ActionResult> ChangePassword(ChangePasswordInputDto model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -177,17 +243,25 @@ namespace PrintingBI.API.Controllers
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                ModelState.AddModelError("", "Invalid request");
+                ModelState.AddModelError("validation", "Invalid request");
                 return BadRequest(ModelState);
             }
 
-            var result = await _userManager.ConfirmEmailAsync(user, model.Token);
+            var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
 
-            if (result.Succeeded)
-                return Ok();
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("validation", error.Description);
+                }
+                return BadRequest(ModelState);
+            }
 
-            ModelState.AddModelError("","Could not confirm the email.");
-            return BadRequest(ModelState);
+            return Ok();
         }
+
+        // TODO: Refresh Token
+
     }
 }

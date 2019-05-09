@@ -5,12 +5,12 @@ namespace PrintingBI.API.Models
     public class AuthenticateUserInputDto
     {
         [Required]
-        [MaxLength(150)]
+        [MaxLength(Constants.EmailMaxLength)]
         [EmailAddress]
         public string Email { get; set; }
 
         [Required]
-        [MaxLength(150)]
+        [MaxLength(Constants.PasswordMaxLength)]
         public string Password { get; set; }
     }
 }

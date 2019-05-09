@@ -15,7 +15,13 @@ namespace PrintingBI.Data
         public DbSet<Book> Books { get; set; }
 
         public DbSet<UserMaster> Users { get; set; }
-        
+
+        public DbSet<Student> Students { get; set; }
+
+        public DbSet<Log> AppLogs { get; set; }
+
+        public DbSet<ClassRoom> ClassRooms { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserMaster>().HasData(new UserMaster

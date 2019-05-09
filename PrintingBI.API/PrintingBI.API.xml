@@ -4,6 +4,25 @@
         <name>PrintingBI.API</name>
     </assembly>
     <members>
+        <member name="T:PrintingBI.API.Controllers.AuthenticationController">
+            <summary>
+            Authentication handler
+            </summary>
+        </member>
+        <member name="M:PrintingBI.API.Controllers.AuthenticationController.AuthenticateUser(PrintingBI.API.Models.AuthenticateUserInputDto)">
+            <summary>
+            Authenticates the user
+            </summary>
+            <param name="model">Email and password</param>
+            <returns></returns>
+            <remarks>
+            Password policy : 1 UC, 1 LC, min 6 char, 1 special char \
+            3 failed attempt will lockout the user for 10 mins \
+            Successfull attempt will result in token \
+            Token has to be passed with everyrequest as Authorization attribute \
+            in header of the request prefixed with Beared
+            </remarks>
+        </member>
         <member name="M:PrintingBI.API.Controllers.AuthorController.GetAllAuthors">
             <summary>
             Gets all the authors
@@ -52,6 +71,36 @@
         <member name="P:PrintingBI.API.Models.AuthorsDto.Name">
             <summary>
             The name of the author
+            </summary>
+        </member>
+        <member name="T:PrintingBI.API.Models.ChangePasswordInputDto">
+            <summary>
+            Input model for changing current password
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.ChangePasswordInputDto.Email">
+            <summary>
+            Email address of the user 
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.ChangePasswordInputDto.OldPassword">
+            <summary>
+            User's old password 
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.ChangePasswordInputDto.NewPassword">
+            <summary>
+            User's new password
+            </summary>
+        </member>
+        <member name="T:PrintingBI.API.Models.ResendConfirmationEmailInputDto">
+            <summary>
+            Resend confirmation email model
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.ResendConfirmationEmailInputDto.Email">
+            <summary>
+            Email address of the user
             </summary>
         </member>
     </members>
