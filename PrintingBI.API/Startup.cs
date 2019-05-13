@@ -37,16 +37,17 @@ namespace PrintingBI.API
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
-            
-            _jwtConfiguration = new JwtConfiguration(Configuration);
         }
 
         public IConfiguration Configuration { get; }
-        private readonly IJwtConfiguration _jwtConfiguration;
-
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Register Dependencies
+            services.AddAppConfiguration(Configuration)
+                    .AddAppServices();
+
             services.AddCors();
             services.AddMvc(setupAction =>
             {
@@ -133,7 +134,7 @@ namespace PrintingBI.API
                 };
             });
 
-            services.ConfigureJwtAuthentication(_jwtConfiguration);
+            services.ConfigureJwtAuthentication(Configuration);
             services.AddAuthorization(options =>
             {
                 options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme).RequireAuthenticatedUser().Build();
@@ -184,8 +185,6 @@ namespace PrintingBI.API
                 var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
                 c.IncludeXmlComments(xmlCommentsFullPath);
             });
-
-            DependencyRegistrar.Resolve(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

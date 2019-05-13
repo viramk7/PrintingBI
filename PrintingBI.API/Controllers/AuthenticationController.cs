@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using PrintingBI.API.Configuration;
 using PrintingBI.API.Models;
 using PrintingBI.Authentication;
 using PrintingBI.Authentication.Models.Dtos;
 using PrintingBI.Services.User;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PrintingBI.API.Controllers
@@ -25,8 +24,7 @@ namespace PrintingBI.API.Controllers
         private readonly UserManager<UserMaster> _userManager;
         private readonly IJwtConfiguration _jwtConfiguration;
 
-        public AuthenticationController(IUserService userService,
-                                        IJwtConfiguration jwtConfiguration,
+        public AuthenticationController(IJwtConfiguration jwtConfiguration,
                                         UserManager<UserMaster> userManager)
         {
             _jwtConfiguration = jwtConfiguration;
@@ -75,15 +73,15 @@ namespace PrintingBI.API.Controllers
                     var token = TokenBuilder.CreateJsonWebToken(
                                 model.Email,
                                 new List<string>() { "Administrator" },
-                                _jwtConfiguration.JwtAudience,
-                                _jwtConfiguration.JwtIssuer,
+                                _jwtConfiguration.Audience,
+                                _jwtConfiguration.Issuer,
                                 Guid.NewGuid(),
-                                DateTime.UtcNow.AddMinutes(Convert.ToInt32(_jwtConfiguration.JwtExpireTime)));
+                                DateTime.UtcNow.AddMinutes(Convert.ToInt32(_jwtConfiguration.ExpireTime)));
 
                     return Ok(new
                     {
                         token,
-                        expires = _jwtConfiguration.JwtExpireTime
+                        expires = _jwtConfiguration.ExpireTime
                     });
                 }
 

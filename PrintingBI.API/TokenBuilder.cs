@@ -4,8 +4,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using PrintingBI.API.Configuration;
 
 namespace PrintingBI.API
 {
@@ -21,14 +24,17 @@ namespace PrintingBI.API
         // If injecting an RSA key for signing use this method
         // Be weary of common jwt trips: https://trustfoundry.net/jwt-hacking-101/ and https://www.sjoerdlangkemper.nl/2016/09/28/attacking-jwt-authentication/
         //public static void ConfigureJwtAuthentication(this IServiceCollection services, RSAParameters rsaParams)
-        public static void ConfigureJwtAuthentication(this IServiceCollection services, IJwtConfiguration helper)
+        public static void ConfigureJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
+            var issuer = configuration["JWtConfiguration:Issuer"];
+            var audience = configuration["JWtConfiguration:Audience"];
+
             tokenValidationParams = new TokenValidationParameters()
             {
                 ValidateIssuerSigningKey = true,
-                ValidIssuer = helper.JwtIssuer,
+                ValidIssuer = issuer,
                 ValidateLifetime = true,
-                ValidAudience = helper.JwtAudience,
+                ValidAudience = audience,
                 ValidateAudience = true,
                 RequireSignedTokens = true,
                 // Use our signing credentials key here
