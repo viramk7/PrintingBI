@@ -5,6 +5,7 @@ using PrintingBI.API.Configuration;
 using PrintingBI.API.Models;
 using PrintingBI.Authentication;
 using PrintingBI.Authentication.Models.Dtos;
+using PrintingBI.Services.Provisioning;
 using PrintingBI.Services.User;
 using System;
 using System.Collections.Generic;
@@ -22,13 +23,16 @@ namespace PrintingBI.API.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly UserManager<UserMaster> _userManager;
+        private readonly IProvisioningService _provisioningService;
         private readonly IJwtConfiguration _jwtConfiguration;
 
         public AuthenticationController(IJwtConfiguration jwtConfiguration,
-                                        UserManager<UserMaster> userManager)
+                                        UserManager<UserMaster> userManager,
+                                        IProvisioningService provisioningService)
         {
             _jwtConfiguration = jwtConfiguration;
             _userManager = userManager;
+            _provisioningService = provisioningService;
         }
 
         /// <summary>
@@ -54,13 +58,13 @@ namespace PrintingBI.API.Controllers
 
             if (user != null)
             {
-                if(await _userManager.IsLockedOutAsync(user))
+                if (await _userManager.IsLockedOutAsync(user))
                 {
                     ModelState.AddModelError("validation", "User is locked. Please try after some time");
                     return BadRequest(ModelState);
                 }
 
-                if(await _userManager.CheckPasswordAsync(user, model.Password))
+                if (await _userManager.CheckPasswordAsync(user, model.Password))
                 {
                     if (!await _userManager.IsEmailConfirmedAsync(user))
                     {
@@ -70,9 +74,17 @@ namespace PrintingBI.API.Controllers
 
                     await _userManager.ResetAccessFailedCountAsync(user);
 
+                    var claims = new List<ClaimModel>
+                    {
+                        new ClaimModel("DbServer","localhost:3000"),
+                        new ClaimModel("DbName","PrintingBIDb"),
+                        new ClaimModel("DbUser","sa"),
+                        new ClaimModel("DbPwd","123"),
+                    };
+
                     var token = TokenBuilder.CreateJsonWebToken(
                                 model.Email,
-                                new List<string>() { "Administrator" },
+                                claims,
                                 _jwtConfiguration.Audience,
                                 _jwtConfiguration.Issuer,
                                 Guid.NewGuid(),
@@ -86,8 +98,8 @@ namespace PrintingBI.API.Controllers
                 }
 
                 await _userManager.AccessFailedAsync(user);
-                
-                if(await _userManager.IsLockedOutAsync(user))
+
+                if (await _userManager.IsLockedOutAsync(user))
                 {
                     // TODO: Email user of lock out 
                 }
@@ -156,7 +168,7 @@ namespace PrintingBI.API.Controllers
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
             // TODO: Send an email to the user with confirm email
-            await System.IO.File.WriteAllTextAsync("ConfirmEmailToken.txt",token);
+            await System.IO.File.WriteAllTextAsync("ConfirmEmailToken.txt", token);
 
             return Ok();
         }
@@ -223,8 +235,8 @@ namespace PrintingBI.API.Controllers
                 }
                 return BadRequest(ModelState);
             }
-             
-            if(await _userManager.IsLockedOutAsync(user))
+
+            if (await _userManager.IsLockedOutAsync(user))
             {
                 await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.UtcNow);
             }
@@ -260,6 +272,17 @@ namespace PrintingBI.API.Controllers
         }
 
         // TODO: Refresh Token
+
+        [HttpGet("Provision")]
+        public async Task<ActionResult> Provision()
+        {
+            var (createdAll, errors) = await _provisioningService.Create();
+
+            if (createdAll)
+                return Ok();
+            else
+                return StatusCode(StatusCodes.Status500InternalServerError, errors);
+        }
 
     }
 }

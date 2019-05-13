@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using PrintingBI.API.Configuration;
+using PrintingBI.API.Models;
 
 namespace PrintingBI.API
 {
@@ -59,7 +60,7 @@ namespace PrintingBI.API
         }
         public static string CreateJsonWebToken(
                string username,
-               IEnumerable<string> roles,
+               IEnumerable<ClaimModel> claimsList,
                string audienceUri,
                string issuerUri,
                Guid applicationId,
@@ -68,11 +69,11 @@ namespace PrintingBI.API
                bool isReAuthToken = false)
         {
             var claims = new List<Claim>();
-            if (roles != null)
+            if (claimsList != null)
             {
-                foreach (var role in roles)
+                foreach (var claim in claimsList)
                 {
-                    claims.Add(new Claim(ClaimTypes.Role, role));
+                    claims.Add(new Claim(claim.Key, claim.Value));
                 }
             }
             var head = new JwtHeader();

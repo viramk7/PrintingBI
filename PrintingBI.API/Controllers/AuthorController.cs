@@ -6,10 +6,11 @@ using PrintingBI.API.Models;
 using PrintingBI.Services.Author;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 
 namespace PrintingBI.API.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/author")]
     [ApiController]
     [Produces("application/json")]
@@ -29,6 +30,15 @@ namespace PrintingBI.API.Controllers
         [HttpGet("GetAll")]
         public ActionResult<IEnumerable<AuthorsDto>> GetAllAuthors()
         {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            if (identity != null)
+            {
+                IEnumerable<Claim> claims = identity.Claims;
+                // or
+                ///identity.FindFirst("ClaimName").Value;
+
+            }
+
             return _service.GetAll<IEnumerable<AuthorsDto>>().ToList();
         }
 
