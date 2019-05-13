@@ -1,0 +1,23 @@
+U_UserDepartment,ParentDepartment
+servicios,direccion general
+compras,direccion general
+sistemas,direccion general
+tesoreria,direccion general
+bimbo 21,direccion general
+fiscal,direccion general
+proyectos,direccion general
+servicio al cliente,servicios
+servicios de facturacion,servicios
+centro de servicios compartidos,servicios
+contact center,sistemas
+fabrica de procesos,sistemas
+cred y cobranzas csc,tesoreria
+credito y cobranzas,tesoreria
+cuentas por pagar,tesoreria
+nominas nacional,tesoreria
+nominas nacionales,tesoreria
+activo fijo,compras
+catalogos sia,bimbo 21
+conciliaciones,bimbo 21
+gestion corporativa,proyectos
+gestion de servicios,proyectos
