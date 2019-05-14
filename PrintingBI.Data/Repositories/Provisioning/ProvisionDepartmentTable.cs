@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PrintingBI.Data.Repositories.Provisioning
 {
@@ -8,7 +9,7 @@ namespace PrintingBI.Data.Repositories.Provisioning
     {
         public string ErrorMessage => "Could not create Department table";
 
-        public bool Create()
+        public async Task<bool> Provision()
         {
             // Create Dept table here
             return true;

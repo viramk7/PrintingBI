@@ -15,9 +15,9 @@ namespace PrintingBI.Services.Provisioning
             _provisioningRepository = provisioningRepository;
         }
 
-        public Task<(bool, List<string>)> Create()
+        public Task<(bool, List<string>)> Provision()
         {
-            return _provisioningRepository.Create();
+            return _provisioningRepository.Provision();
         }
     }
 }

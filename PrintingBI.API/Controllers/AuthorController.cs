@@ -3,10 +3,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PrintingBI.API.Models;
+using PrintingBI.Authentication.Configuration;
 using PrintingBI.Services.Author;
+using PrintingBI.Services.Provisioning;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace PrintingBI.API.Controllers
 {
@@ -17,10 +20,27 @@ namespace PrintingBI.API.Controllers
     public class AuthorController : ControllerBase
     {
         private readonly IAuthorService _service;
-        
-        public AuthorController(IAuthorService service)
+        private readonly ICustomerDbInfo _customerDbInfo;
+        private readonly IProvisioningService _provisioningService;
+
+        public AuthorController(IAuthorService service, 
+                                ICustomerDbInfo customerDbInfo,
+                                IProvisioningService provisioningService)
         {
             _service = service;
+            _customerDbInfo = customerDbInfo;
+            _provisioningService = provisioningService;
+        }
+
+        [HttpGet("Provision")]
+        public async Task<ActionResult> Provision()
+        {
+            var (createdAll, errors) = await _provisioningService.Provision();
+
+            if (createdAll)
+                return Ok();
+            else
+                return StatusCode(StatusCodes.Status500InternalServerError, errors);
         }
 
         /// <summary>
@@ -30,14 +50,10 @@ namespace PrintingBI.API.Controllers
         [HttpGet("GetAll")]
         public ActionResult<IEnumerable<AuthorsDto>> GetAllAuthors()
         {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-            if (identity != null)
-            {
-                IEnumerable<Claim> claims = identity.Claims;
-                // or
-                ///identity.FindFirst("ClaimName").Value;
-
-            }
+            var DbServer = _customerDbInfo.DbServer;
+            var dbName = _customerDbInfo.DbName;
+            var dbUser = _customerDbInfo.DbUser;
+            var dbPwd = _customerDbInfo.DbPwd;
 
             return _service.GetAll<IEnumerable<AuthorsDto>>().ToList();
         }

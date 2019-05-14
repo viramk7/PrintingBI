@@ -23,16 +23,13 @@ namespace PrintingBI.API.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly UserManager<UserMaster> _userManager;
-        private readonly IProvisioningService _provisioningService;
         private readonly IJwtConfiguration _jwtConfiguration;
 
         public AuthenticationController(IJwtConfiguration jwtConfiguration,
-                                        UserManager<UserMaster> userManager,
-                                        IProvisioningService provisioningService)
+                                        UserManager<UserMaster> userManager)
         {
             _jwtConfiguration = jwtConfiguration;
             _userManager = userManager;
-            _provisioningService = provisioningService;
         }
 
         /// <summary>
@@ -76,10 +73,10 @@ namespace PrintingBI.API.Controllers
 
                     var claims = new List<ClaimModel>
                     {
-                        new ClaimModel("DbServer","localhost:3000"),
-                        new ClaimModel("DbName","PrintingBIDb"),
-                        new ClaimModel("DbUser","sa"),
-                        new ClaimModel("DbPwd","123"),
+                        new ClaimModel(AuthConstants.DbServer,"74.208.24.39"),
+                        new ClaimModel(AuthConstants.DbName,"PrintingBI-dev"),
+                        new ClaimModel(AuthConstants.DbUser,"postgres"),
+                        new ClaimModel(AuthConstants.DbPwd,"Printerbi@."),
                     };
 
                     var token = TokenBuilder.CreateJsonWebToken(
@@ -272,17 +269,6 @@ namespace PrintingBI.API.Controllers
         }
 
         // TODO: Refresh Token
-
-        [HttpGet("Provision")]
-        public async Task<ActionResult> Provision()
-        {
-            var (createdAll, errors) = await _provisioningService.Create();
-
-            if (createdAll)
-                return Ok();
-            else
-                return StatusCode(StatusCodes.Status500InternalServerError, errors);
-        }
-
+        
     }
 }

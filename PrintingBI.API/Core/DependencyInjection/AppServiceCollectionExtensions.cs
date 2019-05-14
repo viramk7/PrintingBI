@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection.Extensions;
+using PrintingBI.Authentication.Configuration;
+using PrintingBI.Data.Infrastructure;
 using PrintingBI.Data.Repositories.Author;
 using PrintingBI.Data.Repositories.Generic;
 using PrintingBI.Data.Repositories.Provisioning;
@@ -16,7 +18,8 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             // Infrastructure
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
-
+            services.AddScoped<ICustomerDbInfo, CustomerDbInfo>();
+            services.AddScoped<ICustomerDbContext, CustomerDbContext>();
 
             // Repositories
             services.AddTransient<IAuthorRepository, AuthorRepository>();

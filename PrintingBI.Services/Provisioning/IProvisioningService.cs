@@ -5,6 +5,6 @@ namespace PrintingBI.Services.Provisioning
 {
     public interface IProvisioningService
     {
-        Task<(bool, List<string>)> Create();
+        Task<(bool, List<string>)> Provision();
     }
 }
