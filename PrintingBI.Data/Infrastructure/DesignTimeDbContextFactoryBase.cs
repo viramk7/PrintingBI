@@ -33,7 +33,7 @@ namespace PrintingBI.Data.Infrastructure
 
             var config = builder.Build();
 
-            var connstr = config.GetConnectionString("Default");
+            var connstr = config.GetConnectionString("PrintingBICS");
 
             if (string.IsNullOrWhiteSpace(connstr))
             {
