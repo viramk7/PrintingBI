@@ -43,6 +43,13 @@
             <param name="authorCreateDto">fistname and last name</param>
             <returns></returns>
         </member>
+        <member name="M:PrintingBI.API.Controllers.LoginController.AuthenticateLoginUser(PrintingBI.API.Models.LoginDto)">
+            <summary>
+            It will checks whether user credentials are valid for the particular domain/host 
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="T:PrintingBI.API.Models.AuthorCreateDto">
             <summary>
             Model to create new author

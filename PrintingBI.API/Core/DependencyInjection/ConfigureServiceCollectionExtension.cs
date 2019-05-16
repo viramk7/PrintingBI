@@ -14,6 +14,11 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddSingleton<IJwtConfiguration>(sp =>
                 sp.GetRequiredService<IOptions<JwtConfiguration>>().Value);
 
+            services.Configure<IAdminConfiguration>(config.GetSection("AdminConfiguration"));
+
+            services.TryAddSingleton<IAdminConfiguration>(sp =>
+                        sp.GetRequiredService<IOptions<AdminConfiguration>>().Value);
+
             return services;
         }
          

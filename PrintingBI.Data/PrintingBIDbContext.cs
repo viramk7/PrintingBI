@@ -25,6 +25,8 @@ namespace PrintingBI.Data
 
         public DbSet<ClassRoom> ClassRooms { get; set; }
 
+        public DbSet<PrinterBI_User> PrinterBI_Users { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserMaster>().HasData(new UserMaster
@@ -33,6 +35,21 @@ namespace PrintingBI.Data
                 Name = "viram",
                 Email = "viramk7@gmail.com",
                 Password = "123456"
+            });
+
+            modelBuilder.Entity<PrinterBI_User>().HasData(new PrinterBI_User
+            {
+                UserId = 1,
+                FullName = "admin" ,
+                UserName = "admin",
+                Email = "admin@gmail.com",
+                Password = "12345",
+                DepartmentId = null,
+                RoleRightsId = null,
+                Token = null,
+                TokenExpiryDate = null,
+                IsSuperAdmin = true,
+                IsPassChange = true
             });
         }
     }
