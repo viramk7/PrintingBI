@@ -1,13 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using PrintingBI.Authentication.Configuration;
 using PrintingBI.Data.Infrastructure;
-using System;
 using System.Threading.Tasks;
 
 namespace PrintingBI.Data.Repositories.Provisioning
 {
-    public class ProvisionUserTable : IProvisionTable
+    public class ProvisionUserTable : IProvision
     {
         private readonly ICustomerDbContext _customerDbContext;
 
@@ -20,13 +17,14 @@ namespace PrintingBI.Data.Repositories.Provisioning
 
         public async Task<bool> Provision()
         {
-            // Read it from file
-            var query = System.IO.File.ReadAllText("ProvisionScripts/UserTable.sql");
+            // TODO: Drop tables if exists
+            var dropIfExistsTableScript = "";
+            await _customerDbContext.Context.Database.ExecuteSqlCommandAsync(dropIfExistsTableScript);
 
             // Create the User Table here
-
+            var createAllTablesScript = _customerDbContext.Context.Database.GenerateCreateScript();
             var result = await _customerDbContext.Context
-                                .Database.ExecuteSqlCommandAsync(query);
+                                .Database.ExecuteSqlCommandAsync(createAllTablesScript);
 
             return result > 0;
 

@@ -5,14 +5,14 @@ using System.Text;
 
 namespace PrintingBI.Data.Entities
 {
-    public class Student : Entity<int>
+    public class Student : Entity<int>, ICustomerTable
     {
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
 
         [Required]
-        [Range(5,30)]
+        [Range(5, 30)]
         public int Age { get; set; }
 
         public ClassRoom ClassRoom { get; set; }

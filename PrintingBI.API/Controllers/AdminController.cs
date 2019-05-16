@@ -1,0 +1,52 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using PrintingBI.API.Models;
+using PrintingBI.Services.ProvisionPowerBITenants;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace PrintingBI.API.Controllers
+{
+    [Route("api/admin")]
+    [ApiController]
+    [Produces("application/json")]
+    public class AdminController : ControllerBase
+    {
+        private readonly IProvisionPowerBITenantsService _provisionPowerBITenantsService;
+        private readonly ILogger<AdminController> _logger;
+
+        public AdminController(IProvisionPowerBITenantsService provisionPowerBITenantsService,
+                               ILogger<AdminController> logger)
+        {
+            _provisionPowerBITenantsService = provisionPowerBITenantsService;
+            _logger = logger;
+        }
+
+        [HttpPost("ProvisionPowerBITenants")]
+        public async Task<ActionResult> ProvisionPowerBITenants(CustomerDbCredsInputDto model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var (succeed, message) = await
+                _provisionPowerBITenantsService.Provision(model.ConnectionString);
+
+                if (succeed)
+                    return Ok();
+                else
+                    return StatusCode(StatusCodes.Status500InternalServerError, message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.StackTrace);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong!");
+            }
+        }
+    }
+}

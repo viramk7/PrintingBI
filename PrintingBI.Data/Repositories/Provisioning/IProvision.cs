@@ -2,7 +2,7 @@
 
 namespace PrintingBI.Data.Repositories.Provisioning
 {
-    public interface IProvisionTable
+    public interface IProvision
     {
         string ErrorMessage { get; }
 

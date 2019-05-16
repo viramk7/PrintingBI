@@ -5,28 +5,33 @@ namespace PrintingBI.Data.Repositories.Provisioning
 {
     public class ProvisioningRepository : IProvisioningRepository
     {
-        private readonly IEnumerable<IProvisionTable> _tables;
+        private readonly IEnumerable<IProvision> _provisions;
 
-        public ProvisioningRepository(IEnumerable<IProvisionTable> tables)
+        public ProvisioningRepository(IEnumerable<IProvision> provisions)
         {
-            _tables = tables;
+            _provisions = provisions;
         }
 
-        public async Task<(bool, List<string>)> Provision()
+        public Task<(bool, List<string>)> Provision()
         {
-            var createdAll = true;
-            var errors = new List<string>();
-
-            foreach (var table in _tables)
-            {
-                if(!await table.Provision())
-                {
-                    createdAll = false;
-                    errors.Add(table.ErrorMessage);
-                }
-            }
-
-            return (createdAll, errors);
+            throw new System.NotImplementedException();
         }
+        
+        //public async Task<(bool, List<string>)> Provision()
+        //{
+        //    var createdAll = true;
+        //    var errors = new List<string>();
+
+        //    foreach (var table in _tables)
+        //    {
+        //        if(!await table.Provision())
+        //        {
+        //            createdAll = false;
+        //            errors.Add(table.ErrorMessage);
+        //        }
+        //    }
+
+        //    return (createdAll, errors);
+        //}
     }
 }

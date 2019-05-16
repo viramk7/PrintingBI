@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PrintingBI.Data.Entities
 {
-    public class Author : Entity<int>
+    public class Author : Entity<int>, ICustomerTable
     {
         [Required]
         [MaxLength(100)]

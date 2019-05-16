@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace PrintingBI.Data.Repositories.Provisioning
 {
-    public class ProvisionDepartmentTable : IProvisionTable
+    public class ProvisionDepartmentTable : IProvision
     {
         public string ErrorMessage => "Could not create Department table";
 
