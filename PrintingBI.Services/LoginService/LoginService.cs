@@ -18,5 +18,20 @@ namespace PrintingBI.Services.LoginService
         {
             return _loginRepository.AuthenticateUser(connectionString, userName, password);
         }
+
+        public bool AuthenticateUserByEmail(string connectionString, string Email)
+        {
+            return _loginRepository.AuthenticateUserByEmail(connectionString, Email);
+        }
+
+        public string GeneratePasswordResetToken(string connectionString, string email)
+        {
+            return _loginRepository.GeneratePasswordResetToken(connectionString, email);
+        }
+
+         public bool ResetUserPassByToken(string connectionString, string token, string password)
+        {
+            return _loginRepository.ResetUserPassByToken(connectionString, token,password);
+        }
     }
 }

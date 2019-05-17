@@ -50,6 +50,20 @@
             <param name="model"></param>
             <returns></returns>
         </member>
+        <member name="M:PrintingBI.API.Controllers.LoginController.ForgotPassword(PrintingBI.API.Models.ForgotPassDto)">
+            <summary>
+            Forgot Password API for User
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PrintingBI.API.Controllers.LoginController.ResetPassword(PrintingBI.API.Models.ResetPassDto)">
+            <summary>
+            Reset Password with token
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="T:PrintingBI.API.Models.AuthorCreateDto">
             <summary>
             Model to create new author
@@ -96,6 +110,21 @@
             </summary>
         </member>
         <member name="P:PrintingBI.API.Models.ChangePasswordInputDto.NewPassword">
+            <summary>
+            User's new password
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.ChangePassDto.Email">
+            <summary>
+            Email address of the user 
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.ChangePassDto.OldPassword">
+            <summary>
+            User's old password 
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.ChangePassDto.NewPassword">
             <summary>
             User's new password
             </summary>

@@ -27,4 +27,48 @@ namespace PrintingBI.API.Models
         [EmailAddress]
         public string EmailAddress { get; set; }
     }
+
+    public class ResetPassDto
+    {
+        [Required]
+        public string HostName { get; set; }
+
+        [Required]
+        public string Token { get; set; }
+
+        //[Required]
+        //[EmailAddress]
+        //public string Email { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+    }
+
+    public class ChangePassDto
+    {
+        [Required]
+        public string HostName { get; set; }
+
+        /// <summary>
+        /// Email address of the user 
+        /// </summary>
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        /// <summary>
+        /// User's old password 
+        /// </summary>
+        [Required]
+        [MaxLength(Constants.PasswordMaxLength)]
+        public string OldPassword { get; set; }
+
+        /// <summary>
+        /// User's new password
+        /// </summary>
+        [Required]
+        [MaxLength(Constants.PasswordMaxLength)]
+        public string NewPassword { get; set; }
+    }
 }

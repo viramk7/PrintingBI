@@ -15,38 +15,66 @@ namespace PrintingBI.Data.Repositories.Login
             var printingBIDbContextFactory = new PrintingBIDbContextFactory();
             var context = printingBIDbContextFactory.Create(connectionString);
 
-            bool result = context.Users.Any(m => m.Name == userName && m.Password == password);
+            bool result = context.PrinterBI_Users.Any(m => m.UserName == userName && m.Password == password);
 
             return result;
         }
 
-        //public bool AuthenticateUserByEmail(string connectionString , string Email)
-        //{
-        //    if (string.IsNullOrEmpty(connectionString))
-        //        throw new ArgumentException("connection string not provided!");
+        public bool AuthenticateUserByEmail(string connectionString, string Email)
+        {
+            if (string.IsNullOrEmpty(connectionString))
+                throw new ArgumentException("connection string not provided!");
 
-        //    var printingBIDbContextFactory = new PrintingBIDbContextFactory();
-        //    var context = printingBIDbContextFactory.Create(connectionString);
+            var printingBIDbContextFactory = new PrintingBIDbContextFactory();
+            var context = printingBIDbContextFactory.Create(connectionString);
 
-        //    bool result = context.Users.Any(m => m.Email == Email);
+            bool result = context.PrinterBI_Users.Any(m => m.Email == Email);
 
-        //    return result;
-        //}
+            return result;
+        }
 
-        //public string GeneratePasswordResetToken(string connectionString, string email)
-        //{
-        //    if (string.IsNullOrEmpty(connectionString))
-        //        throw new ArgumentException("connection string not provided!");
+        public string GeneratePasswordResetToken(string connectionString, string email)
+        {
+            if (string.IsNullOrEmpty(connectionString))
+                throw new ArgumentException("connection string not provided!");
 
-        //    var printingBIDbContextFactory = new PrintingBIDbContextFactory();
-        //    var context = printingBIDbContextFactory.Create(connectionString);
+            var printingBIDbContextFactory = new PrintingBIDbContextFactory();
+            var context = printingBIDbContextFactory.Create(connectionString);
 
-        //    bool result = context.Users.Any(m => m.Email == email);
-        //    if (result)
-        //    {
-        //        var user = context.Users.FirstOrDefault(m => m.Email == email);
-        //    }
-        //    return string.Empty;
-        //}
+            bool result = context.PrinterBI_Users.Any(m => m.Email == email);
+            if (result)
+            {
+                string token = Guid.NewGuid().ToString();
+                var user = context.PrinterBI_Users.FirstOrDefault(m => m.Email == email);
+                user.Token = token;
+                user.TokenExpiryDate = DateTime.Now.AddDays(1);
+                context.Update(user);
+                context.SaveChanges();
+                return token;
+            }
+            return string.Empty;
+        }
+
+        public bool ResetUserPassByToken(string connectionString, string token, string password)
+        {
+            if (string.IsNullOrEmpty(connectionString))
+                throw new ArgumentException("connection string not provided!");
+
+            var printingBIDbContextFactory = new PrintingBIDbContextFactory();
+            var context = printingBIDbContextFactory.Create(connectionString);
+
+            var user = context.PrinterBI_Users.FirstOrDefault(m => m.Token == token && DateTime.Now < m.TokenExpiryDate);
+            if(user != null)
+            {
+                user.Password = password;
+                user.Token = null;
+                user.TokenExpiryDate = null;
+                context.Update(user);
+                context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+        
     }
 }
