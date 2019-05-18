@@ -2,6 +2,11 @@
 {
     public class DepartmentFromExcel
     {
+        public DepartmentFromExcel()
+        {
+
+        }
+
         public DepartmentFromExcel(string departmentName, string parentDepartmentName)
         {
             DepartmentName = departmentName;
