@@ -17,27 +17,13 @@ namespace PrintingBI.Data
 
         public DbSet<Author> Authors { get; set; }
         
-        public DbSet<UserMaster> Users { get; set; }
+        public DbSet<PrinterBIUser> PrinterBIUsers { get; set; }
 
-        public DbSet<Student> Students { get; set; }
-
-        public DbSet<Log> AppLogs { get; set; }
-
-        public DbSet<ClassRoom> ClassRooms { get; set; }
-
-        public DbSet<PrinterBI_User> PrinterBI_Users { get; set; }
+        public DbSet<Department> Departments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserMaster>().HasData(new UserMaster
-            {
-                Id = -1,
-                Name = "viram",
-                Email = "viramk7@gmail.com",
-                Password = "123456"
-            });
-
-            modelBuilder.Entity<PrinterBI_User>().HasData(new PrinterBI_User
+            modelBuilder.Entity<PrinterBIUser>().HasData(new PrinterBIUser
             {
                 UserId = 1,
                 FullName = "admin" ,

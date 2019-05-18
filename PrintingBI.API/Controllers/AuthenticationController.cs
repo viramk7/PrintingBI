@@ -6,7 +6,6 @@ using PrintingBI.API.Models;
 using PrintingBI.Authentication;
 using PrintingBI.Authentication.Models.Dtos;
 using PrintingBI.Services.Provisioning;
-using PrintingBI.Services.User;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace PrintingBI.API.Models
 {
@@ -16,6 +17,7 @@ namespace PrintingBI.API.Models
         [Required]
         public string Password { get; set; }
 
+        [ScaffoldColumn(false)]
         public string ConnectionString
         {
             get

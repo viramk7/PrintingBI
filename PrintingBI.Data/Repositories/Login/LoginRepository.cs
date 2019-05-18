@@ -15,7 +15,7 @@ namespace PrintingBI.Data.Repositories.Login
             var printingBIDbContextFactory = new PrintingBIDbContextFactory();
             var context = printingBIDbContextFactory.Create(connectionString);
 
-            bool result = context.PrinterBI_Users.Any(m => m.UserName == userName && m.Password == password);
+            bool result = context.PrinterBIUsers.Any(m => m.UserName == userName && m.Password == password);
 
             return result;
         }
@@ -28,7 +28,7 @@ namespace PrintingBI.Data.Repositories.Login
             var printingBIDbContextFactory = new PrintingBIDbContextFactory();
             var context = printingBIDbContextFactory.Create(connectionString);
 
-            bool result = context.PrinterBI_Users.Any(m => m.Email == Email);
+            bool result = context.PrinterBIUsers.Any(m => m.Email == Email);
 
             return result;
         }
@@ -41,11 +41,11 @@ namespace PrintingBI.Data.Repositories.Login
             var printingBIDbContextFactory = new PrintingBIDbContextFactory();
             var context = printingBIDbContextFactory.Create(connectionString);
 
-            bool result = context.PrinterBI_Users.Any(m => m.Email == email);
+            bool result = context.PrinterBIUsers.Any(m => m.Email == email);
             if (result)
             {
                 string token = Guid.NewGuid().ToString();
-                var user = context.PrinterBI_Users.FirstOrDefault(m => m.Email == email);
+                var user = context.PrinterBIUsers.FirstOrDefault(m => m.Email == email);
                 user.Token = token;
                 user.TokenExpiryDate = DateTime.Now.AddDays(1);
                 context.Update(user);
@@ -63,7 +63,7 @@ namespace PrintingBI.Data.Repositories.Login
             var printingBIDbContextFactory = new PrintingBIDbContextFactory();
             var context = printingBIDbContextFactory.Create(connectionString);
 
-            var user = context.PrinterBI_Users.FirstOrDefault(m => m.Token == token && DateTime.Now < m.TokenExpiryDate);
+            var user = context.PrinterBIUsers.FirstOrDefault(m => m.Token == token && DateTime.Now < m.TokenExpiryDate);
             if(user != null)
             {
                 user.Password = password;

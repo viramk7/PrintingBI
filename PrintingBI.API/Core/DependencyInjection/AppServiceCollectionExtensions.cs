@@ -3,17 +3,18 @@ using PrintingBI.API.Helper;
 using PrintingBI.Authentication.Configuration;
 using PrintingBI.Data.Infrastructure;
 using PrintingBI.Data.Repositories.Author;
+using PrintingBI.Data.Repositories.Departments;
 using PrintingBI.Data.Repositories.Generic;
 using PrintingBI.Data.Repositories.Login;
 using PrintingBI.Data.Repositories.Provisioning;
 using PrintingBI.Data.Repositories.ProvisionPowerBITenants;
-using PrintingBI.Data.Repositories.User;
 using PrintingBI.Services.Author;
+using PrintingBI.Services.Departments;
 using PrintingBI.Services.Entities;
+using PrintingBI.Services.Helper;
 using PrintingBI.Services.LoginService;
 using PrintingBI.Services.Provisioning;
 using PrintingBI.Services.ProvisionPowerBITenants;
-using PrintingBI.Services.User;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -29,10 +30,10 @@ namespace Microsoft.Extensions.DependencyInjection
 
             // Repositories
             services.AddTransient<IAuthorRepository, AuthorRepository>();
-            services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IProvisionPowerBITenantsRepository, ProvisionPowerBITenantsRepository>();
             services.AddTransient<IProvisioningRepository, ProvisioningRepository>();
             services.AddTransient<ILoginRepository, LoginRepository>();
+            services.AddTransient<IDepartmentRepository, DepartmentRepository>();
 
             //services.TryAddEnumerable(new[]
             //{
@@ -50,10 +51,14 @@ namespace Microsoft.Extensions.DependencyInjection
             // Services
             services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
             services.AddTransient<IAuthorService, AuthorService>();
-            services.AddTransient<IUserService, UserService>();
             services.AddTransient<IProvisioningService, ProvisioningService>();
             services.AddTransient<IProvisionPowerBITenantsService, ProvisionPowerBITenantsService>();
             services.AddTransient<ILoginService, LoginService>();
+            services.AddTransient<IFilterDeptListToEntityHelper, FilterDeptListToEntityHelper>();
+            services.AddTransient<IDepartmentService, DepartmentService>();
+
+            // Helpers
+            services.AddTransient<IExtractDeptDataFromExcel, ExtractDeptDataFromExcel>();
 
             return services;
         }
