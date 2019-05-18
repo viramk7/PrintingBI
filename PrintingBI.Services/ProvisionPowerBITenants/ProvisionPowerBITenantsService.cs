@@ -16,5 +16,10 @@ namespace PrintingBI.Services.ProvisionPowerBITenants
         {
             return _provisionPowerBITenantsRepository.Provision(connectionString);
         }
+
+        public Task<(bool, string)> DeProvision(string connectionString)
+        {
+            return _provisionPowerBITenantsRepository.DeProvision(connectionString);
+        }
     }
 }

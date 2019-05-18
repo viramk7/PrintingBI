@@ -1,7 +1,10 @@
-﻿namespace PrintingBI.Services.ProvisionPowerBITenants
+﻿using System.Threading.Tasks;
+
+namespace PrintingBI.Services.ProvisionPowerBITenants
 {
     public interface IProvisionPowerBITenantsService
     {
-        System.Threading.Tasks.Task<(bool, string)> Provision(string connectionString);
+        Task<(bool, string)> Provision(string connectionString);
+        Task<(bool, string)> DeProvision(string connectionString);
     }
 }

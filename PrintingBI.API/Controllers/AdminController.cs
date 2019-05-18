@@ -50,6 +50,29 @@ namespace PrintingBI.API.Controllers
             }
         }
 
+        [HttpPost("DeProvisionPowerBITenants")]
+        public async Task<ActionResult> DeProvisionPowerBITenants(CustomerDbCredsInputDto model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var (succeed, message) = await
+                _provisionPowerBITenantsService.DeProvision(model.ConnectionString);
+
+                if (succeed)
+                    return Ok();
+                else
+                    return StatusCode(StatusCodes.Status500InternalServerError, message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.StackTrace);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong!");
+            }
+        }
+
         [HttpPost("InsertDepartments")]
         public async Task<ActionResult> InsertDepartments([FromForm]InsertDepartmentsInputDto model)
         {
