@@ -64,6 +64,20 @@
             <param name="model"></param>
             <returns></returns>
         </member>
+        <member name="M:PrintingBI.API.Controllers.LoginController.ChangePassword(PrintingBI.API.Models.ChangePassDto)">
+            <summary>
+            Change User password
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PrintingBI.API.Controllers.LoginController.ValidateCustomerTenant(PrintingBI.API.Models.ValidateTenantDto)">
+            <summary>
+            API used to validate host name of customer
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="T:PrintingBI.API.Models.AuthorCreateDto">
             <summary>
             Model to create new author

@@ -41,21 +41,22 @@ namespace PrintingBI.Data.Repositories.Login
             var printingBIDbContextFactory = new PrintingBIDbContextFactory();
             var context = printingBIDbContextFactory.Create(connectionString);
 
-            bool result = context.PrinterBI_Users.Any(m => m.Email == email);
-            if (result)
+            var user = context.PrinterBI_Users.FirstOrDefault(m => m.Email == email);
+            if (user != null)
             {
                 string token = Guid.NewGuid().ToString();
-                var user = context.PrinterBI_Users.FirstOrDefault(m => m.Email == email);
+                
                 user.Token = token;
-                user.TokenExpiryDate = DateTime.Now.AddDays(1);
+                user.TokenExpiryDate = DateTime.Now.AddHours(3);
                 context.Update(user);
                 context.SaveChanges();
+
                 return token;
             }
             return string.Empty;
         }
 
-        public bool ResetUserPassByToken(string connectionString, string token, string password)
+        public string ResetUserPassByToken(string connectionString, string email, string token, string password)
         {
             if (string.IsNullOrEmpty(connectionString))
                 throw new ArgumentException("connection string not provided!");
@@ -63,18 +64,46 @@ namespace PrintingBI.Data.Repositories.Login
             var printingBIDbContextFactory = new PrintingBIDbContextFactory();
             var context = printingBIDbContextFactory.Create(connectionString);
 
-            var user = context.PrinterBI_Users.FirstOrDefault(m => m.Token == token && DateTime.Now < m.TokenExpiryDate);
+            var user = context.PrinterBI_Users.FirstOrDefault(m => m.Email == email);
+
             if(user != null)
             {
-                user.Password = password;
-                user.Token = null;
-                user.TokenExpiryDate = null;
-                context.Update(user);
-                context.SaveChanges();
-                return true;
+                if(user.Token == token && user.TokenExpiryDate > DateTime.Now)
+                {
+                    user.Password = password;
+                    user.Token = null;
+                    user.TokenExpiryDate = null;
+
+                    context.Update(user);
+                    context.SaveChanges();
+
+                    return string.Empty;
+                }
+                return "Invalid Token or Token is expired";
+            }
+            return "Invalid Email";
+        }
+
+        public bool ChangeUserPassword(string connectionString, string email, string oldPass, string newPass)
+        {
+            if (string.IsNullOrEmpty(connectionString))
+                throw new ArgumentException("connection string not provided!");
+
+            var printingBIDbContextFactory = new PrintingBIDbContextFactory();
+            var context = printingBIDbContextFactory.Create(connectionString);
+
+            var user = context.PrinterBI_Users.FirstOrDefault(m => m.Email == email && m.Password == oldPass);
+
+            if (user != null)
+            {
+                    user.Password = newPass;
+
+                    context.Update(user);
+                    context.SaveChanges();
+
+                    return true;
             }
             return false;
         }
-        
     }
 }

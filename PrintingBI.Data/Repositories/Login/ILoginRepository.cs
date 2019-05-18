@@ -9,6 +9,7 @@ namespace PrintingBI.Data.Repositories.Login
         bool AuthenticateUser(string connectionString, string userName, string password);
         bool AuthenticateUserByEmail(string connectionString, string Email);
         string GeneratePasswordResetToken(string connectionString, string email);
-        bool ResetUserPassByToken(string connectionString, string token, string password);
+        string ResetUserPassByToken(string connectionString, string email, string token, string password);
+        bool ChangeUserPassword(string connectionString, string email, string oldPass, string newPass);
     }
 }

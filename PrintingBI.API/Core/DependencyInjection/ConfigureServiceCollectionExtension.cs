@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using PrintingBI.API.Configuration;
+using PrintingBI.Services.AdminConfiguration;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -14,7 +15,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddSingleton<IJwtConfiguration>(sp =>
                 sp.GetRequiredService<IOptions<JwtConfiguration>>().Value);
 
-            services.Configure<IAdminConfiguration>(config.GetSection("AdminConfiguration"));
+            services.Configure<AdminConfiguration>(config.GetSection("AdminConfiguration"));
 
             services.TryAddSingleton<IAdminConfiguration>(sp =>
                         sp.GetRequiredService<IOptions<AdminConfiguration>>().Value);

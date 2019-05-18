@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace PrintingBI.API.Models
+namespace PrintingBI.Data.CustomModel
 {
     public class CustomerInitialInfoModel
     {
@@ -41,3 +40,4 @@ namespace PrintingBI.API.Models
 
     }
 }
+
