@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PrintingBI.Services.LoginService
 {
@@ -14,29 +15,29 @@ namespace PrintingBI.Services.LoginService
             _loginRepository = loginRepository;
         }
 
-        public bool AuthenticateUser(string connectionString, string userName, string password)
+        public async Task<bool> AuthenticateUser(string connectionString, string userName, string password)
         {
-            return _loginRepository.AuthenticateUser(connectionString, userName, password);
+            return await _loginRepository.AuthenticateUser(connectionString, userName, password);
         }
 
-        public bool AuthenticateUserByEmail(string connectionString, string Email)
+        public async Task<bool> AuthenticateUserByEmail(string connectionString, string Email)
         {
-            return _loginRepository.AuthenticateUserByEmail(connectionString, Email);
+            return await _loginRepository.AuthenticateUserByEmail(connectionString, Email);
         }
 
-        public string GeneratePasswordResetToken(string connectionString, string email)
+        public async Task<string> GeneratePasswordResetToken(string connectionString, string email)
         {
-            return _loginRepository.GeneratePasswordResetToken(connectionString, email);
+            return await _loginRepository.GeneratePasswordResetToken(connectionString, email);
         }
 
-        public string ResetUserPassByToken(string connectionString, string email , string token, string password)
+        public async Task<string> ResetUserPassByToken(string connectionString, string email , string token, string password)
         {
-            return _loginRepository.ResetUserPassByToken(connectionString, email, token, password);
+            return await _loginRepository.ResetUserPassByToken(connectionString, email, token, password);
         }
 
-        public bool ChangeUserPassword(string connectionString, string email, string oldPass, string newPass)
+        public async Task<bool> ChangeUserPassword(string connectionString, string email, string oldPass, string newPass)
         {
-            return _loginRepository.ChangeUserPassword(connectionString, email, oldPass, newPass);
+            return await _loginRepository.ChangeUserPassword(connectionString, email, oldPass, newPass);
         }
     }
 }

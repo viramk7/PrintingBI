@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PrintingBI.Services.LoginService
 {
     public interface ILoginService
     {
-        bool AuthenticateUser(string connectionString, string userName, string password);
-        bool AuthenticateUserByEmail(string connectionString, string Email);
-        string GeneratePasswordResetToken(string connectionString, string email);
-        string ResetUserPassByToken(string connectionString, string email, string token, string password);
-        bool ChangeUserPassword(string connectionString, string email, string oldPass, string newPass);
+        Task<bool> AuthenticateUser(string connectionString, string userName, string password);
+        Task<bool> AuthenticateUserByEmail(string connectionString, string Email);
+        Task<string> GeneratePasswordResetToken(string connectionString, string email);
+        Task<string> ResetUserPassByToken(string connectionString, string email, string token, string password);
+        Task<bool> ChangeUserPassword(string connectionString, string email, string oldPass, string newPass);
     }
 }

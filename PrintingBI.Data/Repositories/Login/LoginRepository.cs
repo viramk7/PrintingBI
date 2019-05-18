@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PrintingBI.Data.Repositories.Login
 {
     public class LoginRepository : ILoginRepository
     {
-        public bool AuthenticateUser(string connectionString,string userName , string password)
+        public async Task<bool> AuthenticateUser(string connectionString,string userName , string password)
         {
             if (string.IsNullOrEmpty(connectionString))
                 throw new ArgumentException("connection string not provided!");
@@ -20,7 +21,7 @@ namespace PrintingBI.Data.Repositories.Login
             return result;
         }
 
-        public bool AuthenticateUserByEmail(string connectionString, string Email)
+        public async Task<bool> AuthenticateUserByEmail(string connectionString, string Email)
         {
             if (string.IsNullOrEmpty(connectionString))
                 throw new ArgumentException("connection string not provided!");
@@ -33,7 +34,7 @@ namespace PrintingBI.Data.Repositories.Login
             return result;
         }
 
-        public string GeneratePasswordResetToken(string connectionString, string email)
+        public async Task<string> GeneratePasswordResetToken(string connectionString, string email)
         {
             if (string.IsNullOrEmpty(connectionString))
                 throw new ArgumentException("connection string not provided!");
@@ -49,14 +50,14 @@ namespace PrintingBI.Data.Repositories.Login
                 user.Token = token;
                 user.TokenExpiryDate = DateTime.Now.AddHours(3);
                 context.Update(user);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
 
                 return token;
             }
             return string.Empty;
         }
 
-        public string ResetUserPassByToken(string connectionString, string email, string token, string password)
+        public async Task<string> ResetUserPassByToken(string connectionString, string email, string token, string password)
         {
             if (string.IsNullOrEmpty(connectionString))
                 throw new ArgumentException("connection string not provided!");
@@ -75,7 +76,7 @@ namespace PrintingBI.Data.Repositories.Login
                     user.TokenExpiryDate = null;
 
                     context.Update(user);
-                    context.SaveChanges();
+                    await context.SaveChangesAsync();
 
                     return string.Empty;
                 }
@@ -84,7 +85,7 @@ namespace PrintingBI.Data.Repositories.Login
             return "Invalid Email";
         }
 
-        public bool ChangeUserPassword(string connectionString, string email, string oldPass, string newPass)
+        public async Task<bool> ChangeUserPassword(string connectionString, string email, string oldPass, string newPass)
         {
             if (string.IsNullOrEmpty(connectionString))
                 throw new ArgumentException("connection string not provided!");
@@ -99,7 +100,7 @@ namespace PrintingBI.Data.Repositories.Login
                     user.Password = newPass;
 
                     context.Update(user);
-                    context.SaveChanges();
+                    await context.SaveChangesAsync();
 
                     return true;
             }

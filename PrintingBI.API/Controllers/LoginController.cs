@@ -43,14 +43,14 @@ namespace PrintingBI.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<CustomerInitialInfoModel> AuthenticateLoginUser(LoginDto model)
+        public async Task<ActionResult<CustomerInitialInfoModel>> AuthenticateLoginUser(LoginDto model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             try
             {
-                CustomerInitialInfoModel intialInfo = _adminService.GetCustomerInialInfo(model.HostName);
+                CustomerInitialInfoModel intialInfo = await _adminService.GetCustomerInialInfo(model.HostName);
 
                 if (intialInfo != null && !string.IsNullOrEmpty(intialInfo.TenantDBServer))
                 {
@@ -61,7 +61,7 @@ namespace PrintingBI.API.Controllers
                     intialInfo.TenantDBUser = "postgres";
                     intialInfo.TenantDBPassword = "Printerbi@.";
 
-                    bool result = _loginService.AuthenticateUser(intialInfo.ConnectionString, model.UserName, model.Password);
+                    bool result = await _loginService.AuthenticateUser(intialInfo.ConnectionString, model.UserName, model.Password);
                     if (result)
                     {
                         var claims = new List<ClaimModel>
@@ -110,13 +110,13 @@ namespace PrintingBI.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult ForgotPassword(ForgotPassDto model)
+        public async Task<ActionResult> ForgotPassword(ForgotPassDto model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             try
             {
-                CustomerInitialInfoModel intialInfo = _adminService.GetCustomerInialInfo(model.HostName);
+                CustomerInitialInfoModel intialInfo = await _adminService.GetCustomerInialInfo(model.HostName);
 
                 if (intialInfo != null && !string.IsNullOrEmpty(intialInfo.TenantDBServer))
                 {
@@ -125,7 +125,7 @@ namespace PrintingBI.API.Controllers
                     intialInfo.TenantDBUser = "postgres";
                     intialInfo.TenantDBPassword = "Printerbi@.";
 
-                    bool user = _loginService.AuthenticateUserByEmail(intialInfo.ConnectionString, model.EmailAddress);
+                    bool user = await _loginService.AuthenticateUserByEmail(intialInfo.ConnectionString, model.EmailAddress);
                     if (!user)
                         return StatusCode(StatusCodes.Status404NotFound, "Email address in not valid.");
 
@@ -154,13 +154,13 @@ namespace PrintingBI.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public ActionResult ResetPassword(ResetPassDto model)
+        public async Task<ActionResult> ResetPassword(ResetPassDto model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             try
             {
-                CustomerInitialInfoModel intialInfo = _adminService.GetCustomerInialInfo(model.HostName);
+                CustomerInitialInfoModel intialInfo = await _adminService.GetCustomerInialInfo(model.HostName);
 
                 if (intialInfo != null && !string.IsNullOrEmpty(intialInfo.TenantDBServer))
                 {
@@ -169,7 +169,7 @@ namespace PrintingBI.API.Controllers
                     intialInfo.TenantDBUser = "postgres";
                     intialInfo.TenantDBPassword = "Printerbi@.";
 
-                    string userResult = _loginService.ResetUserPassByToken(intialInfo.ConnectionString, model.Email, model.Token, model.Password);
+                    string userResult = await _loginService.ResetUserPassByToken(intialInfo.ConnectionString, model.Email, model.Token, model.Password);
                     if (!string.IsNullOrEmpty(userResult))
                         return StatusCode(StatusCodes.Status204NoContent, userResult);
                     else
@@ -197,13 +197,13 @@ namespace PrintingBI.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public ActionResult ChangePassword(ChangePassDto model)
+        public async Task<ActionResult> ChangePassword(ChangePassDto model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             try
             {
-                CustomerInitialInfoModel intialInfo = _adminService.GetCustomerInialInfo(model.HostName);
+                CustomerInitialInfoModel intialInfo = await _adminService.GetCustomerInialInfo(model.HostName);
 
                 if (intialInfo != null && !string.IsNullOrEmpty(intialInfo.TenantDBServer))
                 {
@@ -212,7 +212,7 @@ namespace PrintingBI.API.Controllers
                     intialInfo.TenantDBUser = "postgres";
                     intialInfo.TenantDBPassword = "Printerbi@.";
 
-                    bool result = _loginService.ChangeUserPassword(intialInfo.ConnectionString, model.Email, model.OldPassword, model.NewPassword);
+                    bool result = await _loginService.ChangeUserPassword(intialInfo.ConnectionString, model.Email, model.OldPassword, model.NewPassword);
 
                     if (!result)
                         return StatusCode(StatusCodes.Status401Unauthorized, "Invalid Email & old password.");
