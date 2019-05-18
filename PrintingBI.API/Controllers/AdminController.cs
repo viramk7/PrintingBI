@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PrintingBI.API.Models;
 using PrintingBI.Services.Departments;
 using PrintingBI.Services.ProvisionPowerBITenants;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PrintingBI.API.Controllers
@@ -48,8 +45,7 @@ namespace PrintingBI.API.Controllers
             }
             catch (Exception ex)
             {
-                
-_logger.LogError(ex.StackTrace);
+                _logger.LogError(ex.StackTrace);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong!");
             }
         }

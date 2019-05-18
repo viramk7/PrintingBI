@@ -1,12 +1,10 @@
 ﻿using PrintingBI.Data.CustomModel;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace PrintingBI.Services.AdminTenantService
 {
     public interface IAdminTenantService
     {
-        CustomerInitialInfoModel GetCustomerInialInfo(string hostName);
+        Task<CustomerInitialInfoModel> GetCustomerInialInfo(string hostName);
     }
 }

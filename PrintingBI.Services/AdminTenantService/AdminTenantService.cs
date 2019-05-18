@@ -1,8 +1,6 @@
 ﻿using PrintingBI.Data.CustomModel;
 using PrintingBI.Services.HttpClientHelpers;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace PrintingBI.Services.AdminTenantService
 {
@@ -16,10 +14,10 @@ namespace PrintingBI.Services.AdminTenantService
             _httpClientHelper = httpClientHelper;
         }
 
-        public CustomerInitialInfoModel GetCustomerInialInfo(string hostName)
+        public async Task<CustomerInitialInfoModel> GetCustomerInialInfo(string hostName)
         {
-            string validateUrl = validateHostUrl + hostName;
-            CustomerInitialInfoModel intialInfo = _httpClientHelper.Get(validateUrl);
+            var validateUrl = validateHostUrl + hostName;
+            var intialInfo = await _httpClientHelper.Get(validateUrl);
             return intialInfo;
         }
 

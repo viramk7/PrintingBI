@@ -237,23 +237,28 @@ namespace PrintingBI.API.Controllers
         /// <returns></returns>
         [HttpPost("ValidateCustomerTenant")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public (bool, CustomerInitialInfoModel) ValidateCustomerTenant(ValidateTenantDto model)
+        public async Task<ActionResult> ValidateCustomerTenant(ValidateTenantDto model)
         {
             if (!ModelState.IsValid)
-                return (false, new CustomerInitialInfoModel());
+                return BadRequest(ModelState);
             try
             {
-                CustomerInitialInfoModel intialInfo = _adminService.GetCustomerInialInfo(model.HostName);
+                var intialInfo = await _adminService.GetCustomerInialInfo(model.HostName);
                 if (intialInfo != null && !string.IsNullOrEmpty(intialInfo.TenantDBServer))
                 {
-                    return (true, intialInfo);
+                    return Ok(new
+                    {
+                        valid = true,
+                        info = intialInfo
+                    });
                 }
-                return (false, new CustomerInitialInfoModel());
+                
+                return NotFound();
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.StackTrace);
-                return (false,new CustomerInitialInfoModel());
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
     }

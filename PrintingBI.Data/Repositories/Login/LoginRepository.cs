@@ -92,7 +92,7 @@ namespace PrintingBI.Data.Repositories.Login
             var printingBIDbContextFactory = new PrintingBIDbContextFactory();
             var context = printingBIDbContextFactory.Create(connectionString);
 
-            var user = context.PrinterBI_Users.FirstOrDefault(m => m.Email == email && m.Password == oldPass);
+            var user = context.PrinterBIUsers.FirstOrDefault(m => m.Email == email && m.Password == oldPass);
 
             if (user != null)
             {

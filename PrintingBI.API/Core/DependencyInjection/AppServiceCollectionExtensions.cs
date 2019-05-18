@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection.Extensions;
-using PrintingBI.Authentication.Configuration;
+﻿using PrintingBI.Authentication.Configuration;
 using PrintingBI.Data.Infrastructure;
 using PrintingBI.Data.Repositories.Author;
 using PrintingBI.Data.Repositories.Departments;
@@ -11,6 +10,7 @@ using PrintingBI.Services.AdminTenantService;
 using PrintingBI.Services.Author;
 using PrintingBI.Services.Departments;
 using PrintingBI.Services.Entities;
+using PrintingBI.Services.Helper;
 using PrintingBI.Services.HttpClientHelpers;
 using PrintingBI.Services.LoginService;
 using PrintingBI.Services.Provisioning;

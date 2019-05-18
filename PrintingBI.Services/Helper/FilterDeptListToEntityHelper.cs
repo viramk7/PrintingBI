@@ -44,7 +44,7 @@ namespace PrintingBI.Services.Helper
                 {
                     Id = dept.Value,
                     ParentId = Guid.Empty,
-                    DeptName = dept.Key
+                    DepartmentName = dept.Key
                 };
 
                 if (dataMap.ContainsKey(dept.Key))

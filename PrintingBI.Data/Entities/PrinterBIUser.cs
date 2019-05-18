@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PrintingBI.Data.Entities
 {
-    [Table("PrinterBI_User")]
     public class PrinterBIUser
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
