@@ -1,11 +1,11 @@
-﻿using PrintingBI.API.Configuration;
+﻿using PrintingBI.Services.AdminConfiguration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace PrintingBI.API.Helper
+namespace PrintingBI.Services.HttpClientHelpers
 {
     public class HttpClientHelper<T> : IHttpClientHelper<T> where T : class
     {
@@ -18,8 +18,8 @@ namespace PrintingBI.API.Helper
 
         public T Get(string apiURL)
         {
-            //string Baseurl = _adminConfiguration.AdminURL;
-            string Baseurl = "http://printerbi.com:81/";
+            string Baseurl = _adminConfiguration.AdminURL;
+
             if (!string.IsNullOrEmpty(Baseurl))
             {
                 using (var client = new HttpClient())
@@ -36,7 +36,7 @@ namespace PrintingBI.API.Helper
                     }
                 }
             }
-            
+
             return default(T);
         }
     }

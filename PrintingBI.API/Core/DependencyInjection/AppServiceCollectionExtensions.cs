@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection.Extensions;
-using PrintingBI.API.Helper;
 using PrintingBI.Authentication.Configuration;
 using PrintingBI.Data.Infrastructure;
 using PrintingBI.Data.Repositories.Author;
@@ -8,10 +7,11 @@ using PrintingBI.Data.Repositories.Generic;
 using PrintingBI.Data.Repositories.Login;
 using PrintingBI.Data.Repositories.Provisioning;
 using PrintingBI.Data.Repositories.ProvisionPowerBITenants;
+using PrintingBI.Services.AdminTenantService;
 using PrintingBI.Services.Author;
 using PrintingBI.Services.Departments;
 using PrintingBI.Services.Entities;
-using PrintingBI.Services.Helper;
+using PrintingBI.Services.HttpClientHelpers;
 using PrintingBI.Services.LoginService;
 using PrintingBI.Services.Provisioning;
 using PrintingBI.Services.ProvisionPowerBITenants;
@@ -56,9 +56,11 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<ILoginService, LoginService>();
             services.AddTransient<IFilterDeptListToEntityHelper, FilterDeptListToEntityHelper>();
             services.AddTransient<IDepartmentService, DepartmentService>();
+            services.AddTransient<IAdminTenantService, AdminTenantService>();
 
             // Helpers
             services.AddTransient<IExtractDeptDataFromExcel, ExtractDeptDataFromExcel>();
+            
 
             return services;
         }

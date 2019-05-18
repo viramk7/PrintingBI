@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace PrintingBI.API.Configuration
+namespace PrintingBI.Services.AdminConfiguration
 {
     public class AdminConfiguration : IAdminConfiguration
     {

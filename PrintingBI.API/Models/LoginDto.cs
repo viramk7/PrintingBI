@@ -36,9 +36,9 @@ namespace PrintingBI.API.Models
         [Required]
         public string Token { get; set; }
 
-        //[Required]
-        //[EmailAddress]
-        //public string Email { get; set; }
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -71,4 +71,13 @@ namespace PrintingBI.API.Models
         [MaxLength(Constants.PasswordMaxLength)]
         public string NewPassword { get; set; }
     }
+
+    public class ValidateTenantDto
+    {
+        [Required]
+        public string HostName { get; set; }
+    }
+
+
+
 }
