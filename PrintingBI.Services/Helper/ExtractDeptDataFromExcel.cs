@@ -20,8 +20,8 @@ namespace PrintingBI.Services.Helper
                 new DepartmentFromExcel("abc7","pqr"),
                 new DepartmentFromExcel("abc8","pqr"),
                 new DepartmentFromExcel("abc9","abc7"),
-                // new Department("abc10",""),
-                // new Department("abc11",""),
+                new DepartmentFromExcel("abc10",""),
+                new DepartmentFromExcel("abc11",""),
             };
         }
     }

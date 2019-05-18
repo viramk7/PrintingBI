@@ -1,6 +1,8 @@
-﻿using PrintingBI.Data.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using PrintingBI.Data.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace PrintingBI.Data.Repositories.Departments
@@ -14,6 +16,10 @@ namespace PrintingBI.Data.Repositories.Departments
 
             var printingBIDbContextFactory = new PrintingBIDbContextFactory();
             var context = printingBIDbContextFactory.Create(connectionString);
+
+            var oldDepts = await context.Departments.ToListAsync();
+            context.Departments.RemoveRange(oldDepts);
+            await context.SaveChangesAsync();
 
             await context.Departments.AddRangeAsync(departments);
             await context.SaveChangesAsync();

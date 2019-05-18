@@ -27,6 +27,9 @@ namespace PrintingBI.Services.Helper
             var depts = new Dictionary<string, Guid>();
             foreach (var item in dataMap)
             {
+                if (string.IsNullOrEmpty(item.Value))
+                    depts.Add(item.Key, Guid.NewGuid());
+
                 if (!string.IsNullOrEmpty(item.Key) && !depts.ContainsKey(item.Key))
                     depts.Add(item.Key, Guid.NewGuid());
 
@@ -47,7 +50,8 @@ namespace PrintingBI.Services.Helper
                 if (dataMap.ContainsKey(dept.Key))
                 {
                     var val = dataMap[dept.Key];
-                    entity.ParentId = depts[val];
+                    if (!string.IsNullOrEmpty(val))
+                        entity.ParentId = depts[val];
                 }
 
                 departments.Add(entity);
