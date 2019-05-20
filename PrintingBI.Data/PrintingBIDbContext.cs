@@ -25,7 +25,7 @@ namespace PrintingBI.Data
         {
             modelBuilder.Entity<PrinterBIUser>().HasData(new PrinterBIUser
             {
-                UserId = 1,
+                Id = 1,
                 FullName = "admin" ,
                 UserName = "admin",
                 Email = "admin@gmail.com",

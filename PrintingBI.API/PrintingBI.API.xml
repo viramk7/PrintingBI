@@ -43,11 +43,11 @@
             <param name="authorCreateDto">fistname and last name</param>
             <returns></returns>
         </member>
-        <member name="M:PrintingBI.API.Controllers.LoginController.AuthenticateLoginUser(PrintingBI.API.Models.LoginDto)">
+        <member name="M:PrintingBI.API.Controllers.LoginController.AuthenticateUser(PrintingBI.API.Models.LoginDto)">
             <summary>
-            It will checks whether user credentials are valid for the particular domain/host 
+            Authenticates given user for provided hostname 
             </summary>
-            <param name="model"></param>
+            <param name="model">LoginDto</param>
             <returns></returns>
         </member>
         <member name="M:PrintingBI.API.Controllers.LoginController.ForgotPassword(PrintingBI.API.Models.ForgotPassDto)">
@@ -56,6 +56,10 @@
             </summary>
             <param name="model"></param>
             <returns></returns>
+            <remarks>\
+            If the user is valid a token will be sent to the registered email \
+            The token is valid for 3 hours
+            </remarks>
         </member>
         <member name="M:PrintingBI.API.Controllers.LoginController.ResetPassword(PrintingBI.API.Models.ResetPassDto)">
             <summary>
@@ -128,6 +132,41 @@
             User's new password
             </summary>
         </member>
+        <member name="T:PrintingBI.API.Models.ForgotPassDto">
+            <summary>
+            The model to send if user forgets password
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.ForgotPassDto.HostName">
+            <summary>
+            Host name
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.ForgotPassDto.EmailAddress">
+            <summary>
+            Email address of the user to reset the password
+            </summary>
+        </member>
+        <member name="T:PrintingBI.API.Models.LoginDto">
+            <summary>
+            The model to authenticate user for given hostname
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.LoginDto.HostName">
+            <summary>
+            Host name
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.LoginDto.UserName">
+            <summary>
+            User name
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.LoginDto.Password">
+            <summary>
+            Password
+            </summary>
+        </member>
         <member name="P:PrintingBI.API.Models.ChangePassDto.Email">
             <summary>
             Email address of the user 
@@ -151,6 +190,11 @@
         <member name="P:PrintingBI.API.Models.ResendConfirmationEmailInputDto.Email">
             <summary>
             Email address of the user
+            </summary>
+        </member>
+        <member name="T:PrintingBI.API.Models.ResetPassDto">
+            <summary>
+            Model to reset the password
             </summary>
         </member>
     </members>

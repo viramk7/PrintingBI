@@ -4,15 +4,22 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PrintingBI.Data.Entities
 {
-    public class PrinterBIUser
+    public class PrinterBIUser : Entity<int>
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key]
-        public int UserId { get; set; }
         public string FullName { get; set; }
+
+        [Required]
+        [MaxLength(50)]
         public string UserName { get; set; }
+
+        [Required]
+        [MaxLength(32)]
         public string Password { get; set; }
+
+        [Required]
+        [MaxLength(256)]
         public string Email { get; set; }
+
         public int? DepartmentId { get; set; }
         public int? RoleRightsId { get; set; }
         public string Token { get; set; }

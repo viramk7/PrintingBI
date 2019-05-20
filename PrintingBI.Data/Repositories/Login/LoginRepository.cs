@@ -8,7 +8,7 @@ namespace PrintingBI.Data.Repositories.Login
 {
     public class LoginRepository : ILoginRepository
     {
-        public async Task<bool> AuthenticateUser(string connectionString,string userName , string password)
+        public async Task<bool> AuthenticateUser(string connectionString, string userName, string password)
         {
             if (string.IsNullOrEmpty(connectionString))
                 throw new ArgumentException("connection string not provided!");
@@ -43,18 +43,17 @@ namespace PrintingBI.Data.Repositories.Login
             var context = printingBIDbContextFactory.Create(connectionString);
 
             var user = context.PrinterBIUsers.FirstOrDefault(m => m.Email == email);
-            if (user != null)
-            {
-                string token = Guid.NewGuid().ToString();
-                
-                user.Token = token;
-                user.TokenExpiryDate = DateTime.Now.AddHours(3);
-                context.Update(user);
-                await context.SaveChangesAsync();
+            if (user == null)
+                return string.Empty;
 
-                return token;
-            }
-            return string.Empty;
+            string token = Guid.NewGuid().ToString();
+
+            user.Token = token;
+            user.TokenExpiryDate = DateTime.Now.AddHours(3);
+            context.Update(user);
+            await context.SaveChangesAsync();
+
+            return token;
         }
 
         public async Task<string> ResetUserPassByToken(string connectionString, string email, string token, string password)
@@ -67,9 +66,9 @@ namespace PrintingBI.Data.Repositories.Login
 
             var user = context.PrinterBIUsers.FirstOrDefault(m => m.Email == email);
 
-            if(user != null)
+            if (user != null)
             {
-                if(user.Token == token && user.TokenExpiryDate > DateTime.Now)
+                if (user.Token == token && user.TokenExpiryDate > DateTime.Now)
                 {
                     user.Password = password;
                     user.Token = null;
@@ -97,12 +96,12 @@ namespace PrintingBI.Data.Repositories.Login
 
             if (user != null)
             {
-                    user.Password = newPass;
+                user.Password = newPass;
 
-                    context.Update(user);
-                    await context.SaveChangesAsync();
+                context.Update(user);
+                await context.SaveChangesAsync();
 
-                    return true;
+                return true;
             }
             return false;
         }

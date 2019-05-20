@@ -16,9 +16,10 @@ using PrintingBI.Services.LoginService;
 
 namespace PrintingBI.API.Controllers
 {
-    [Route("api/login")]
     [ApiController]
+    [Route("api/login")]
     [Produces("application/json")]
+    [Consumes("application/json")]
     public class LoginController : ControllerBase
     {
         private readonly ILogger<LoginController> _logger;
@@ -35,64 +36,54 @@ namespace PrintingBI.API.Controllers
         }
 
         /// <summary>
-        /// It will checks whether user credentials are valid for the particular domain/host 
+        /// Authenticates given user for provided hostname 
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="model">LoginDto</param>
         /// <returns></returns>
-        [HttpPost("AuthenticateLoginUser")]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPost("AuthenticateUser")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<CustomerInitialInfoModel>> AuthenticateLoginUser(LoginDto model)
+        public async Task<ActionResult> AuthenticateUser(LoginDto model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             try
             {
-                CustomerInitialInfoModel intialInfo = await _adminService.GetCustomerInialInfo(model.HostName);
-
-                if (intialInfo != null && !string.IsNullOrEmpty(intialInfo.TenantDBServer))
-                {
-                    //: TODO : Change static DB info , Change staitc Base url from HttpClientHelper
-
-                    intialInfo.TenantDBServer = "74.208.24.39";
-                    intialInfo.TenantDBName = "PrintingBI-Customer1";
-                    intialInfo.TenantDBUser = "postgres";
-                    intialInfo.TenantDBPassword = "Printerbi@.";
-
-                    bool result = await _loginService.AuthenticateUser(intialInfo.ConnectionString, model.UserName, model.Password);
-                    if (result)
-                    {
-                        var claims = new List<ClaimModel>
-                                {
-                                    new ClaimModel(AuthConstants.DbServer,intialInfo.TenantDBServer),
-                                    new ClaimModel(AuthConstants.DbName,intialInfo.TenantDBName),
-                                    new ClaimModel(AuthConstants.DbUser,intialInfo.TenantDBUser),
-                                    new ClaimModel(AuthConstants.DbPwd,intialInfo.TenantDBPassword),
-                                };
-
-                        var token = TokenBuilder.CreateJsonWebToken(
-                                    model.UserName,
-                                    claims,
-                                    _jwtConfiguration.Audience,
-                                    _jwtConfiguration.Issuer,
-                                    Guid.NewGuid(),
-                                    DateTime.UtcNow.AddMinutes(Convert.ToInt32(_jwtConfiguration.ExpireTime)));
-
-                        return intialInfo;
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "Invalid UserName and Password.");
-                        return BadRequest(ModelState);
-                    }
-                }
-                else
+                var intialInfo = await GetTenantDbInfo(model.HostName);
+                if (intialInfo == null || string.IsNullOrEmpty(intialInfo.TenantDBServer))
                 {
                     ModelState.AddModelError("", "Invalid Host Name.");
                     return BadRequest(ModelState);
                 }
+
+                var result = await _loginService.AuthenticateUser(intialInfo.GetConnectionString(), model.UserName, model.Password);
+                if (!result)
+                {
+                    return StatusCode(StatusCodes.Status401Unauthorized, "Invalid UserName and Password.");
+                }
+
+                var claims = new List<ClaimModel>
+                {
+                    new ClaimModel(AuthConstants.DbServer,intialInfo.TenantDBServer),
+                    new ClaimModel(AuthConstants.DbName,intialInfo.TenantDBName),
+                    new ClaimModel(AuthConstants.DbUser,intialInfo.TenantDBUser),
+                    new ClaimModel(AuthConstants.DbPwd,intialInfo.TenantDBPassword),
+                };
+
+                var token = TokenBuilder.CreateJsonWebToken(
+                            model.UserName,
+                            claims,
+                            _jwtConfiguration.Audience,
+                            _jwtConfiguration.Issuer,
+                            Guid.NewGuid(),
+                            DateTime.UtcNow.AddMinutes(Convert.ToInt32(_jwtConfiguration.ExpireTime)));
+
+                return Ok(new
+                {
+                    token,
+                    ExpiresTime = _jwtConfiguration.ExpireTime
+                });
+
             }
             catch (Exception ex)
             {
@@ -106,36 +97,37 @@ namespace PrintingBI.API.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
+        /// <remarks>\
+        /// If the user is valid a token will be sent to the registered email \
+        /// The token is valid for 3 hours
+        /// </remarks>
         [HttpPost("ForgotPassword")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> ForgotPassword(ForgotPassDto model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             try
             {
-                CustomerInitialInfoModel intialInfo = await _adminService.GetCustomerInialInfo(model.HostName);
-
-                if (intialInfo != null && !string.IsNullOrEmpty(intialInfo.TenantDBServer))
+                var intialInfo = await GetTenantDbInfo(model.HostName);
+                if (intialInfo == null || string.IsNullOrEmpty(intialInfo.TenantDBServer))
                 {
-                    intialInfo.TenantDBServer = "74.208.24.39";
-                    intialInfo.TenantDBName = "PrintingBI-Customer1";
-                    intialInfo.TenantDBUser = "postgres";
-                    intialInfo.TenantDBPassword = "Printerbi@.";
-
-                    bool user = await _loginService.AuthenticateUserByEmail(intialInfo.ConnectionString, model.EmailAddress);
-                    if (!user)
-                        return StatusCode(StatusCodes.Status404NotFound, "Email address in not valid.");
-
-                    var token = _loginService.GeneratePasswordResetToken(intialInfo.ConnectionString, model.EmailAddress);
-                    return Ok(token);
+                    ModelState.AddModelError("", "Invalid Host Name.");
+                    return BadRequest(ModelState);
                 }
 
-                // TODO: Send an email to the user with token
+                bool user = await _loginService.AuthenticateUserByEmail(intialInfo.GetConnectionString(), model.EmailAddress);
+                if (!user)
+                    return StatusCode(StatusCodes.Status404NotFound, "Email address in not valid.");
 
-                return StatusCode(StatusCodes.Status401Unauthorized, "Request is not Unthorized.");
+                var token = await _loginService.GeneratePasswordResetToken(intialInfo.GetConnectionString(), model.EmailAddress);
+
+                // TODO: Send an email with token to reset the password.
+                await System.IO.File.WriteAllTextAsync("ForgotPassword.txt", token);
+
+                return Ok();
+
             }
             catch (Exception ex)
             {
@@ -152,32 +144,25 @@ namespace PrintingBI.API.Controllers
         [HttpPost("ResetPassword")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> ResetPassword(ResetPassDto model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             try
             {
-                CustomerInitialInfoModel intialInfo = await _adminService.GetCustomerInialInfo(model.HostName);
-
-                if (intialInfo != null && !string.IsNullOrEmpty(intialInfo.TenantDBServer))
+                var intialInfo = await GetTenantDbInfo(model.HostName);
+                if (intialInfo == null || string.IsNullOrEmpty(intialInfo.TenantDBServer))
                 {
-                    intialInfo.TenantDBServer = "74.208.24.39";
-                    intialInfo.TenantDBName = "PrintingBI-Customer1";
-                    intialInfo.TenantDBUser = "postgres";
-                    intialInfo.TenantDBPassword = "Printerbi@.";
-
-                    string userResult = await _loginService.ResetUserPassByToken(intialInfo.ConnectionString, model.Email, model.Token, model.Password);
-                    if (!string.IsNullOrEmpty(userResult))
-                        return StatusCode(StatusCodes.Status204NoContent, userResult);
-                    else
-                        return StatusCode(StatusCodes.Status200OK, "Password Reset Successfully.");
-
+                    ModelState.AddModelError("", "Invalid Host Name.");
+                    return BadRequest(ModelState);
                 }
 
-                return StatusCode(StatusCodes.Status401Unauthorized, "Request is not Unthorized.");
+                string userResult = await _loginService.ResetUserPassByToken(intialInfo.GetConnectionString(), model.Email, model.Token, model.Password);
+                if (!string.IsNullOrEmpty(userResult))
+                    return StatusCode(StatusCodes.Status401Unauthorized, userResult);
+                else
+                    return Ok("Password Reset Successfully.");
+
             }
             catch (Exception ex)
             {
@@ -203,25 +188,21 @@ namespace PrintingBI.API.Controllers
                 return BadRequest(ModelState);
             try
             {
-                CustomerInitialInfoModel intialInfo = await _adminService.GetCustomerInialInfo(model.HostName);
-
-                if (intialInfo != null && !string.IsNullOrEmpty(intialInfo.TenantDBServer))
+                var intialInfo = await GetTenantDbInfo(model.HostName);
+                if (intialInfo == null || string.IsNullOrEmpty(intialInfo.TenantDBServer))
                 {
-                    intialInfo.TenantDBServer = "74.208.24.39";
-                    intialInfo.TenantDBName = "PrintingBI-Customer1";
-                    intialInfo.TenantDBUser = "postgres";
-                    intialInfo.TenantDBPassword = "Printerbi@.";
-
-                    bool result = await _loginService.ChangeUserPassword(intialInfo.ConnectionString, model.Email, model.OldPassword, model.NewPassword);
-
-                    if (!result)
-                        return StatusCode(StatusCodes.Status401Unauthorized, "Invalid Email & old password.");
-                    else
-                        return StatusCode(StatusCodes.Status200OK, "Password Changed Successfully.");
-
+                    ModelState.AddModelError("", "Invalid Host Name.");
+                    return BadRequest(ModelState);
                 }
 
-                return StatusCode(StatusCodes.Status401Unauthorized, "Request is not Unthorized.");
+                bool result = await _loginService.ChangeUserPassword(intialInfo.GetConnectionString(), model.Email, model.OldPassword, model.NewPassword);
+
+                if (!result)
+                    return StatusCode(StatusCodes.Status401Unauthorized, "Invalid Email & old password.");
+                else
+                    return Ok("Password Changed Successfully.");
+
+
             }
             catch (Exception ex)
             {
@@ -252,7 +233,7 @@ namespace PrintingBI.API.Controllers
                         info = intialInfo
                     });
                 }
-                
+
                 return NotFound();
             }
             catch (Exception ex)
@@ -261,5 +242,22 @@ namespace PrintingBI.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong!");
             }
         }
+
+        #region Helpers
+
+        private async Task<CustomerInitialInfoModel> GetTenantDbInfo(string hostName)
+        {
+            var intialInfo = await _adminService.GetCustomerInialInfo(hostName);
+
+            // TODO: Remove this in live
+            intialInfo.TenantDBServer = "74.208.24.39";
+            intialInfo.TenantDBName = "PrintingBI-Customer1";
+            intialInfo.TenantDBUser = "postgres";
+            intialInfo.TenantDBPassword = "Printerbi@.";
+
+            return intialInfo;
+        }
+
+        #endregion
     }
 }

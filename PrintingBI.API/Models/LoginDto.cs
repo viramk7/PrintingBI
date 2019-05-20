@@ -1,47 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PrintingBI.API.Models
 {
+    /// <summary>
+    /// The model to authenticate user for given hostname
+    /// </summary>
     public class LoginDto
     {
+        /// <summary>
+        /// Host name
+        /// </summary>
         [Required]
+        [MaxLength(30)]
         public string HostName { get; set; }
 
+        /// <summary>
+        /// User name
+        /// </summary>
         [Required]
+        [MaxLength(50)]
         public string UserName { get; set; }
 
+        /// <summary>
+        /// Password
+        /// </summary>
         [Required]
-        public string Password { get; set; }
-    }
-
-    public class ForgotPassDto
-    {
-        [Required]
-        public string HostName { get; set; }
-
-        [Required]
-        [EmailAddress]
-        public string EmailAddress { get; set; }
-    }
-
-    public class ResetPassDto
-    {
-        [Required]
-        public string HostName { get; set; }
-
-        [Required]
-        public string Token { get; set; }
-
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-
-        [Required]
-        [DataType(DataType.Password)]
+        [MaxLength(32)] 
         public string Password { get; set; }
     }
 
