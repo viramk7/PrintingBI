@@ -6,6 +6,7 @@ using PrintingBI.Data.Repositories.Generic;
 using PrintingBI.Data.Repositories.Login;
 using PrintingBI.Data.Repositories.Provisioning;
 using PrintingBI.Data.Repositories.ProvisionPowerBITenants;
+using PrintingBI.Data.Repositories.Users;
 using PrintingBI.Services.AdminTenantService;
 using PrintingBI.Services.Author;
 using PrintingBI.Services.Departments;
@@ -15,6 +16,7 @@ using PrintingBI.Services.HttpClientHelpers;
 using PrintingBI.Services.LoginService;
 using PrintingBI.Services.Provisioning;
 using PrintingBI.Services.ProvisionPowerBITenants;
+using PrintingBI.Services.Users;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -34,7 +36,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<IProvisioningRepository, ProvisioningRepository>();
             services.AddTransient<ILoginRepository, LoginRepository>();
             services.AddTransient<IDepartmentRepository, DepartmentRepository>();
-
+            services.AddTransient<IUserRepository, UserRepository>();
+            
             //services.TryAddEnumerable(new[]
             //{
             //    ServiceDescriptor.Transient<IProvisionTable,ProvisionUserTable>(),
@@ -57,10 +60,13 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<IFilterDeptListToEntityHelper, FilterDeptListToEntityHelper>();
             services.AddTransient<IDepartmentService, DepartmentService>();
             services.AddTransient<IAdminTenantService, AdminTenantService>();
+            services.AddTransient<IUserService, UserService>();
 
             // Helpers
             services.AddTransient<IExtractDeptDataFromExcel, ExtractDeptDataFromExcel>();
-            
+            services.AddTransient<IExtractUserDataFromExcel, ExtractUserDataFromExcel>();
+            services.AddTransient<IFilterUsertListToEntityHelper, FilterUsertListToEntityHelper>();
+
 
             return services;
         }

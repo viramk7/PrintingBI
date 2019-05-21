@@ -20,8 +20,8 @@ namespace PrintingBI.Data.Entities
         [MaxLength(256)]
         public string Email { get; set; }
 
-        public int? DepartmentId { get; set; }
-        public int? RoleRightsId { get; set; }
+        public Guid? DepartmentId { get; set; }
+        public Guid? RoleRightsId { get; set; }
         public string Token { get; set; }
         public DateTime? TokenExpiryDate { get; set; }
         public bool IsSuperAdmin { get; set; }

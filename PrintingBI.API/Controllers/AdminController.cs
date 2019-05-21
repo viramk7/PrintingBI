@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using PrintingBI.API.Models;
 using PrintingBI.Services.Departments;
 using PrintingBI.Services.ProvisionPowerBITenants;
+using PrintingBI.Services.Users;
 using System;
 using System.Threading.Tasks;
 
@@ -16,14 +17,16 @@ namespace PrintingBI.API.Controllers
     {
         private readonly IProvisionPowerBITenantsService _provisionPowerBITenantsService;
         private readonly IDepartmentService _departmentService;
+        private readonly IUserService _userService;
         private readonly ILogger<AdminController> _logger;
 
         public AdminController(IProvisionPowerBITenantsService provisionPowerBITenantsService,
-                               IDepartmentService departmentService,
+                               IDepartmentService departmentService, IUserService userService,
                                ILogger<AdminController> logger)
         {
             _provisionPowerBITenantsService = provisionPowerBITenantsService;
             _departmentService = departmentService;
+            _userService = userService;
             _logger = logger;
         }
 
@@ -79,6 +82,21 @@ namespace PrintingBI.API.Controllers
             try
             {
                 await _departmentService.Insert(model.ConnectionString, model.DepartmentFile);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.StackTrace);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost("InsertUsers")]
+        public async Task<ActionResult> InsertUsers([FromForm]InsertUserInputDto model)
+        {
+            try
+            {
+                await _userService.Insert(model.ConnectionString, model.UserFile);
                 return Ok();
             }
             catch (Exception ex)
