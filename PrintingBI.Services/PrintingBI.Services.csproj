@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PrintingBI.Common\PrintingBI.Common.csproj" />
     <ProjectReference Include="..\PrintingBI.Data\PrintingBI.Data.csproj" />
   </ItemGroup>
 

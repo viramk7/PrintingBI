@@ -13,6 +13,7 @@ using PrintingBI.Authentication.Models.Dtos;
 using PrintingBI.Data.CustomModel;
 using PrintingBI.Services.AdminTenantService;
 using PrintingBI.Services.LoginService;
+using PrintingBI.Services.Notification;
 
 namespace PrintingBI.API.Controllers
 {
@@ -26,13 +27,19 @@ namespace PrintingBI.API.Controllers
         private readonly IAdminTenantService _adminService;
         private readonly ILoginService _loginService;
         private readonly IJwtConfiguration _jwtConfiguration;
+        private readonly IEmailNotificationService _emailNotificationService;
 
-        public LoginController(ILogger<LoginController> logger, IAdminTenantService adminService, ILoginService loginService, IJwtConfiguration jwtConfiguration)
+        public LoginController(ILogger<LoginController> logger, 
+                              IAdminTenantService adminService, 
+                              ILoginService loginService, 
+                              IJwtConfiguration jwtConfiguration,
+                              IEmailNotificationService emailNotificationService)
         {
             _logger = logger;
             _adminService = adminService;
             _loginService = loginService;
             _jwtConfiguration = jwtConfiguration;
+            _emailNotificationService = emailNotificationService;
         }
 
         /// <summary>
@@ -123,9 +130,8 @@ namespace PrintingBI.API.Controllers
 
                 var token = await _loginService.GeneratePasswordResetToken(intialInfo.GetConnectionString(), model.EmailAddress);
 
-                // TODO: Send an email with token to reset the password.
-                await System.IO.File.WriteAllTextAsync("ForgotPassword.txt", token);
-
+                _emailNotificationService.SendAsyncEmail(model.EmailAddress, "Password reset token", token, true);
+                
                 return Ok();
 
             }

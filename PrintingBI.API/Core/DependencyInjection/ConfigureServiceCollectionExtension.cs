@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using PrintingBI.API.Configuration;
+using PrintingBI.Common;
 using PrintingBI.Services.AdminConfiguration;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -19,6 +20,11 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.TryAddSingleton<IAdminConfiguration>(sp =>
                         sp.GetRequiredService<IOptions<AdminConfiguration>>().Value);
+
+            services.Configure<EmailConfig>(config.GetSection("EmailConfig"));
+
+            services.TryAddSingleton<IEmailConfig>(sp =>
+                sp.GetRequiredService<IOptions<EmailConfig>>().Value);
 
             return services;
         }

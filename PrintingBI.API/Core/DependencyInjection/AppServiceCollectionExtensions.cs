@@ -14,6 +14,7 @@ using PrintingBI.Services.Entities;
 using PrintingBI.Services.Helper;
 using PrintingBI.Services.HttpClientHelpers;
 using PrintingBI.Services.LoginService;
+using PrintingBI.Services.Notification;
 using PrintingBI.Services.Provisioning;
 using PrintingBI.Services.ProvisionPowerBITenants;
 using PrintingBI.Services.Users;
@@ -60,7 +61,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<IFilterDeptListToEntityHelper, FilterDeptListToEntityHelper>();
             services.AddTransient<IDepartmentService, DepartmentService>();
             services.AddTransient<IAdminTenantService, AdminTenantService>();
-            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IEmailNotificationService, EmailNotificationService>();
 
             // Helpers
             services.AddTransient<IExtractDeptDataFromExcel, ExtractDeptDataFromExcel>();
