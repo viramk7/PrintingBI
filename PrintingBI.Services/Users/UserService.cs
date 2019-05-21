@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using PrintingBI.Data.Repositories.Users;
 using PrintingBI.Services.Helper;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PrintingBI.Services.Users
@@ -20,10 +17,14 @@ namespace PrintingBI.Services.Users
             _filterUseListToEntityHelper = filterUseListToEntityHelper;
         }
 
-        public async Task Insert(string connectionString, IFormFile file)
+        public async Task<(bool,string)> Insert(string connectionString, IFormFile file)
         {
-            var userslist = _filterUseListToEntityHelper.CreateUserList(file,connectionString);
+            var (isSuccess,message, userslist) = await _filterUseListToEntityHelper.CreateUserList(file,connectionString);
+            if (!isSuccess)
+                return (isSuccess, message);
+
             await _userRepo.Insert(connectionString, userslist);
+            return (isSuccess, string.Empty);
         }
     }
 }

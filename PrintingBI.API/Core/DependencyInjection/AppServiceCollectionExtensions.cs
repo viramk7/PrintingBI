@@ -62,6 +62,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<IDepartmentService, DepartmentService>();
             services.AddTransient<IAdminTenantService, AdminTenantService>();
             services.AddTransient<IEmailNotificationService, EmailNotificationService>();
+            services.AddTransient<IUserService, UserService>();
 
             // Helpers
             services.AddTransient<IExtractDeptDataFromExcel, ExtractDeptDataFromExcel>();

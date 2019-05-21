@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using PrintingBI.Data.Entities;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace PrintingBI.Services.Helper
 {
     public interface IFilterUsertListToEntityHelper
     {
-        IEnumerable<PrinterBIUser> CreateUserList(IFormFile file, string connectionString);
+        Task<(bool, string, IEnumerable<PrinterBIUser>)> CreateUserList(IFormFile file, string connectionString);
     }
 }

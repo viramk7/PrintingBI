@@ -235,8 +235,8 @@ namespace PrintingBI.API.Controllers
                 {
                     return Ok(new
                     {
-                        valid = true,
-                        info = intialInfo
+                        Valid = true,
+                        Info = intialInfo
                     });
                 }
 

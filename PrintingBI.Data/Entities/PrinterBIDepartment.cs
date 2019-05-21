@@ -2,7 +2,7 @@
 
 namespace PrintingBI.Data.Entities
 {
-    public class Department : Entity<Guid>
+    public class PrinterBIDepartment : Entity<Guid>
     {
         public Guid? ParentId { get; set; }
         public string DepartmentName { get; set; }

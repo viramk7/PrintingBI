@@ -14,7 +14,7 @@ namespace PrintingBI.Services.Helper
             _departments = departments;
         }
 
-        public IEnumerable<Department> CreateDepartmentHierarchy(IFormFile file)
+        public IEnumerable<PrinterBIDepartment> CreateDepartmentHierarchy(IFormFile file)
         {
             var items = _departments.GetDepartments(file);
 
@@ -37,10 +37,10 @@ namespace PrintingBI.Services.Helper
                     depts.Add(item.Value, Guid.NewGuid());
             }
 
-            var departments = new List<Department>();
+            var departments = new List<PrinterBIDepartment>();
             foreach (var dept in depts)
             {
-                var entity = new Department
+                var entity = new PrinterBIDepartment
                 {
                     Id = dept.Value,
                     ParentId = Guid.Empty,

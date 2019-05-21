@@ -9,7 +9,7 @@ namespace PrintingBI.Data.Repositories.Departments
 {
     public class DepartmentRepository : IDepartmentRepository
     {
-        public async Task Insert(string connectionString, IEnumerable<Department> departments)
+        public async Task Insert(string connectionString, IEnumerable<PrinterBIDepartment> departments)
         {
             if (string.IsNullOrEmpty(connectionString))
                 throw new ArgumentException("connection string not provided!");
@@ -17,15 +17,15 @@ namespace PrintingBI.Data.Repositories.Departments
             var printingBIDbContextFactory = new PrintingBIDbContextFactory();
             var context = printingBIDbContextFactory.Create(connectionString);
 
-            var oldDepts = await context.Departments.ToListAsync();
-            context.Departments.RemoveRange(oldDepts);
+            var oldDepts = await context.PrinterBIDepartments.ToListAsync();
+            context.PrinterBIDepartments.RemoveRange(oldDepts);
             await context.SaveChangesAsync();
 
-            await context.Departments.AddRangeAsync(departments);
+            await context.PrinterBIDepartments.AddRangeAsync(departments);
             await context.SaveChangesAsync();
         }
 
-        public async Task<List<Department>> GetDepartmentList(string connectionString)
+        public async Task<List<PrinterBIDepartment>> GetDepartmentList(string connectionString)
         {
             if (string.IsNullOrEmpty(connectionString))
                 throw new ArgumentException("connection string not provided!");
@@ -33,8 +33,7 @@ namespace PrintingBI.Data.Repositories.Departments
             var printingBIDbContextFactory = new PrintingBIDbContextFactory();
             var context = printingBIDbContextFactory.Create(connectionString);
 
-            List<Department>  departementList = await context.Departments.ToListAsync();
-            return departementList;
+            return await context.PrinterBIDepartments.ToListAsync();
         }
     }
 }

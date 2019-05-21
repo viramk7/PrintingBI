@@ -3,7 +3,9 @@ using PrintingBI.Data.Entities;
 using PrintingBI.Data.Repositories.Departments;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PrintingBI.Services.Helper
 {
@@ -18,11 +20,12 @@ namespace PrintingBI.Services.Helper
             _departRepo = deptRepo;
         }
 
-        public IEnumerable<PrinterBIUser> CreateUserList(IFormFile file,string connectionString)
+        public async Task<(bool, string, IEnumerable<PrinterBIUser>)> CreateUserList(IFormFile file, string connectionString)
         {
             var items = _users.GetUsers(file);
-            var departmentlist = _departRepo.GetDepartmentList(connectionString).Result;
-
+            var departmentlist = await _departRepo.GetDepartmentList(connectionString);
+            if (!departmentlist.Any())
+                return (false, "There are no departments in db. Please add departments.", null);
 
             var users = new List<PrinterBIUser>();
 
@@ -38,24 +41,28 @@ namespace PrintingBI.Services.Helper
 
                 if (!string.IsNullOrEmpty(userObj.DepartmentName))
                 {
-                    if (departmentlist.Exists(m => m.DepartmentName == userObj.DepartmentName))
-                    {
-                        entity.DepartmentId = departmentlist.Find(m => m.DepartmentName == userObj.DepartmentName).Id; ;
-                    }
+                    var department = departmentlist
+                        .FirstOrDefault(m => m.DepartmentName.Equals(userObj.DepartmentName, StringComparison.OrdinalIgnoreCase));
+
+                    if (department != null)
+                        entity.DepartmentId = department.Id;
                 }
 
                 if (!string.IsNullOrEmpty(userObj.RoleRightsName))
                 {
-                    if (departmentlist.Exists(m => m.DepartmentName == userObj.RoleRightsName))
-                    {
-                        entity.RoleRightsId = departmentlist.Find(m => m.DepartmentName == userObj.RoleRightsName).Id;
-                    }
+                    var roleRights =
+                        departmentlist
+                            .FirstOrDefault(m => m.DepartmentName.Equals(userObj.RoleRightsName, StringComparison.OrdinalIgnoreCase));
+
+                    if (roleRights != null)
+                        entity.RoleRightsId = roleRights.Id;
                 }
 
                 users.Add(entity);
             }
 
-            return users;
+
+            return (true, string.Empty, users);
         }
 
         public string CreatePassword(int length)

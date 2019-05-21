@@ -39,7 +39,7 @@ namespace PrintingBI.API.Controllers
             try
             {
                 var (succeed, message) = await
-                _provisionPowerBITenantsService.Provision(model.ConnectionString);
+                _provisionPowerBITenantsService.Provision(model.GetConnectionString());
 
                 if (succeed)
                     return Ok();
@@ -62,7 +62,7 @@ namespace PrintingBI.API.Controllers
             try
             {
                 var (succeed, message) = await
-                _provisionPowerBITenantsService.DeProvision(model.ConnectionString);
+                _provisionPowerBITenantsService.DeProvision(model.GetConnectionString());
 
                 if (succeed)
                     return Ok();
@@ -81,7 +81,7 @@ namespace PrintingBI.API.Controllers
         {
             try
             {
-                await _departmentService.Insert(model.ConnectionString, model.DepartmentFile);
+                await _departmentService.Insert(model.GetConnectionString(), model.DepartmentFile);
                 return Ok();
             }
             catch (Exception ex)
@@ -96,7 +96,13 @@ namespace PrintingBI.API.Controllers
         {
             try
             {
-                await _userService.Insert(model.ConnectionString, model.UserFile);
+                var (isSuccess,message) = await _userService.Insert(model.GetConnectionString(), model.UserFile);
+                if(!isSuccess)
+                {
+                    ModelState.AddModelError("", message);
+                    return BadRequest(ModelState);
+                }
+
                 return Ok();
             }
             catch (Exception ex)

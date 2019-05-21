@@ -19,7 +19,7 @@ namespace PrintingBI.Data
         
         public DbSet<PrinterBIUser> PrinterBIUsers { get; set; }
 
-        public DbSet<Department> Departments { get; set; }
+        public DbSet<PrinterBIDepartment> PrinterBIDepartments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -31,20 +31,6 @@ namespace PrintingBI.Data
                     UserName = "admin",
                     Email = "admin@gmail.com",
                     Password = "12345",
-                    DepartmentId = null,
-                    RoleRightsId = null,
-                    Token = null,
-                    TokenExpiryDate = null,
-                    IsSuperAdmin = true,
-                    IsPassChange = true
-                },
-                new PrinterBIUser
-                {
-                    Id = -2,
-                    FullName = "Viram Keshwala" ,
-                    UserName = "viramk7",
-                    Email = "viramk7@gmail.com",
-                    Password = "123456",
                     DepartmentId = null,
                     RoleRightsId = null,
                     Token = null,

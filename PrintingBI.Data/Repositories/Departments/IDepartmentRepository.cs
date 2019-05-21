@@ -6,7 +6,7 @@ namespace PrintingBI.Data.Repositories.Departments
 {
     public interface IDepartmentRepository
     {
-        Task Insert(string connectionString, IEnumerable<Department> departments);
-        Task<List<Department>> GetDepartmentList(string connectionString);
+        Task Insert(string connectionString, IEnumerable<PrinterBIDepartment> departments);
+        Task<List<PrinterBIDepartment>> GetDepartmentList(string connectionString);
     }
 }

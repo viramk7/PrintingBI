@@ -16,14 +16,10 @@ namespace PrintingBI.API.Models
 
         [Required]
         public string Password { get; set; }
-
-        [ScaffoldColumn(false)]
-        public string ConnectionString
+        
+        public string GetConnectionString()
         {
-            get
-            {
-                return $"User ID={UserName};password={Password};Server={Server};port=5432;Database={DbName};Integrated Security=true; Pooling=true";
-            }
+            return $"User ID={UserName};password={Password};Server={Server};port=5432;Database={DbName};Integrated Security=true; Pooling=true";
         }
 
     }
