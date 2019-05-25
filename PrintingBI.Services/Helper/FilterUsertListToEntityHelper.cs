@@ -22,7 +22,11 @@ namespace PrintingBI.Services.Helper
 
         public async Task<(bool, string, IEnumerable<PrinterBIUser>)> CreateUserList(IFormFile file, string connectionString)
         {
-            var items = _users.GetUsers(file);
+            var (isFileValid, items) = _users.GetUsers(file);
+
+            if (!isFileValid)
+                return (false, "File is not valid.",null);
+
             var departmentlist = await _departRepo.GetDepartmentList(connectionString);
             if (!departmentlist.Any())
                 return (false, "There are no departments in db. Please add departments.", null);

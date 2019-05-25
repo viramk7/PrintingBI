@@ -1,56 +1,80 @@
 ﻿using Microsoft.AspNetCore.Http;
+using PrintingBI.Common;
+using PrintingBI.Common.Configurations.FileConfigurations;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 
 namespace PrintingBI.Services.Helper
 {
     public class ExtractUserDataFromExcel : IExtractUserDataFromExcel
     {
-        public List<UserFromExcel> GetUsers(IFormFile file)
+        private readonly IUserFileConfig _userFileConfig;
+
+        public ExtractUserDataFromExcel(IUserFileConfig userFileConfig)
         {
-            // Extract the users from excel and fill into the list below
+            _userFileConfig = userFileConfig;
+        }
 
-            List<UserFromExcel> userlist = new List<UserFromExcel>();
+        public (bool, List<UserFromExcel>) GetUsers(IFormFile file)
+        {
+            var csvData = CSVHelper.ReadCSVFile(file);
+            var rowWiseData = csvData.Split('\n');
 
-            if (file.FileName.EndsWith(".csv"))
+            if (!ValidateUserFile(rowWiseData))
+                return (false, null);
+
+            int rowNumber = 1;
+            var userlist = new List<UserFromExcel>();
+            foreach (string row in rowWiseData)
             {
-                var csvData = string.Empty;
-                using (var reader = new StreamReader(file.OpenReadStream()))
+                if (row == null)
+                    break;
+
+                if (rowNumber == 1)
                 {
-                    csvData = reader.ReadToEnd();
-                }
-
-                int rowNumber = 1;
-                foreach (string row in csvData.Split('\n'))
-                {
-                    if (row == null)
-                    {
-                        break;
-                    }
-
-                    if (rowNumber != 1)
-                    {
-                        if (!string.IsNullOrEmpty(row))
-                        {
-                            userlist.Add(new UserFromExcel
-                            {
-                                UserName = row.Split(',')[0],
-                                FullName = row.Split(',')[1].TrimEnd('\r'),
-                                Email = row.Split(',')[2].TrimEnd('\r'),
-                                DepartmentName = row.Split(',')[3].TrimEnd('\r'),
-                                RoleRightsName = row.Split(',')[4].TrimEnd('\r'),
-                            });
-
-                        }
-                    }
                     rowNumber++;
+                    continue;
                 }
+
+
+                if (!string.IsNullOrEmpty(row))
+                {
+                    var rowData = row.Split(',');
+                    userlist.Add(new UserFromExcel
+                    {
+                        UserName = rowData[0],
+                        FullName = rowData[1].TrimEnd('\r'),
+                        Email = rowData[2].TrimEnd('\r'),
+                        DepartmentName = rowData[3].TrimEnd('\r'),
+                        RoleRightsName = rowData[4].TrimEnd('\r'),
+                    });
+
+                }
+
+                rowNumber++;
             }
 
-            return userlist;
+            return (true, userlist);
         }
-       
+
+        private bool ValidateUserFile(string[] rowWiseData)
+        {
+            var firstRow = rowWiseData[0].Split(',');
+
+            if (firstRow.Length < 5)
+                return false;
+
+            var firstColumn = firstRow[0];
+            var secondColumn = firstRow[1].TrimEnd('\r');
+            var thirdColumn = firstRow[2].TrimEnd('\r');
+            var forthColumn = firstRow[3].TrimEnd('\r');
+            var fifthColumn = firstRow[4].TrimEnd('\r');
+
+            return firstColumn.ToLower() == _userFileConfig.FirstColumnName.ToLower()
+                && secondColumn.ToLower() == _userFileConfig.SecondColumnName.ToLower()
+                && thirdColumn.ToLower() == _userFileConfig.ThirdColumnName.ToLower()
+                && forthColumn.ToLower() == _userFileConfig.ForthColumnName.ToLower()
+                && fifthColumn.ToLower() == _userFileConfig.FifthColumnName.ToLower();
+        }
     }
 }

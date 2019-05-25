@@ -32,6 +32,11 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddSingleton<IDepartmentFileConfig>(sp =>
                 sp.GetRequiredService<IOptions<DepartmentFileConfig>>().Value);
 
+            services.Configure<UserFileConfig>(config.GetSection("UserFileConfig"));
+
+            services.TryAddSingleton<IUserFileConfig>(sp =>
+                sp.GetRequiredService<IOptions<UserFileConfig>>().Value);
+
             return services;
         }
          

@@ -30,7 +30,11 @@ namespace PrintingBI.Services.Helper
                     break;
 
                 if (rowNumber == 1)
+                {
+                    rowNumber++;
                     continue;
+                }
+                    
 
                 if (!string.IsNullOrEmpty(row))
                 {
@@ -52,10 +56,10 @@ namespace PrintingBI.Services.Helper
         {
             var firstRow = rowWiseData[0].Split(',');
             var firstColumn = firstRow[0];
-            var SecondColumn = firstRow[1];
+            var SecondColumn = firstRow[1]?.TrimEnd('\r');
 
             return firstColumn.ToLower() == _departmentFileConfig.FirstColumnName.ToLower() &&
-                   SecondColumn.TrimEnd('\r').ToLower() == _departmentFileConfig.SecondColumnName.ToLower();
+                   SecondColumn.ToLower() == _departmentFileConfig.SecondColumnName.ToLower();
         }
     }
 }
