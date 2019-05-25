@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using PrintingBI.API.Configuration;
 using PrintingBI.Common;
+using PrintingBI.Common.Configurations.FileConfigurations;
 using PrintingBI.Services.AdminConfiguration;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -25,6 +26,11 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.TryAddSingleton<IEmailConfig>(sp =>
                 sp.GetRequiredService<IOptions<EmailConfig>>().Value);
+
+            services.Configure<DepartmentFileConfig>(config.GetSection("DepartmentFileConfig"));
+
+            services.TryAddSingleton<IDepartmentFileConfig>(sp =>
+                sp.GetRequiredService<IOptions<DepartmentFileConfig>>().Value);
 
             return services;
         }

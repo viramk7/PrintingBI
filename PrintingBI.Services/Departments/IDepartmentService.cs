@@ -5,6 +5,6 @@ namespace PrintingBI.Services.Departments
 {
     public interface IDepartmentService
     {
-        Task Insert(string connectionString, IFormFile file);
+        Task<(bool, string)> Insert(string connectionString, IFormFile file);
     }
 }

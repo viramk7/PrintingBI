@@ -17,10 +17,16 @@ namespace PrintingBI.Services.Departments
             _filterDeptListToEntityHelper = filterDeptListToEntityHelper;
         }
 
-        public async Task Insert(string connectionString, IFormFile file)
+        public async Task<(bool, string)> Insert(string connectionString, IFormFile file)
         {
-            var departments = _filterDeptListToEntityHelper.CreateDepartmentHierarchy(file);
+            var (isValidFile, departments) = _filterDeptListToEntityHelper.CreateDepartmentHierarchy(file);
+
+            if (!isValidFile)
+                return (false, "File is not valid.");
+
             await _departmentRepository.Insert(connectionString, departments);
+
+            return (true, "Success");
         }
     }
 }

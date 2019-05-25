@@ -14,9 +14,12 @@ namespace PrintingBI.Services.Helper
             _departments = departments;
         }
 
-        public IEnumerable<PrinterBIDepartment> CreateDepartmentHierarchy(IFormFile file)
+        public (bool,IEnumerable<PrinterBIDepartment>) CreateDepartmentHierarchy(IFormFile file)
         {
-            var items = _departments.GetDepartments(file);
+            var (isValidFile,items) = _departments.GetDepartments(file);
+
+            if (!isValidFile)
+                return (false, null);
 
             var dataMap = new Dictionary<string, string>();
             items.ForEach(item =>
@@ -57,7 +60,7 @@ namespace PrintingBI.Services.Helper
                 departments.Add(entity);
             }
 
-            return departments;
+            return (true,departments);
         }
     }
 }

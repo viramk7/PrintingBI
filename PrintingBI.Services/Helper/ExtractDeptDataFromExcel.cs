@@ -1,66 +1,61 @@
-﻿using CsvHelper;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using PrintingBI.Common;
+using PrintingBI.Common.Configurations.FileConfigurations;
 using System.Collections.Generic;
-using System.IO;
 
 namespace PrintingBI.Services.Helper
 {
     public class ExtractDeptDataFromExcel : IExtractDeptDataFromExcel
     {
-        public List<DepartmentFromExcel> GetDepartments(IFormFile file)
+        private readonly IDepartmentFileConfig _departmentFileConfig;
+
+        public ExtractDeptDataFromExcel(IDepartmentFileConfig departmentFileConfig)
         {
-            // Extract the departments from excel and fill into the list below
+            _departmentFileConfig = departmentFileConfig;
+        }
 
-            List<DepartmentFromExcel> departmentlist = new List<DepartmentFromExcel>();
+        public (bool, List<DepartmentFromExcel>) GetDepartments(IFormFile file)
+        {
+            var csvData = CSVHelper.ReadCSVFile(file);
+            var rowWiseData = csvData.Split('\n');
 
-            if (file.FileName.EndsWith(".csv"))
+            if (!ValidateFile(rowWiseData))
+                return (false, null);
+
+            var rowNumber = 1;
+            var departmentlist = new List<DepartmentFromExcel>();
+            foreach (string row in rowWiseData)
             {
-                var csvData = string.Empty;
-                using (var reader = new StreamReader(file.OpenReadStream()))
+                if (row == null)
+                    break;
+
+                if (rowNumber == 1)
+                    continue;
+
+                if (!string.IsNullOrEmpty(row))
                 {
-                    csvData = reader.ReadToEnd();
+                    var rowData = row.Split(',');
+                    departmentlist.Add(new DepartmentFromExcel
+                    {
+                        DepartmentName = rowData[0],
+                        ParentDepartmentName = rowData[1]?.TrimEnd('\r'),
+                    });
                 }
 
-                int rowNumber = 1;
-                foreach (string row in csvData.Split('\n'))
-                {
-                    if (row == null)
-                    {
-                        break;
-                    }
-
-                    if (rowNumber != 1)
-                    {
-                        if (!string.IsNullOrEmpty(row))
-                        {
-                            departmentlist.Add(new DepartmentFromExcel
-                            {
-                                DepartmentName = row.Split(',')[0],
-                                ParentDepartmentName = row.Split(',')[1].TrimEnd('\r'),
-                            });
-                            
-                        }
-                    }
-                    rowNumber++;
-                }
+                rowNumber++;
             }
 
-            return departmentlist;
+            return (true, departmentlist);
+        }
 
-            //return new List<DepartmentFromExcel>
-            //{
-            //    new DepartmentFromExcel("abc","xyz"),
-            //    new DepartmentFromExcel("abc2","xyz"),
-            //    new DepartmentFromExcel("abc3","xyz"),
-            //    new DepartmentFromExcel("abc4","abc"),
-            //    new DepartmentFromExcel("abc5","abc"),
-            //    new DepartmentFromExcel("abc6","abc2"),
-            //    new DepartmentFromExcel("abc7","pqr"),
-            //    new DepartmentFromExcel("abc8","pqr"),
-            //    new DepartmentFromExcel("abc9","abc7"),
-            //    new DepartmentFromExcel("abc10",""),
-            //    new DepartmentFromExcel("abc11",""),
-            //};
+        private bool ValidateFile(string[] rowWiseData)
+        {
+            var firstRow = rowWiseData[0].Split(',');
+            var firstColumn = firstRow[0];
+            var SecondColumn = firstRow[1];
+
+            return firstColumn.ToLower() == _departmentFileConfig.FirstColumnName.ToLower() &&
+                   SecondColumn.TrimEnd('\r').ToLower() == _departmentFileConfig.SecondColumnName.ToLower();
         }
     }
 }

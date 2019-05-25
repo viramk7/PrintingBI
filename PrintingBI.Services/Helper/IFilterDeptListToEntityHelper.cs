@@ -6,6 +6,6 @@ namespace PrintingBI.Services.Helper
 {
     public interface IFilterDeptListToEntityHelper
     {
-        IEnumerable<PrinterBIDepartment> CreateDepartmentHierarchy(IFormFile file);
+        (bool, IEnumerable<PrinterBIDepartment>) CreateDepartmentHierarchy(IFormFile file);
     }
 }

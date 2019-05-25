@@ -81,7 +81,15 @@ namespace PrintingBI.API.Controllers
         {
             try
             {
-                await _departmentService.Insert(model.GetConnectionString(), model.DepartmentFile);
+                var (isFileValid, message) = await
+                    _departmentService.Insert(model.GetConnectionString(), model.DepartmentFile);
+
+                if (!isFileValid)
+                {
+                    ModelState.AddModelError("", message);
+                    return BadRequest(ModelState);
+                }
+
                 return Ok();
             }
             catch (Exception ex)
@@ -96,8 +104,8 @@ namespace PrintingBI.API.Controllers
         {
             try
             {
-                var (isSuccess,message) = await _userService.Insert(model.GetConnectionString(), model.UserFile);
-                if(!isSuccess)
+                var (isSuccess, message) = await _userService.Insert(model.GetConnectionString(), model.UserFile);
+                if (!isSuccess)
                 {
                     ModelState.AddModelError("", message);
                     return BadRequest(ModelState);

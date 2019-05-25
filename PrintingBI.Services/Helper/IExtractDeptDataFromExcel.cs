@@ -5,6 +5,6 @@ namespace PrintingBI.Services.Helper
 {
     public interface IExtractDeptDataFromExcel
     {
-        List<DepartmentFromExcel> GetDepartments(IFormFile file);
+        (bool, List<DepartmentFromExcel>) GetDepartments(IFormFile file);
     }
 }
