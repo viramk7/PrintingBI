@@ -39,6 +39,6 @@ namespace PrintingBI.Services.Entities
 
         void Delete<TDto>(IEnumerable<TDto> dtos);
 
-        void Delete(object id);
+        void Delete(int id);
     }
 }

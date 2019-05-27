@@ -13,6 +13,10 @@ namespace PrintingBI.API
 
             CreateMap<AuthorCreateDto, Author>();
             CreateMap<AuthorUpdateDto, Author>();
+
+            CreateMap<UserDto, PrinterBIUser>();
+            CreateMap<DepartmnetDto, PrinterBIDepartment>();
+
         }
     }
 }

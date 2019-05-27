@@ -82,6 +82,26 @@
             <param name="model"></param>
             <returns></returns>
         </member>
+        <member name="M:PrintingBI.API.Controllers.UserMasterController.GetAllUsers">
+            <summary>
+            Gets all the users
+            </summary>
+            <returns>List of users</returns>
+        </member>
+        <member name="M:PrintingBI.API.Controllers.UserMasterController.GetUser(System.Int32)">
+            <summary>
+            Gets the user by id
+            </summary>
+            <param name="id"></param>
+            <returns>Individual user</returns>
+        </member>
+        <member name="M:PrintingBI.API.Controllers.UserMasterController.CreateUser(PrintingBI.API.Models.UserDto)">
+            <summary>
+            Create new user
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
         <member name="T:PrintingBI.API.Models.AuthenticateUserInputDto">
             <summary>
             Model to authenticate the user
@@ -197,6 +217,21 @@
             Password for the provided user name
             </summary>
         </member>
+        <member name="P:PrintingBI.API.Models.DepartmnetDto.Id">
+            <summary>
+            Primary Key for Departmnet
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.DepartmnetDto.ParentId">
+            <summary>
+            Department's Parent Departmnet's GUID 
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.DepartmnetDto.DepartmentName">
+            <summary>
+            Departmnet Name
+            </summary>
+        </member>
         <member name="T:PrintingBI.API.Models.ForgotPassDto">
             <summary>
             The model to send if user forgets password
@@ -275,6 +310,51 @@
         <member name="P:PrintingBI.API.Models.ResetPassDto.Password">
             <summary>
             New password for the provided email
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.UserDto.Id">
+            <summary>
+            Primary Key
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.UserDto.FullName">
+            <summary>
+            Full Name 
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.UserDto.UserName">
+            <summary>
+            Uesr Name 
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.UserDto.Password">
+            <summary>
+            Password 
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.UserDto.Email">
+            <summary>
+            Email address 
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.UserDto.DepartmentId">
+            <summary>
+            Department GUID 
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.UserDto.RoleRightsId">
+            <summary>
+            Role Rights GUID - if assigned
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.UserDto.IsSuperAdmin">
+            <summary>
+            Is Super Admin
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.UserDto.IsPassChange">
+            <summary>
+            Is Change pass done for user 
             </summary>
         </member>
         <member name="T:PrintingBI.API.Models.ValidateTenantDto">

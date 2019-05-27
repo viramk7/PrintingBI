@@ -115,7 +115,7 @@ namespace PrintingBI.Services.Entities
             _repository.Delete(entities);
         }
 
-        public void Delete(object id)
+        public void Delete(int id)
         {
             _repository.Delete(id);
         }

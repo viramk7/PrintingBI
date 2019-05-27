@@ -1,14 +1,17 @@
 ﻿using PrintingBI.Authentication.Configuration;
 using PrintingBI.Data.Infrastructure;
 using PrintingBI.Data.Repositories.Author;
+using PrintingBI.Data.Repositories.Common;
 using PrintingBI.Data.Repositories.Departments;
 using PrintingBI.Data.Repositories.Generic;
 using PrintingBI.Data.Repositories.Login;
 using PrintingBI.Data.Repositories.Provisioning;
 using PrintingBI.Data.Repositories.ProvisionPowerBITenants;
+using PrintingBI.Data.Repositories.UserMaster;
 using PrintingBI.Data.Repositories.Users;
 using PrintingBI.Services.AdminTenantService;
 using PrintingBI.Services.Author;
+using PrintingBI.Services.Common;
 using PrintingBI.Services.Departments;
 using PrintingBI.Services.Entities;
 using PrintingBI.Services.Helper;
@@ -17,6 +20,7 @@ using PrintingBI.Services.LoginService;
 using PrintingBI.Services.Notification;
 using PrintingBI.Services.Provisioning;
 using PrintingBI.Services.ProvisionPowerBITenants;
+using PrintingBI.Services.UserMaster;
 using PrintingBI.Services.Users;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -38,7 +42,9 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<ILoginRepository, LoginRepository>();
             services.AddTransient<IDepartmentRepository, DepartmentRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
-            
+            services.AddTransient<ICommonRepository, CommonRepository>();
+            services.AddTransient<IUserMasterRepository, UserMasterRepository>();
+
             //services.TryAddEnumerable(new[]
             //{
             //    ServiceDescriptor.Transient<IProvisionTable,ProvisionUserTable>(),
@@ -63,6 +69,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<IAdminTenantService, AdminTenantService>();
             services.AddTransient<IEmailNotificationService, EmailNotificationService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ICommonService, CommonService>();
+            services.AddTransient<IUserMasterService, UserMasterService>();
 
             // Helpers
             services.AddTransient<IExtractDeptDataFromExcel, ExtractDeptDataFromExcel>();

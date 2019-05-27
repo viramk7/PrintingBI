@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using PrintingBI.Data.Entities;
+using PrintingBI.Data.Infrastructure;
 
 namespace PrintingBI.Data.Repositories.Generic
 {
@@ -222,6 +223,10 @@ namespace PrintingBI.Data.Repositories.Generic
             try
             {
                 var entity = Entities.Find(id);
+
+                if(entity == null)
+                    throw new ArgumentNullException(nameof(id));
+
                 Entities.Remove(entity);
                 _context.SaveChanges();
             }
