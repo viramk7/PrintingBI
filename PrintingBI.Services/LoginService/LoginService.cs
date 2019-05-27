@@ -15,9 +15,9 @@ namespace PrintingBI.Services.LoginService
             _loginRepository = loginRepository;
         }
 
-        public async Task<bool> AuthenticateUser(string connectionString, string userName, string password)
+        public async Task<bool> AuthenticateUser(string connectionString, string userNameOrEmail, string password)
         {
-            return await _loginRepository.AuthenticateUser(connectionString, userName, password);
+            return await _loginRepository.AuthenticateUser(connectionString, userNameOrEmail, password);
         }
 
         public async Task<bool> AuthenticateUserByEmail(string connectionString, string Email)

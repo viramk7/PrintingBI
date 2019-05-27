@@ -15,14 +15,14 @@ namespace PrintingBI.API.Models
         public string HostName { get; set; }
 
         /// <summary>
-        /// User name
+        /// Provide the user name or the email of the user
         /// </summary>
         [Required]
         [MaxLength(50)]
-        public string UserName { get; set; }
+        public string UserNameOrEmail { get; set; }
 
         /// <summary>
-        /// Password
+        /// Password for provided username/email
         /// </summary>
         [Required]
         [MaxLength(32)] 

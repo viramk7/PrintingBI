@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PrintingBI.API.Models
 {
     public class InsertUserInputDto : CustomerDbCredsInputDto, IValidatableObject
     {
+        /// <summary>
+        /// File with all the users to be registered
+        /// </summary>
         [Required]
         public IFormFile UserFile { get; set; }
 

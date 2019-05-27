@@ -63,7 +63,7 @@ namespace PrintingBI.API.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var result = await _loginService.AuthenticateUser(intialInfo.GetConnectionString(), model.UserName, model.Password);
+                var result = await _loginService.AuthenticateUser(intialInfo.GetConnectionString(), model.UserNameOrEmail, model.Password);
                 if (!result)
                 {
                     return StatusCode(StatusCodes.Status401Unauthorized, "Invalid UserName and Password.");
@@ -78,7 +78,7 @@ namespace PrintingBI.API.Controllers
                 };
 
                 var token = TokenBuilder.CreateJsonWebToken(
-                            model.UserName,
+                            model.UserNameOrEmail,
                             claims,
                             _jwtConfiguration.Audience,
                             _jwtConfiguration.Issuer,

@@ -82,6 +82,21 @@
             <param name="model"></param>
             <returns></returns>
         </member>
+        <member name="T:PrintingBI.API.Models.AuthenticateUserInputDto">
+            <summary>
+            Model to authenticate the user
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.AuthenticateUserInputDto.Email">
+            <summary>
+            Email address
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.AuthenticateUserInputDto.Password">
+            <summary>
+            Password for the provided email
+            </summary>
+        </member>
         <member name="T:PrintingBI.API.Models.AuthorCreateDto">
             <summary>
             Model to create new author
@@ -110,6 +125,16 @@
         <member name="P:PrintingBI.API.Models.AuthorsDto.Name">
             <summary>
             The name of the author
+            </summary>
+        </member>
+        <member name="T:PrintingBI.API.Models.ChangePassDto">
+            <summary>
+            Model to change the password
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.ChangePassDto.HostName">
+            <summary>
+            Host name
             </summary>
         </member>
         <member name="P:PrintingBI.API.Models.ChangePassDto.Email">
@@ -147,6 +172,31 @@
             User's new password
             </summary>
         </member>
+        <member name="T:PrintingBI.API.Models.CustomerDbCredsInputDto">
+            <summary>
+            Model for tenant user credentials
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.CustomerDbCredsInputDto.DbName">
+            <summary>
+            Database name
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.CustomerDbCredsInputDto.Server">
+            <summary>
+            Server name or IP
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.CustomerDbCredsInputDto.UserName">
+            <summary>
+            registered user name with tenant
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.CustomerDbCredsInputDto.Password">
+            <summary>
+            Password for the provided user name
+            </summary>
+        </member>
         <member name="T:PrintingBI.API.Models.ForgotPassDto">
             <summary>
             The model to send if user forgets password
@@ -162,6 +212,16 @@
             Email address of the user to reset the password
             </summary>
         </member>
+        <member name="P:PrintingBI.API.Models.InsertDepartmentsInputDto.DepartmentFile">
+            <summary>
+            File with all the departments to be inserted
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.InsertUserInputDto.UserFile">
+            <summary>
+            File with all the users to be registered
+            </summary>
+        </member>
         <member name="T:PrintingBI.API.Models.LoginDto">
             <summary>
             The model to authenticate user for given hostname
@@ -172,14 +232,14 @@
             Host name
             </summary>
         </member>
-        <member name="P:PrintingBI.API.Models.LoginDto.UserName">
+        <member name="P:PrintingBI.API.Models.LoginDto.UserNameOrEmail">
             <summary>
-            User name
+            Provide the user name or the email of the user
             </summary>
         </member>
         <member name="P:PrintingBI.API.Models.LoginDto.Password">
             <summary>
-            Password
+            Password for provided username/email
             </summary>
         </member>
         <member name="T:PrintingBI.API.Models.ResendConfirmationEmailInputDto">
@@ -195,6 +255,26 @@
         <member name="T:PrintingBI.API.Models.ResetPassDto">
             <summary>
             Model to reset the password
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.ResetPassDto.HostName">
+            <summary>
+            Host name 
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.ResetPassDto.Token">
+            <summary>
+            Token provided in link sent via email
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.ResetPassDto.Email">
+            <summary>
+            Email address
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.ResetPassDto.Password">
+            <summary>
+            New password for the provided email
             </summary>
         </member>
         <member name="T:PrintingBI.API.Models.ValidateTenantDto">

@@ -2,8 +2,14 @@
 
 namespace PrintingBI.API.Models
 {
+    /// <summary>
+    /// Model to change the password
+    /// </summary>
     public class ChangePassDto
     {
+        /// <summary>
+        /// Host name
+        /// </summary>
         [Required]
         public string HostName { get; set; }
 

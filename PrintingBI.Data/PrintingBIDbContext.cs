@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using PrintingBI.Data.Entities;
 
 namespace PrintingBI.Data
@@ -39,5 +40,7 @@ namespace PrintingBI.Data
                     IsPassChange = true
                 });
         }
+
+        //private readonly LoggerFactory consoleLogger = new LoggerFactory()
     }
 }

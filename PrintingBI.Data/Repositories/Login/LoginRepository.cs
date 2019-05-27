@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PrintingBI.Data.Repositories.Login
 {
     public class LoginRepository : ILoginRepository
     {
-        public async Task<bool> AuthenticateUser(string connectionString, string userName, string password)
+        public async Task<bool> AuthenticateUser(string connectionString, string userNameOrEmail, string password)
         {
             if (string.IsNullOrEmpty(connectionString))
                 throw new ArgumentException("connection string not provided!");
@@ -17,10 +15,13 @@ namespace PrintingBI.Data.Repositories.Login
             var context = printingBIDbContextFactory.Create(connectionString);
 
             var user = context.PrinterBIUsers
-                        .FirstOrDefault(m => m.UserName.Equals(userName,StringComparison.OrdinalIgnoreCase) 
-                                        && m.Password.Equals(password, StringComparison.OrdinalIgnoreCase)) ;
+                        .FirstOrDefault(m => m.UserName.Equals(userNameOrEmail, StringComparison.OrdinalIgnoreCase)
+                                          || m.Email.Equals(userNameOrEmail, StringComparison.OrdinalIgnoreCase));
 
             if (user == null)
+                return false;
+
+            if (user.Password != password)
                 return false;
 
             return true;
