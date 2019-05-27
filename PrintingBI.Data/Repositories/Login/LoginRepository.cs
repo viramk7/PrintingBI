@@ -15,8 +15,8 @@ namespace PrintingBI.Data.Repositories.Login
             var context = printingBIDbContextFactory.Create(connectionString);
 
             var user = context.PrinterBIUsers
-                        .FirstOrDefault(m => m.UserName.Equals(userNameOrEmail, StringComparison.OrdinalIgnoreCase)
-                                          || m.Email.Equals(userNameOrEmail, StringComparison.OrdinalIgnoreCase));
+                        .FirstOrDefault(m => m.UserName.ToLower() == userNameOrEmail.ToLower() 
+                                          || m.Email.ToLower() == userNameOrEmail.ToLower());
 
             if (user == null)
                 return false;

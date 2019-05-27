@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 using PrintingBI.Data.Entities;
 
 namespace PrintingBI.Data
@@ -17,10 +18,16 @@ namespace PrintingBI.Data
         public DbSet<Book> Books { get; set; }
 
         public DbSet<Author> Authors { get; set; }
-        
+
         public DbSet<PrinterBIUser> PrinterBIUsers { get; set; }
 
         public DbSet<PrinterBIDepartment> PrinterBIDepartments { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.UseLoggerFactory(MyLoggerFactory).EnableSensitiveDataLogging();
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,7 +35,7 @@ namespace PrintingBI.Data
                 new PrinterBIUser
                 {
                     Id = -1,
-                    FullName = "admin" ,
+                    FullName = "admin",
                     UserName = "admin",
                     Email = "admin@gmail.com",
                     Password = "12345",
@@ -41,6 +48,11 @@ namespace PrintingBI.Data
                 });
         }
 
-        //private readonly LoggerFactory consoleLogger = new LoggerFactory()
+        public static readonly LoggerFactory MyLoggerFactory = new LoggerFactory(
+            new[]
+            {
+                new ConsoleLoggerProvider((category, level) => 
+                            category == DbLoggerCategory.Database.Command.Name && level == LogLevel.Information, true)
+            });
     }
 }
