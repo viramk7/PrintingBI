@@ -16,9 +16,14 @@ namespace PrintingBI.Data.Repositories.Login
             var printingBIDbContextFactory = new PrintingBIDbContextFactory();
             var context = printingBIDbContextFactory.Create(connectionString);
 
-            bool result = context.PrinterBIUsers.Any(m => m.UserName == userName && m.Password == password);
+            var user = context.PrinterBIUsers
+                        .FirstOrDefault(m => m.UserName.Equals(userName,StringComparison.OrdinalIgnoreCase) 
+                                        && m.Password.Equals(password, StringComparison.OrdinalIgnoreCase)) ;
 
-            return result;
+            if (user == null)
+                return false;
+
+            return true;
         }
 
         public async Task<bool> AuthenticateUserByEmail(string connectionString, string Email)
