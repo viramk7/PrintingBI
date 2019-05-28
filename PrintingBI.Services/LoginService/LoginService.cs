@@ -1,4 +1,5 @@
-﻿using PrintingBI.Data.Repositories.Login;
+﻿using PrintingBI.Data.CustomModel;
+using PrintingBI.Data.Repositories.Login;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,7 +16,7 @@ namespace PrintingBI.Services.LoginService
             _loginRepository = loginRepository;
         }
 
-        public async Task<bool> AuthenticateUser(string connectionString, string userNameOrEmail, string password)
+        public async Task<AuthenticateUserResultDto> AuthenticateUser(string connectionString, string userNameOrEmail, string password)
         {
             return await _loginRepository.AuthenticateUser(connectionString, userNameOrEmail, password);
         }

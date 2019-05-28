@@ -82,6 +82,12 @@
             <param name="model"></param>
             <returns></returns>
         </member>
+        <member name="M:PrintingBI.API.Controllers.PowerBIController.GetPowerBIReport">
+            <summary>
+            Gets all the users
+            </summary>
+            <returns>List of users</returns>
+        </member>
         <member name="M:PrintingBI.API.Controllers.UserMasterController.GetAllUsers">
             <summary>
             Gets all the users
@@ -95,7 +101,7 @@
             <param name="id"></param>
             <returns>Individual user</returns>
         </member>
-        <member name="M:PrintingBI.API.Controllers.UserMasterController.CreateUser(PrintingBI.API.Models.UserDto)">
+        <member name="M:PrintingBI.API.Controllers.UserMasterController.CreateUser(PrintingBI.API.Models.CreateUserDto)">
             <summary>
             Create new user
             </summary>
@@ -190,6 +196,36 @@
         <member name="P:PrintingBI.API.Models.ChangePasswordInputDto.NewPassword">
             <summary>
             User's new password
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.CreateUserDto.FullName">
+            <summary>
+            Full Name 
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.CreateUserDto.UserName">
+            <summary>
+            Uesr Name 
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.CreateUserDto.Password">
+            <summary>
+            Password 
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.CreateUserDto.Email">
+            <summary>
+            Email address 
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.CreateUserDto.DepartmentId">
+            <summary>
+            Department GUID 
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.CreateUserDto.RoleRightsId">
+            <summary>
+            Role Rights GUID - if assigned
             </summary>
         </member>
         <member name="T:PrintingBI.API.Models.CustomerDbCredsInputDto">
@@ -310,6 +346,36 @@
         <member name="P:PrintingBI.API.Models.ResetPassDto.Password">
             <summary>
             New password for the provided email
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.UpdateUserDto.FullName">
+            <summary>
+            Full Name 
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.UpdateUserDto.UserName">
+            <summary>
+            Uesr Name 
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.UpdateUserDto.Password">
+            <summary>
+            Password 
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.UpdateUserDto.Email">
+            <summary>
+            Email address 
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.UpdateUserDto.DepartmentId">
+            <summary>
+            Department GUID 
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.UpdateUserDto.RoleRightsId">
+            <summary>
+            Role Rights GUID - if assigned
             </summary>
         </member>
         <member name="P:PrintingBI.API.Models.UserDto.Id">

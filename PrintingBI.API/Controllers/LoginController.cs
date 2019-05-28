@@ -64,7 +64,7 @@ namespace PrintingBI.API.Controllers
                 }
 
                 var result = await _loginService.AuthenticateUser(intialInfo.GetConnectionString(), model.UserNameOrEmail, model.Password);
-                if (!result)
+                if (!result.IsAuthenticated)
                 {
                     return StatusCode(StatusCodes.Status401Unauthorized, "Invalid UserName and Password.");
                 }
@@ -75,6 +75,14 @@ namespace PrintingBI.API.Controllers
                     new ClaimModel(AuthConstants.DbName,intialInfo.TenantDBName),
                     new ClaimModel(AuthConstants.DbUser,intialInfo.TenantDBUser),
                     new ClaimModel(AuthConstants.DbPwd,intialInfo.TenantDBPassword),
+                    new ClaimModel(AuthConstants.PBAppId,intialInfo.ApplicationId),
+                    new ClaimModel(AuthConstants.PBUserName,intialInfo.PowerBIUserName),
+                    new ClaimModel(AuthConstants.PBPass,intialInfo.PowerBIUserPass),
+                    new ClaimModel(AuthConstants.WorkspaceID,intialInfo.WorkSpaceId),
+                    //new ClaimModel(AuthConstants.IsSuperAdmin.ToString(),result.IsSuperAdmin),
+                    new ClaimModel(AuthConstants.FTabName,string.IsNullOrEmpty(intialInfo.FilterTableName) ? "" : intialInfo.FilterTableName),
+                    new ClaimModel(AuthConstants.FColumnName,string.IsNullOrEmpty(intialInfo.FilterColumnName) ? "" : intialInfo.FilterColumnName),
+                    new ClaimModel(AuthConstants.FUserColumname,string.IsNullOrEmpty(intialInfo.FilterUserColumnName) ? "" : intialInfo.FilterUserColumnName)
                 };
 
                 var token = TokenBuilder.CreateJsonWebToken(
@@ -87,7 +95,8 @@ namespace PrintingBI.API.Controllers
 
                 return Ok(new
                 {
-                    token,
+                    IsPassChange = result.IsPasswordChange,
+                    Token = token,
                     ExpiresTime = _jwtConfiguration.ExpireTime
                 });
 

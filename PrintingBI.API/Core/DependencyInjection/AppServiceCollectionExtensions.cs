@@ -18,6 +18,7 @@ using PrintingBI.Services.Helper;
 using PrintingBI.Services.HttpClientHelpers;
 using PrintingBI.Services.LoginService;
 using PrintingBI.Services.Notification;
+using PrintingBI.Services.PowerBIService;
 using PrintingBI.Services.Provisioning;
 using PrintingBI.Services.ProvisionPowerBITenants;
 using PrintingBI.Services.UserMaster;
@@ -71,7 +72,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICommonService, CommonService>();
             services.AddTransient<IUserMasterService, UserMasterService>();
-
+            services.AddTransient<IPowerBIService, PowerBIService>();
+            
             // Helpers
             services.AddTransient<IExtractDeptDataFromExcel, ExtractDeptDataFromExcel>();
             services.AddTransient<IExtractUserDataFromExcel, ExtractUserDataFromExcel>();

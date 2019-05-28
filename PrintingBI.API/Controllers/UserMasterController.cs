@@ -62,24 +62,48 @@ namespace PrintingBI.API.Controllers
         /// <param name="obj"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult CreateUser(UserDto obj)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult CreateUser(CreateUserDto obj)
         {
-            _userService.Insert(obj);
-            return Ok();
+            try
+            {
+                _userService.Insert(obj);
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdateUser(int id, UserDto obj)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult UpdateUser(int id, UpdateUserDto obj)
         {
-            _userService.Update(id, obj);
-            return Ok();
+            try
+            {
+                _userService.Update(id, obj);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult DeleteUser(int id)
         {
-            _userService.DeleteById(id);
-            return Ok();
+            try
+            {
+                _userService.DeleteById(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }

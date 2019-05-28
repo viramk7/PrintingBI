@@ -17,21 +17,21 @@
 
         // TODO: Remove unused properties
 
-        //public string ApplicationId { get; set; }
+        public string ApplicationId { get; set; }
 
-        //public string PowerBIUserName { get; set; }
+        public string PowerBIUserName { get; set; }
 
-        //public string PowerBIUserPass { get; set; }
+        public string PowerBIUserPass { get; set; }
 
-        //public string WorkSpaceId { get; set; }
+        public string WorkSpaceId { get; set; }
 
-        //public string TenantUniqueId { get; set; }
+        public string TenantUniqueId { get; set; }
 
-        //public string FilterTableName { get; set; }
+        public string FilterTableName { get; set; }
 
-        //public string FilterColumnName { get; set; }
+        public string FilterColumnName { get; set; }
 
-        //public string FilterUserColumnName { get; set; }
+        public string FilterUserColumnName { get; set; }
 
     }
 }

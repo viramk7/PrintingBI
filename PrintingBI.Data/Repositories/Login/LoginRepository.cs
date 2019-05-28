@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PrintingBI.Data.CustomModel;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -6,10 +7,11 @@ namespace PrintingBI.Data.Repositories.Login
 {
     public class LoginRepository : ILoginRepository
     {
-        public async Task<bool> AuthenticateUser(string connectionString, string userNameOrEmail, string password)
+        public async Task<AuthenticateUserResultDto> AuthenticateUser(string connectionString, string userNameOrEmail, string password)
         {
             if (string.IsNullOrEmpty(connectionString))
                 throw new ArgumentException("connection string not provided!");
+
 
             var printingBIDbContextFactory = new PrintingBIDbContextFactory();
             var context = printingBIDbContextFactory.Create(connectionString);
@@ -19,12 +21,24 @@ namespace PrintingBI.Data.Repositories.Login
                                           || m.Email.ToLower() == userNameOrEmail.ToLower());
 
             if (user == null)
-                return false;
+                return new AuthenticateUserResultDto { IsAuthenticated = false , IsSuperAdmin = false , IsPasswordChange = false};
 
             if (user.Password != password)
-                return false;
+                return new AuthenticateUserResultDto { IsAuthenticated = false, IsSuperAdmin = false, IsPasswordChange = false };
 
-            return true;
+            AuthenticateUserResultDto obj = new AuthenticateUserResultDto();
+            obj.IsAuthenticated = true;
+
+            if (user.IsSuperAdmin)
+                obj.IsSuperAdmin = true;
+            else
+                obj.IsSuperAdmin = false;
+
+            if (user.IsPassChange)
+                obj.IsPasswordChange = true;
+            else
+                obj.IsPasswordChange = false;
+            return obj;
         }
 
         public async Task<bool> AuthenticateUserByEmail(string connectionString, string Email)

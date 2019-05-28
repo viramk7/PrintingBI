@@ -23,6 +23,8 @@ namespace PrintingBI.Data
 
         public DbSet<PrinterBIDepartment> PrinterBIDepartments { get; set; }
 
+        public DbSet<PrinterBIReports> PrinterBIReports { get; set; }
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
