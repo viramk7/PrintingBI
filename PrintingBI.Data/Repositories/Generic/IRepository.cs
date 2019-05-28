@@ -22,7 +22,7 @@ namespace PrintingBI.Data.Repositories.Generic
 
         void Delete(IEnumerable<TEntity> entities);
 
-        void Delete(object id);
+        void DeleteById(object id);
 
         #endregion
 

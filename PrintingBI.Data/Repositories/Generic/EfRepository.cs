@@ -215,7 +215,7 @@ namespace PrintingBI.Data.Repositories.Generic
         /// Delete entity By Id
         /// </summary>
         /// <param name="id">Id</param>
-        public virtual void Delete(object id)
+        public virtual void DeleteById(object id)
         {
             if (id == null)
                 throw new ArgumentNullException(nameof(id));

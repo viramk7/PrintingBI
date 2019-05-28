@@ -14,8 +14,9 @@ namespace PrintingBI.API.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/usermaster")]
+    [Route("api/user")]
     [Produces("application/json")]
+    [Consumes("application/json")]
     public class UserMasterController : ControllerBase
     {
         private readonly IUserMasterService _userService;
@@ -77,7 +78,7 @@ namespace PrintingBI.API.Controllers
         [HttpDelete("{id}")]
         public ActionResult DeleteUser(int id)
         {
-            _userService.Delete(id);
+            _userService.DeleteById(id);
             return Ok();
         }
     }

@@ -13,6 +13,7 @@ namespace PrintingBI.API.Controllers
     [Route("api/admin")]
     [ApiController]
     [Produces("application/json")]
+    [Consumes("application/json")]
     public class AdminController : ControllerBase
     {
         private readonly IProvisionPowerBITenantsService _provisionPowerBITenantsService;

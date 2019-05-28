@@ -16,6 +16,7 @@ namespace PrintingBI.API.Controllers
     [ApiController]
     [Route("api/common")]
     [Produces("application/json")]
+    [Consumes("application/json")]
     public class CommonController : ControllerBase
     {
         private readonly ICommonService _commonService;
