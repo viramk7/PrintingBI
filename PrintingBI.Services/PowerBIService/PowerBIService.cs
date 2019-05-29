@@ -2,6 +2,7 @@
 using Microsoft.PowerBI.Api.V2.Models;
 using Microsoft.Rest;
 using Newtonsoft.Json.Linq;
+using PrintingBI.Authentication.Configuration;
 using PrintingBI.Data.CustomModel;
 using System;
 using System.Collections.Generic;
@@ -22,18 +23,20 @@ namespace PrintingBI.Services.PowerBIService
         private static string PBIUserName = string.Empty;
         private static string PBIUserPassword = string.Empty;
         private static string PBIWorkspaceId = string.Empty;
+        private readonly ICustomerDbInfo _customerDbInfo;
 
-        public PowerBIService()
+        public PowerBIService(ICustomerDbInfo customerDbInfo)
         {
-            //PBIApplicationId = PowerBIHelperModel.PBIApplicationId;
-            //PBIUserName = PowerBIHelperModel.PBIUserName;
-            //PBIUserPassword = PowerBIHelperModel.PBIUserPassword;
-            //PBIWorkspaceId = PowerBIHelperModel.PBIWorkspaceId;
+            _customerDbInfo = customerDbInfo;
+            PBIApplicationId = _customerDbInfo.PBAppId;
+            PBIUserName = _customerDbInfo.PBUserName;
+            PBIUserPassword = _customerDbInfo.PBPass;
+            PBIWorkspaceId = _customerDbInfo.WorkspaceID;
 
-            PBIApplicationId = "bd853607-9d2d-42ac-8764-62987a571866";
-            PBIUserName = "powerbi.gateway@printerbi.com";
-            PBIUserPassword = "Equitrac2018.";
-            PBIWorkspaceId = "5f13b48f-bc94-42a0-b7d1-cccf40303ed8";
+            //PBIApplicationId = "bd853607-9d2d-42ac-8764-62987a571866";
+            //PBIUserName = "powerbi.gateway@printerbi.com";
+            //PBIUserPassword = "Equitrac2018.";
+            //PBIWorkspaceId = "5f13b48f-bc94-42a0-b7d1-cccf40303ed8";
         }
 
         private static async Task<TokenCredentials> GetAccessToken()

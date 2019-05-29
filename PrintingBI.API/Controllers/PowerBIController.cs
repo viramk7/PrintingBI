@@ -9,7 +9,7 @@ using PrintingBI.Services.PowerBIService;
 
 namespace PrintingBI.API.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/powerbi")]
     [Produces("application/json")]
@@ -32,7 +32,7 @@ namespace PrintingBI.API.Controllers
         public ActionResult GetPowerBIReport()
         {
             var list = _service.GetReportList();
-            var report = _service.GetPowerBIReport("dff2c1ed-e169-4ffb-a7a2-dd3a2e71b9aa");
+            var report = _service.GetPowerBIReport(list.FirstOrDefault().Id);
             return Ok();
         }
     }

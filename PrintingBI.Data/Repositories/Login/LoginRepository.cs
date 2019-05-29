@@ -117,6 +117,7 @@ namespace PrintingBI.Data.Repositories.Login
             if (user != null)
             {
                 user.Password = newPass;
+                user.IsPassChange = true;
 
                 context.Update(user);
                 await context.SaveChangesAsync();
