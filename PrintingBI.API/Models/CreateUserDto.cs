@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PrintingBI.API.Models
 {
-    public class CreateUserDto
+    public class CreateUserDto : IValidatableObject
     {
         /// <summary>
         /// Full Name 
@@ -47,5 +45,17 @@ namespace PrintingBI.API.Models
         /// Role Rights GUID - if assigned
         /// </summary>
         public Guid? RoleRightsId { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var errors = new List<ValidationResult>();
+
+            if (DepartmentId == Guid.Empty)
+                errors.Add(new ValidationResult("Please provide Department Id",
+                    new List<string> { nameof(DepartmentId) }));
+
+            return errors;
+
+        }
     }
 }

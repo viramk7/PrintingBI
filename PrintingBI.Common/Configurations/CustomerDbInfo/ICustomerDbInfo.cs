@@ -1,4 +1,4 @@
-﻿namespace PrintingBI.Authentication.Configuration
+﻿namespace PrintingBI.Common.Configurations
 {
     public interface ICustomerDbInfo
     {

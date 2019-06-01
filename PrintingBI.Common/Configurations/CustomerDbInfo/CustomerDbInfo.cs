@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
 
-namespace PrintingBI.Authentication.Configuration
+namespace PrintingBI.Common.Configurations
 {
     public class CustomerDbInfo : ICustomerDbInfo
     {

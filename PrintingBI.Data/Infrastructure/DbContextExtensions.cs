@@ -1,10 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Storage;
-using System.Text;
-
-namespace PrintingBI.Data.Infrastructure
+﻿namespace PrintingBI.Data.Infrastructure
 {
     public static class DbContextExtensions
     {

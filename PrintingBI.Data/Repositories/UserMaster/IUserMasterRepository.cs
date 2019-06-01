@@ -1,7 +1,4 @@
 ﻿using PrintingBI.Data.Repositories.Generic;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PrintingBI.Data.Repositories.UserMaster
 {

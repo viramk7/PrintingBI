@@ -14,11 +14,7 @@ namespace PrintingBI.Data
 
         // MAKE SURE TO ARRANGE PROPERTIES IN CASCADE DELETE MANNER
         // EX: Put Books first then Authors 
-
-        public DbSet<Book> Books { get; set; }
-
-        public DbSet<Author> Authors { get; set; }
-
+        
         public DbSet<PrinterBIUser> PrinterBIUsers { get; set; }
 
         public DbSet<PrinterBIDepartment> PrinterBIDepartments { get; set; }

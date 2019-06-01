@@ -2,8 +2,7 @@
 using Microsoft.PowerBI.Api.V2.Models;
 using Microsoft.Rest;
 using Newtonsoft.Json.Linq;
-using PrintingBI.Authentication.Configuration;
-using PrintingBI.Data.CustomModel;
+using PrintingBI.Common.Configurations;
 using System;
 using System.Collections.Generic;
 using System.Linq;

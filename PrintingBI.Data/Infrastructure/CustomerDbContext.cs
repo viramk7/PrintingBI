@@ -1,4 +1,4 @@
-﻿using PrintingBI.Authentication.Configuration;
+﻿using PrintingBI.Common.Configurations;
 
 namespace PrintingBI.Data.Infrastructure
 {

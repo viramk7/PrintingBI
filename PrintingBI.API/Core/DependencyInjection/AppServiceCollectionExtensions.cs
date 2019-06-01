@@ -1,16 +1,13 @@
-﻿using PrintingBI.Authentication.Configuration;
+﻿using PrintingBI.Common.Configurations;
 using PrintingBI.Data.Infrastructure;
-using PrintingBI.Data.Repositories.Author;
 using PrintingBI.Data.Repositories.Common;
 using PrintingBI.Data.Repositories.Departments;
 using PrintingBI.Data.Repositories.Generic;
 using PrintingBI.Data.Repositories.Login;
-using PrintingBI.Data.Repositories.Provisioning;
 using PrintingBI.Data.Repositories.ProvisionPowerBITenants;
 using PrintingBI.Data.Repositories.UserMaster;
 using PrintingBI.Data.Repositories.Users;
 using PrintingBI.Services.AdminTenantService;
-using PrintingBI.Services.Author;
 using PrintingBI.Services.Common;
 using PrintingBI.Services.Departments;
 using PrintingBI.Services.Entities;
@@ -19,7 +16,6 @@ using PrintingBI.Services.HttpClientHelpers;
 using PrintingBI.Services.LoginService;
 using PrintingBI.Services.Notification;
 using PrintingBI.Services.PowerBIService;
-using PrintingBI.Services.Provisioning;
 using PrintingBI.Services.ProvisionPowerBITenants;
 using PrintingBI.Services.UserMaster;
 using PrintingBI.Services.Users;
@@ -37,32 +33,15 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped(typeof(IHttpClientHelper<>), typeof(HttpClientHelper<>));
 
             // Repositories
-            services.AddTransient<IAuthorRepository, AuthorRepository>();
             services.AddTransient<IProvisionPowerBITenantsRepository, ProvisionPowerBITenantsRepository>();
-            services.AddTransient<IProvisioningRepository, ProvisioningRepository>();
             services.AddTransient<ILoginRepository, LoginRepository>();
             services.AddTransient<IDepartmentRepository, DepartmentRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ICommonRepository, CommonRepository>();
             services.AddTransient<IUserMasterRepository, UserMasterRepository>();
-
-            //services.TryAddEnumerable(new[]
-            //{
-            //    ServiceDescriptor.Transient<IProvisionTable,ProvisionUserTable>(),
-            //    ServiceDescriptor.Transient<IProvisionTable,ProvisionDepartmentTable>(),
-            //});
-
-            services.Scan(scan => scan
-                .FromAssemblyOf<IProvision>()
-                .AddClasses(c => c.AssignableTo<IProvision>())
-                .AsImplementedInterfaces()
-                .WithTransientLifetime()
-            );
             
             // Services
             services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
-            services.AddTransient<IAuthorService, AuthorService>();
-            services.AddTransient<IProvisioningService, ProvisioningService>();
             services.AddTransient<IProvisionPowerBITenantsService, ProvisionPowerBITenantsService>();
             services.AddTransient<ILoginService, LoginService>();
             services.AddTransient<IFilterDeptListToEntityHelper, FilterDeptListToEntityHelper>();

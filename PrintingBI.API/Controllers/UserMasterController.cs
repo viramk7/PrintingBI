@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PrintingBI.API.Models;
-using PrintingBI.Data.Entities;
 using PrintingBI.Services.UserMaster;
 
 namespace PrintingBI.API.Controllers

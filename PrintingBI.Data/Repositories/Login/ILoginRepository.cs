@@ -1,7 +1,4 @@
 ﻿using PrintingBI.Data.CustomModel;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PrintingBI.Data.Repositories.Login

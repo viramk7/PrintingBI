@@ -14,7 +14,6 @@ namespace PrintingBI.API.Controllers
     [ApiController]
     [Route("api/admin")]
     [Produces("application/json")]
-    [Consumes("application/json")]
     public class AdminController : ControllerBase
     {
         private readonly IProvisionPowerBITenantsService _provisionPowerBITenantsService;
@@ -37,15 +36,18 @@ namespace PrintingBI.API.Controllers
 
         /// <summary>
         /// This api provisions the power BI tenants into the system.
+        /// </summary>
+        /// <param name="model">Database credentials to provision tenant</param>
+        /// <returns></returns>
+        /// <remarks>
         /// The respective tables and configurations will be created in the db provided in the input.
         /// By Default 1 admin user will be created as below
         /// UserName = "admin",
         /// Email = "admin@gmail.com",
         /// Password = "12345"
-        /// </summary>
-        /// <param name="model">Database credentials to provision tenant</param>
-        /// <returns></returns>
+        /// </remarks>
         [HttpPost("ProvisionPowerBITenants")]
+        [Consumes("application/json")]
         public async Task<ActionResult> ProvisionPowerBITenants(CustomerDbCredsInputDto model)
         {
             if (!ModelState.IsValid)
@@ -74,6 +76,7 @@ namespace PrintingBI.API.Controllers
         /// <param name="model">Dababase credentials to deprovision</param>
         /// <returns></returns>
         [HttpPost("DeProvisionPowerBITenants")]
+        [Consumes("application/json")]
         public async Task<ActionResult> DeProvisionPowerBITenants(CustomerDbCredsInputDto model)
         {
             if (!ModelState.IsValid)
@@ -159,7 +162,8 @@ namespace PrintingBI.API.Controllers
         /// <param name="model">Host name to be validated</param>
         /// <returns></returns>
         [HttpPost("ValidateCustomerTenant")]
-        [ProducesResponseTypeAttribute(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Consumes("application/json")]
         public async Task<ActionResult> ValidateCustomerTenant(ValidateTenantDto model)
         {
             if (!ModelState.IsValid)

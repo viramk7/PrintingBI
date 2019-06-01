@@ -9,9 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrintingBI.Data", "Printing
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrintingBI.Services", "PrintingBI.Services\PrintingBI.Services.csproj", "{7725D44E-60B9-4ECA-A131-2F36E895AF2E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrintingBI.Authentication", "PrintingBI.Authentication\PrintingBI.Authentication.csproj", "{4228F99C-CE13-47B5-A61F-F1CA4E13AFB3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintingBI.Common", "PrintingBI.Common\PrintingBI.Common.csproj", "{C04D234F-24D0-4F98-868F-A3A4222F46C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrintingBI.Common", "PrintingBI.Common\PrintingBI.Common.csproj", "{C04D234F-24D0-4F98-868F-A3A4222F46C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +29,6 @@ Global
 		{7725D44E-60B9-4ECA-A131-2F36E895AF2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7725D44E-60B9-4ECA-A131-2F36E895AF2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7725D44E-60B9-4ECA-A131-2F36E895AF2E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4228F99C-CE13-47B5-A61F-F1CA4E13AFB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4228F99C-CE13-47B5-A61F-F1CA4E13AFB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4228F99C-CE13-47B5-A61F-F1CA4E13AFB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4228F99C-CE13-47B5-A61F-F1CA4E13AFB3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C04D234F-24D0-4F98-868F-A3A4222F46C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C04D234F-24D0-4F98-868F-A3A4222F46C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C04D234F-24D0-4F98-868F-A3A4222F46C3}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PrintingBI.API.Configuration;
 using PrintingBI.API.Models;
-using PrintingBI.Authentication;
-using PrintingBI.Authentication.Models.Dtos;
+using PrintingBI.Common;
+using PrintingBI.Common.Models;
 using PrintingBI.Data.CustomModel;
 using PrintingBI.Services.AdminTenantService;
 using PrintingBI.Services.LoginService;

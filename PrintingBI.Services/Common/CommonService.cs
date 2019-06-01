@@ -1,11 +1,7 @@
 ﻿using AutoMapper;
 using PrintingBI.Data.Entities;
 using PrintingBI.Data.Repositories.Common;
-using PrintingBI.Data.Repositories.Generic;
 using PrintingBI.Services.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PrintingBI.Services.Common
 {

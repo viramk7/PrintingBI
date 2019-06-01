@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PrintingBI.Data.CustomModel
+﻿namespace PrintingBI.Data.CustomModel
 {
     public class AuthenticateUserResultDto
     {

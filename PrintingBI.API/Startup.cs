@@ -3,25 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using NLog;
-using PrintingBI.Authentication;
-using PrintingBI.Data;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace PrintingBI.API
@@ -79,42 +70,7 @@ namespace PrintingBI.API
                 }
 
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            services.AddEntityFrameworkNpgsql().AddDbContext<PrintingBIAuthContext>(opt =>
-            {
-                opt.UseNpgsql(Configuration.GetConnectionString("PrintingBICS"),
-                                sql => sql.MigrationsAssembly("PrintingBI.Authentication"));
-            });
-
-            services.AddIdentityCore<UserMaster>(options => 
-            {
-                // Options
-                options.Tokens.EmailConfirmationTokenProvider = "emailconf";
-
-                options.User.RequireUniqueEmail = true;
-
-                options.Lockout.AllowedForNewUsers = true;
-                options.Lockout.MaxFailedAccessAttempts = 3;
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
-            })
-            .AddEntityFrameworkStores<PrintingBIAuthContext>()
-            .AddDefaultTokenProviders()
-            .AddTokenProvider<EmailConfirmationTokenProvider<UserMaster>>("emailconf")
-            .AddPasswordValidator<DoesNotContainPasswordValidator<UserMaster>>();
-
-            services.Configure<DataProtectionTokenProviderOptions>(opt =>
-                opt.TokenLifespan = TimeSpan.FromHours(3));
-
-            services.Configure<EmailConfirmationTokenProviderOptions>(options =>
-                options.TokenLifespan = TimeSpan.FromDays(2));
-
-            services.AddScoped<IUserStore<UserMaster>, UserOnlyStore<UserMaster, PrintingBIAuthContext>>();
-
-            services.AddEntityFrameworkNpgsql().AddDbContext<PrintingBIDbContext>(o =>
-            {
-                o.UseNpgsql(Configuration.GetConnectionString("PrintingBICS"));
-            });
-
+            
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.InvalidModelStateResponseFactory = actionContext =>
