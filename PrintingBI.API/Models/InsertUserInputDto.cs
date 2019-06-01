@@ -8,7 +8,7 @@ namespace PrintingBI.API.Models
     public class InsertUserInputDto : CustomerDbCredsInputDto, IValidatableObject
     {
         /// <summary>
-        /// File with all the users to be registered
+        /// File with all the users to be registered (.csv)
         /// </summary>
         [Required]
         public IFormFile UserFile { get; set; }

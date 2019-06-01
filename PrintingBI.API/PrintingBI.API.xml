@@ -4,6 +4,49 @@
         <name>PrintingBI.API</name>
     </assembly>
     <members>
+        <member name="M:PrintingBI.API.Controllers.AdminController.ProvisionPowerBITenants(PrintingBI.API.Models.CustomerDbCredsInputDto)">
+            <summary>
+            This api provisions the power BI tenants into the system.
+            The respective tables and configurations will be created in the db provided in the input.
+            By Default 1 admin user will be created as below
+            UserName = "admin",
+            Email = "admin@gmail.com",
+            Password = "12345"
+            </summary>
+            <param name="model">Database credentials to provision tenant</param>
+            <returns></returns>
+        </member>
+        <member name="M:PrintingBI.API.Controllers.AdminController.DeProvisionPowerBITenants(PrintingBI.API.Models.CustomerDbCredsInputDto)">
+            <summary>
+            This api deprovisions all the configurations and removes all the tables and data from db
+            </summary>
+            <param name="model">Dababase credentials to deprovision</param>
+            <returns></returns>
+        </member>
+        <member name="M:PrintingBI.API.Controllers.AdminController.InsertDepartments(PrintingBI.API.Models.InsertDepartmentsInputDto)">
+            <summary>
+            This api is inserts the departments once the tenant is provisioned.
+            To insert the departments upload the file with department name and parent dept name
+            </summary>
+            <param name="model">Db credentials for the tenant and department file(.csv)</param>
+            <returns></returns>
+        </member>
+        <member name="M:PrintingBI.API.Controllers.AdminController.InsertUsers(PrintingBI.API.Models.InsertUserInputDto)">
+            <summary>
+            This api creates the user and maps them to departments and role rights
+            Departments should exists before inserting users. 
+            File with users needs to be uploaded in order to insert the users
+            </summary>
+            <param name="model">Db credentials for the tenant and user file(.csv)</param>
+            <returns></returns>
+        </member>
+        <member name="M:PrintingBI.API.Controllers.AdminController.ValidateCustomerTenant(PrintingBI.API.Models.ValidateTenantDto)">
+            <summary>
+            this api is used to validate the host name of customer
+            </summary>
+            <param name="model">Host name to be validated</param>
+            <returns></returns>
+        </member>
         <member name="T:PrintingBI.API.Controllers.AuthenticationController">
             <summary>
             Authentication handler
@@ -45,9 +88,9 @@
         </member>
         <member name="M:PrintingBI.API.Controllers.LoginController.AuthenticateUser(PrintingBI.API.Models.LoginDto)">
             <summary>
-            Authenticates given user for provided hostname 
+            Authenticates given user for provided hostname
             </summary>
-            <param name="model">LoginDto</param>
+            <param name="model">Provide the hostname, username or email and password</param>
             <returns></returns>
         </member>
         <member name="M:PrintingBI.API.Controllers.LoginController.ForgotPassword(PrintingBI.API.Models.ForgotPassDto)">
@@ -71,13 +114,6 @@
         <member name="M:PrintingBI.API.Controllers.LoginController.ChangePassword(PrintingBI.API.Models.ChangePassDto)">
             <summary>
             Change User password
-            </summary>
-            <param name="model"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PrintingBI.API.Controllers.LoginController.ValidateCustomerTenant(PrintingBI.API.Models.ValidateTenantDto)">
-            <summary>
-            API used to validate host name of customer
             </summary>
             <param name="model"></param>
             <returns></returns>
@@ -121,6 +157,29 @@
         <member name="P:PrintingBI.API.Models.AuthenticateUserInputDto.Password">
             <summary>
             Password for the provided email
+            </summary>
+        </member>
+        <member name="T:PrintingBI.API.Models.AuthenticateUserOutputDto">
+            <summary>
+            Model provided if the user is authenticated
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.AuthenticateUserOutputDto.IsSystemGeneratedPassword">
+            <summary>
+            True if the user password is created by system 
+            Force user to change password if true
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.AuthenticateUserOutputDto.Token">
+            <summary>
+            Authentication token. 
+            Send this token in header of the every request for accessing the apis
+            ex. Authorization: Bearer XXXac...xyz
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.AuthenticateUserOutputDto.ExpiresTime">
+            <summary>
+            Token expire time
             </summary>
         </member>
         <member name="T:PrintingBI.API.Models.AuthorCreateDto">
@@ -230,22 +289,22 @@
         </member>
         <member name="T:PrintingBI.API.Models.CustomerDbCredsInputDto">
             <summary>
-            Model for tenant user credentials
+            Model to provision the tenants
             </summary>
         </member>
         <member name="P:PrintingBI.API.Models.CustomerDbCredsInputDto.DbName">
             <summary>
-            Database name
+            Tenant database name
             </summary>
         </member>
         <member name="P:PrintingBI.API.Models.CustomerDbCredsInputDto.Server">
             <summary>
-            Server name or IP
+            Tenant Db Server name or IP
             </summary>
         </member>
         <member name="P:PrintingBI.API.Models.CustomerDbCredsInputDto.UserName">
             <summary>
-            registered user name with tenant
+            Tenant's registered user name 
             </summary>
         </member>
         <member name="P:PrintingBI.API.Models.CustomerDbCredsInputDto.Password">
@@ -285,12 +344,12 @@
         </member>
         <member name="P:PrintingBI.API.Models.InsertDepartmentsInputDto.DepartmentFile">
             <summary>
-            File with all the departments to be inserted
+            File with all the departments to be inserted (.csv)
             </summary>
         </member>
         <member name="P:PrintingBI.API.Models.InsertUserInputDto.UserFile">
             <summary>
-            File with all the users to be registered
+            File with all the users to be registered (.csv)
             </summary>
         </member>
         <member name="T:PrintingBI.API.Models.LoginDto">

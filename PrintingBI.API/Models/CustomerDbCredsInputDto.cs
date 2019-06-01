@@ -4,24 +4,24 @@ using System.ComponentModel.DataAnnotations;
 namespace PrintingBI.API.Models
 {
     /// <summary>
-    /// Model for tenant user credentials
+    /// Model to provision the tenants
     /// </summary>
     public class CustomerDbCredsInputDto
     {
         /// <summary>
-        /// Database name
+        /// Tenant database name
         /// </summary>
         [Required]
         public string DbName { get; set; }
 
         /// <summary>
-        /// Server name or IP
+        /// Tenant Db Server name or IP
         /// </summary>
         [Required]
         public string Server { get; set; }
 
         /// <summary>
-        /// registered user name with tenant
+        /// Tenant's registered user name 
         /// </summary>
         [Required]
         public string UserName { get; set; }

@@ -8,7 +8,7 @@ namespace PrintingBI.API.Models
     public class InsertDepartmentsInputDto : CustomerDbCredsInputDto, IValidatableObject
     {
         /// <summary>
-        /// File with all the departments to be inserted
+        /// File with all the departments to be inserted (.csv)
         /// </summary>
         [Required]
         public IFormFile DepartmentFile { get; set; }

@@ -43,13 +43,13 @@ namespace PrintingBI.API.Controllers
         }
 
         /// <summary>
-        /// Authenticates given user for provided hostname 
+        /// Authenticates given user for provided hostname
         /// </summary>
-        /// <param name="model">LoginDto</param>
+        /// <param name="model">Provide the hostname, username or email and password</param>
         /// <returns></returns>
         [HttpPost("AuthenticateUser")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> AuthenticateUser(LoginDto model)
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<AuthenticateUserOutputDto>> AuthenticateUser(LoginDto model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -93,13 +93,7 @@ namespace PrintingBI.API.Controllers
                             Guid.NewGuid(),
                             DateTime.UtcNow.AddMinutes(Convert.ToInt32(_jwtConfiguration.ExpireTime)));
 
-                return Ok(new
-                {
-                    IsPassChange = result.IsPasswordChange,
-                    Token = token,
-                    ExpiresTime = _jwtConfiguration.ExpireTime
-                });
-
+                return new AuthenticateUserOutputDto(!result.IsPasswordChange, token, _jwtConfiguration.ExpireTime);
             }
             catch (Exception ex)
             {
@@ -118,7 +112,6 @@ namespace PrintingBI.API.Controllers
         /// The token is valid for 3 hours
         /// </remarks>
         [HttpPost("ForgotPassword")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> ForgotPassword(ForgotPassDto model)
         {
@@ -225,39 +218,7 @@ namespace PrintingBI.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong!");
             }
         }
-
-        /// <summary>
-        /// API used to validate host name of customer
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        [HttpPost("ValidateCustomerTenant")]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> ValidateCustomerTenant(ValidateTenantDto model)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            try
-            {
-                var intialInfo = await _adminService.GetCustomerInialInfo(model.HostName);
-                if (intialInfo != null && !string.IsNullOrEmpty(intialInfo.TenantDBServer))
-                {
-                    return Ok(new
-                    {
-                        Valid = true,
-                        Info = intialInfo
-                    });
-                }
-
-                return NotFound();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.StackTrace);
-                return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong!");
-            }
-        }
-
+        
         #region Helpers
 
         private async Task<CustomerInitialInfoModel> GetTenantDbInfo(string hostName)
