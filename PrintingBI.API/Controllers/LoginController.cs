@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -101,12 +102,12 @@ namespace PrintingBI.API.Controllers
         }
 
         /// <summary>
-        /// Forgot Password API for User
+        /// Forgot Password API for User which checks for email is valid or not 
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="model">Model contains HostName and email address</param>
         /// <returns></returns>
-        /// <remarks>\
-        /// If the user is valid a token will be sent to the registered email \
+        /// <remarks>
+        /// If it is valid email then it will send an email with link to reset password
         /// The token is valid for 3 hours
         /// </remarks>
         [HttpPost("ForgotPassword")]
@@ -130,8 +131,10 @@ namespace PrintingBI.API.Controllers
 
                 var token = await _loginService.GeneratePasswordResetToken(intialInfo.GetConnectionString(), model.EmailAddress);
 
-                _emailNotificationService.SendAsyncEmail(model.EmailAddress, "Password reset token", token, true);
-                
+                _loginService.SendForgotPasswordEmail(token, model.EmailAddress);
+
+                //_emailNotificationService.SendAsyncEmail(model.EmailAddress, "Password reset token", token, true);
+
                 return Ok();
 
             }
@@ -143,9 +146,9 @@ namespace PrintingBI.API.Controllers
         }
 
         /// <summary>
-        /// Reset Password with token
+        /// Reset Password GET api with token 
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="model">Model contains HostName , Token , Email address</param>
         /// <returns></returns>
         [HttpPost("ResetPassword")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -179,7 +182,7 @@ namespace PrintingBI.API.Controllers
 
 
         /// <summary>
-        /// Change User password
+        /// Change User password with Email address , old pass and new Pass
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>

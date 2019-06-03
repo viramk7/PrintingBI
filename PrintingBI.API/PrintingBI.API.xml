@@ -250,11 +250,6 @@
             Primary Key for Departmnet
             </summary>
         </member>
-        <member name="P:PrintingBI.API.Models.DepartmnetDto.ParentId">
-            <summary>
-            Department's Parent Departmnet's GUID 
-            </summary>
-        </member>
         <member name="P:PrintingBI.API.Models.DepartmnetDto.DepartmentName">
             <summary>
             Departmnet Name

@@ -3,5 +3,6 @@
     public interface IAdminConfiguration
     {
         string AdminURL { get; set; }
+        string FrontEndResetPassURL { get; set; }
     }
 }

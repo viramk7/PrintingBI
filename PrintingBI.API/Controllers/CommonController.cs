@@ -21,12 +21,20 @@ namespace PrintingBI.API.Controllers
             _commonService = commonService;
         }
 
+        /// <summary>
+        /// This api returns list of departments with Id and Name
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("GetAllDepartments")]
         public IEnumerable<DepartmnetDto> GetAllDepartments()
         {
             return  _commonService.GetAll<IEnumerable<DepartmnetDto>>();
         }
 
+        /// <summary>
+        /// This api returns list of role-rights with Id and Name
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("GetAllRoleRights")]
         public IEnumerable<DepartmnetDto> GetAllRoleRights()
         {
