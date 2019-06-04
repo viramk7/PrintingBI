@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,7 +11,6 @@ using PrintingBI.Common.Models;
 using PrintingBI.Data.CustomModel;
 using PrintingBI.Services.AdminTenantService;
 using PrintingBI.Services.LoginService;
-using PrintingBI.Services.Notification;
 
 namespace PrintingBI.API.Controllers
 {
@@ -26,19 +24,16 @@ namespace PrintingBI.API.Controllers
         private readonly IAdminTenantService _adminService;
         private readonly ILoginService _loginService;
         private readonly IJwtConfiguration _jwtConfiguration;
-        private readonly IEmailNotificationService _emailNotificationService;
 
         public LoginController(ILogger<LoginController> logger, 
                               IAdminTenantService adminService, 
                               ILoginService loginService, 
-                              IJwtConfiguration jwtConfiguration,
-                              IEmailNotificationService emailNotificationService)
+                              IJwtConfiguration jwtConfiguration)
         {
             _logger = logger;
             _adminService = adminService;
             _loginService = loginService;
             _jwtConfiguration = jwtConfiguration;
-            _emailNotificationService = emailNotificationService;
         }
 
         /// <summary>
@@ -102,7 +97,7 @@ namespace PrintingBI.API.Controllers
         }
 
         /// <summary>
-        /// Forgot Password API for User which checks for email is valid or not 
+        /// When the user forgets his/her password and wants to reset using email. 
         /// </summary>
         /// <param name="model">Model contains HostName and email address</param>
         /// <returns></returns>
@@ -146,9 +141,9 @@ namespace PrintingBI.API.Controllers
         }
 
         /// <summary>
-        /// Reset Password GET api with token 
+        /// Api to reset the password after filling the reset password form with token provided in email.
         /// </summary>
-        /// <param name="model">Model contains HostName , Token , Email address</param>
+        /// <param name="model">Model contains HostName , Token , Email address and new password.</param>
         /// <returns></returns>
         [HttpPost("ResetPassword")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -182,14 +177,11 @@ namespace PrintingBI.API.Controllers
 
 
         /// <summary>
-        /// Change User password with Email address , old pass and new Pass
+        /// Api to change the user password
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost("ChangePassword")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> ChangePassword(ChangePassDto model)
         {
@@ -207,7 +199,7 @@ namespace PrintingBI.API.Controllers
                 bool result = await _loginService.ChangeUserPassword(intialInfo.GetConnectionString(), model.Email, model.OldPassword, model.NewPassword);
 
                 if (!result)
-                    return StatusCode(StatusCodes.Status401Unauthorized, "Invalid Email & old password.");
+                    return StatusCode(StatusCodes.Status401Unauthorized, "Invalid Email or old password.");
                 else
                     return Ok("Password Changed Successfully.");
 

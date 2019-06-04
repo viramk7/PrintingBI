@@ -51,15 +51,12 @@
         </member>
         <member name="M:PrintingBI.API.Controllers.CommonController.GetAllDepartments">
             <summary>
-            This api returns list of departments with Id and Name
+            This api returns list of departments with department id and department name.
             </summary>
             <returns></returns>
-        </member>
-        <member name="M:PrintingBI.API.Controllers.CommonController.GetAllRoleRights">
-            <summary>
-            This api returns list of role-rights with Id and Name
-            </summary>
-            <returns></returns>
+            <remarks>
+            Used when creating or editing user
+            </remarks>
         </member>
         <member name="M:PrintingBI.API.Controllers.LoginController.AuthenticateUser(PrintingBI.API.Models.LoginDto)">
             <summary>
@@ -70,7 +67,7 @@
         </member>
         <member name="M:PrintingBI.API.Controllers.LoginController.ForgotPassword(PrintingBI.API.Models.ForgotPassDto)">
             <summary>
-            Forgot Password API for User which checks for email is valid or not 
+            When the user forgets his/her password and wants to reset using email. 
             </summary>
             <param name="model">Model contains HostName and email address</param>
             <returns></returns>
@@ -81,14 +78,14 @@
         </member>
         <member name="M:PrintingBI.API.Controllers.LoginController.ResetPassword(PrintingBI.API.Models.ResetPassDto)">
             <summary>
-            Reset Password GET api with token 
+            Api to reset the password after filling the reset password form with token provided in email.
             </summary>
-            <param name="model">Model contains HostName , Token , Email address</param>
+            <param name="model">Model contains HostName , Token , Email address and new password.</param>
             <returns></returns>
         </member>
         <member name="M:PrintingBI.API.Controllers.LoginController.ChangePassword(PrintingBI.API.Models.ChangePassDto)">
             <summary>
-            Change User password with Email address , old pass and new Pass
+            Api to change the user password
             </summary>
             <param name="model"></param>
             <returns></returns>

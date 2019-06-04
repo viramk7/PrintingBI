@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using PrintingBI.API.Models;
 using PrintingBI.Services.Common;
 
@@ -22,23 +22,18 @@ namespace PrintingBI.API.Controllers
         }
 
         /// <summary>
-        /// This api returns list of departments with Id and Name
+        /// This api returns list of departments with department id and department name.
         /// </summary>
         /// <returns></returns>
+        /// <remarks>
+        /// Used when creating or editing user
+        /// </remarks>
         [HttpGet("GetAllDepartments")]
-        public IEnumerable<DepartmnetDto> GetAllDepartments()
-        {
-            return  _commonService.GetAll<IEnumerable<DepartmnetDto>>();
-        }
-
-        /// <summary>
-        /// This api returns list of role-rights with Id and Name
-        /// </summary>
-        /// <returns></returns>
         [HttpGet("GetAllRoleRights")]
-        public IEnumerable<DepartmnetDto> GetAllRoleRights()
+        public ActionResult<IEnumerable<DepartmnetDto>> GetAllDepartments()
         {
-            return _commonService.GetAll<IEnumerable<DepartmnetDto>>();
+            return  _commonService.GetAll<IEnumerable<DepartmnetDto>>().ToList();
         }
+        
     }
 }
