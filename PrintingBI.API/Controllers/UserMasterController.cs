@@ -89,11 +89,15 @@ namespace PrintingBI.API.Controllers
         /// <returns></returns>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult UpdateUser(int id, UpdateUserDto obj)
+        public async Task<ActionResult> UpdateUser(int id, UpdateUserDto obj)
         {
             try
             {
-                _userService.Update(id, obj);
+                string result = await _userService.UpdateUser(id,obj);
+                if (!string.IsNullOrEmpty(result))
+                {
+                    return StatusCode(StatusCodes.Status409Conflict, result);
+                }
                 return Ok();
             }
             catch (Exception ex)

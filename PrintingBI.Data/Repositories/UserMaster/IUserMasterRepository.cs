@@ -6,5 +6,6 @@ namespace PrintingBI.Data.Repositories.UserMaster
     public interface IUserMasterRepository : IRepository<Entities.PrinterBIUser>
     {
         Task<string> InsertUser(Entities.PrinterBIUser entity);
+        Task<string> UpdateUser(Entities.PrinterBIUser entity);
     }
 }

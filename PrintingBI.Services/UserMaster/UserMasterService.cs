@@ -24,10 +24,12 @@ namespace PrintingBI.Services.UserMaster
             return result;
         }
 
-        //public async Task<string> InsertUser(PrinterBIUser entity)
-        //{
-        //    var result = await _userRepo.InsertUser(entity);
-        //    return result;
-        //}
+        public async Task<string> UpdateUser<UpdateUserDto>(int id ,UpdateUserDto dto)
+        {
+            var oldEntity = _userRepo.GetById(id);
+            var entity = _mapper.Map(dto, oldEntity);
+            var result = await _userRepo.UpdateUser(entity);
+            return result;
+        }
     }
 }
