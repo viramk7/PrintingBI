@@ -25,12 +25,12 @@ namespace PrintingBI.API.Controllers
         /// Gets all the users
         /// </summary>
         /// <returns>List of users</returns>
-        [HttpGet("GetPowerBIReport")]
-        public ActionResult GetPowerBIReport()
-        {
-            var list = _service.GetReportList();
-            var report = _service.GetPowerBIReport(list.FirstOrDefault().Id);
-            return Ok();
-        }
+        //[HttpGet("GetPowerBIReport")]
+        //public ActionResult GetPowerBIReport()
+        //{
+        //    var list = _service.GetReportList();
+        //    var report = _service.GetPowerBIReport(list.FirstOrDefault().Id);
+        //    return Ok();
+        //}
     }
 }

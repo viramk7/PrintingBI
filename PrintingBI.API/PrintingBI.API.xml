@@ -90,12 +90,6 @@
             <param name="model"></param>
             <returns></returns>
         </member>
-        <member name="M:PrintingBI.API.Controllers.PowerBIController.GetPowerBIReport">
-            <summary>
-            Gets all the users
-            </summary>
-            <returns>List of users</returns>
-        </member>
         <member name="M:PrintingBI.API.Controllers.UserMasterController.GetAllUsers">
             <summary>
             This api returns the list of Users

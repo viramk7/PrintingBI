@@ -1,0 +1,493 @@
+{
+	"info": {
+		"_postman_id": "4a157a7f-5a05-4d12-bdc4-5e0f37e90c3f",
+		"name": "PrintingBI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "ValidateCustomerTenant",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"HostName\":\"bimbomx\"\t\n}"
+						},
+						"url": {
+							"raw": "{{baseurl}}admin/ValidateCustomerTenant",
+							"host": [
+								"{{baseurl}}admin"
+							],
+							"path": [
+								"ValidateCustomerTenant"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeProvisionPowerBITenants",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Server\" : \"74.208.24.39\",\n\t\"DbName\": \"PrintingBI-Customer1\",\n\t\"UserName\" : \"postgres\",\n\t\"Password\" : \"Printerbi@.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseurl}}admin/DeProvisionPowerBITenants",
+							"host": [
+								"{{baseurl}}admin"
+							],
+							"path": [
+								"DeProvisionPowerBITenants"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ProvisionPowerBITenants",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Server\" : \"74.208.24.39\",\n\t\"DbName\": \"PrintingBI-Customer1\",\n\t\"UserName\" : \"postgres\",\n\t\"Password\" : \"Printerbi@.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseurl}}admin/ProvisionPowerBITenants",
+							"host": [
+								"{{baseurl}}admin"
+							],
+							"path": [
+								"ProvisionPowerBITenants"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "InsertDepartments",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "DbName",
+									"value": "PrintingBI-Customer1",
+									"type": "text"
+								},
+								{
+									"key": "Server",
+									"value": "74.208.24.39",
+									"type": "text"
+								},
+								{
+									"key": "Password",
+									"value": "Printerbi@.",
+									"type": "text"
+								},
+								{
+									"key": "UserName",
+									"value": "postgres",
+									"type": "text"
+								},
+								{
+									"key": "DepartmentFile",
+									"type": "file",
+									"src": "/C:/Data/Projects/PrintingBI/PrintingBI API/PrintingBI/Supportings/Depto_Bimbo.csv"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}admin/InsertDepartments",
+							"host": [
+								"{{baseurl}}admin"
+							],
+							"path": [
+								"InsertDepartments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "InsertUsers",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "UserFile",
+									"type": "file",
+									"src": "/C:/Data/Projects/PrintingBI/PrintingBI API/PrintingBI/Supportings/Users_Bimbo.csv"
+								},
+								{
+									"key": "DbName",
+									"value": "PrintingBI-Customer1",
+									"type": "text"
+								},
+								{
+									"key": "Server",
+									"value": "74.208.24.39",
+									"type": "text"
+								},
+								{
+									"key": "UserName",
+									"value": "postgres",
+									"type": "text"
+								},
+								{
+									"key": "Password",
+									"value": "Printerbi@.",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}admin/InsertUsers",
+							"host": [
+								"{{baseurl}}admin"
+							],
+							"path": [
+								"InsertUsers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "AuthenticateUser",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"HostName\" : \"bimbomx\",\n\t\"UserNameOrEmail\" : \"admin\",\n\t\"Password\" : \"12345\"\n}"
+						},
+						"url": {
+							"raw": "{{baseurl}}login/AuthenticateUser",
+							"host": [
+								"{{baseurl}}login"
+							],
+							"path": [
+								"AuthenticateUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ForgotPassword",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"hostName\": \"abc\",\r\n  \"emailAddress\": \"admin@gmail.com\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseurl}}login/ForgotPassword",
+							"host": [
+								"{{baseurl}}login"
+							],
+							"path": [
+								"ForgotPassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ResetPassword",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"hostName\": \"abc\",\r\n  \"token\": \"0eb5568f-fb0a-4387-989c-6212e80509a5\",\r\n  \"email\": \"admin@gmail.com\",\r\n  \"password\": \"123\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseurl}}login/ResetPassword",
+							"host": [
+								"{{baseurl}}login"
+							],
+							"path": [
+								"ResetPassword"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}user/GetAll",
+							"host": [
+								"{{baseurl}}user"
+							],
+							"path": [
+								"GetAll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}user/-1",
+							"host": [
+								"{{baseurl}}user"
+							],
+							"path": [
+								"-1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateUser",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fullName\": \"viram keshwala\",\r\n  \"userName\": \"viramk7\",\r\n  \"password\": \"12345\",\r\n  \"email\": \"viramk7@gmail.com\",\r\n  \"DepartmentId\": \"2e13e640-815e-48a3-a0c9-b40ea4e223b6\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseurl}}user",
+							"host": [
+								"{{baseurl}}user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJEYlNlcnZlciI6Ijc0LjIwOC4yNC4zOSIsIkRiTmFtZSI6IlByaW50aW5nQkktQ3VzdG9tZXIxIiwiRGJVc2VyIjoicG9zdGdyZXMiLCJEYlB3ZCI6IlByaW50ZXJiaUAuIiwibmJmIjoxNTU5MDU1ODk3LCJleHAiOjE1NTkwNjMwOTcsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NjAwMzIvIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo2MDAzMi8ifQ.ACNdqIDY8Wq9kD9P1fsvzzYj5WCyo0S50o1FHlLMrqI",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}user/31",
+							"host": [
+								"{{baseurl}}user"
+							],
+							"path": [
+								"31"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateUser",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"fullName\": \"viram\",\n    \"userName\": \"viramk7\",\n    \"password\": \"12345\",\n    \"email\": \"viramk7@gmail.com\",\n    \"departmentId\": \"2e13e640-815e-48a3-a0c9-b40ea4e223b6\",\n    \"roleRightsId\": \"2e13e640-815e-48a3-a0c9-b40ea4e223b6\"\n}"
+						},
+						"url": {
+							"raw": "{{baseurl}}user/433",
+							"host": [
+								"{{baseurl}}user"
+							],
+							"path": [
+								"433"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Common",
+			"item": [
+				{
+					"name": "GetAllDepartments",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseurl}}common/GetAllDepartments",
+							"host": [
+								"{{baseurl}}common"
+							],
+							"path": [
+								"GetAllDepartments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllRoleRights",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}common/GetAllRoleRights",
+							"host": [
+								"{{baseurl}}common"
+							],
+							"path": [
+								"GetAllRoleRights"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "68337bfa-9932-46d3-91b8-7c5c1db58873",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "0fc6eafc-6b61-401e-aaf2-70530e87f9b7",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
