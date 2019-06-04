@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using PrintingBI.Data.Infrastructure;
 using PrintingBI.Data.Repositories.Generic;
 using System;
@@ -9,9 +10,12 @@ namespace PrintingBI.Data.Repositories.UserMaster
 {
     public class UserMasterRepository : EfRepository<Entities.PrinterBIUser>, IUserMasterRepository
     {
-        public UserMasterRepository(ICustomerDbContext context) : base(context.Context)
-        {
+        private readonly ILogger<UserMasterRepository> _logger;
 
+        public UserMasterRepository(ICustomerDbContext context, ILogger<UserMasterRepository> logger) 
+            : base(context.Context)
+        {
+            _logger = logger;
         }
         
         public async Task<string> InsertUser(Entities.PrinterBIUser entity)
@@ -21,11 +25,12 @@ namespace PrintingBI.Data.Repositories.UserMaster
 
             try
             {
-                bool isduplicateEmail = _context.PrinterBIUsers.Any(f => f.Email.ToLower() == entity.Email.ToLower());
-                if (isduplicateEmail) return "Email address is already exists.";
+                var user = _context.PrinterBIUsers
+                    .FirstOrDefault(f => f.UserName.ToLower() == entity.UserName.ToLower()
+                                      || f.Email.ToLower() == entity.Email.ToLower());
 
-                bool isduplicateUser = _context.PrinterBIUsers.Any(f => f.UserName.ToLower() == entity.UserName.ToLower());
-                if (isduplicateUser) return "User Name is already exists";
+                if (user != null)
+                    return "User with username/email already registered with us. Please try login with it.";
 
                 Entities.Add(entity);
                 _context.SaveChanges();
@@ -33,6 +38,7 @@ namespace PrintingBI.Data.Repositories.UserMaster
             }
             catch (DbUpdateException exception)
             {
+                _logger.LogError(exception.StackTrace);
                 //ensure that the detailed error text is saved in the Log
                 throw new Exception(GetFullErrorTextAndRollbackEntityChanges(exception), exception);
             }

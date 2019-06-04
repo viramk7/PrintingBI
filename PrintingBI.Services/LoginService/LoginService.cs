@@ -34,7 +34,7 @@ namespace PrintingBI.Services.LoginService
             return await _loginRepository.GeneratePasswordResetToken(connectionString, email);
         }
 
-        public async Task<string> ResetUserPassByToken(string connectionString, string email , string token, string password)
+        public async Task<string> ResetUserPassByToken(string connectionString, string email, string token, string password)
         {
             return await _loginRepository.ResetUserPassByToken(connectionString, email, token, password);
         }
@@ -46,19 +46,16 @@ namespace PrintingBI.Services.LoginService
 
         public async void SendForgotPasswordEmail(string token, string emailaddress)
         {
-            string resetPassUrl = _adminConfiguration.FrontEndResetPassURL + "?Token=" + token;
-
-            //TODO : GET bodyTemplate from provided path
-            //var bodyTemplate = System.IO.File.ReadAllText(System.Web.Hosting.HostingEnvironment.MapPath("~/Template/ForgotPassword.html"));
-
-            var bodyTemplate = string.Empty;
+            string resetPassUrl = $"{_adminConfiguration.FrontEndResetPassURL}?email={emailaddress}&Token={token}";
+            
+            var bodyTemplate = await System.IO.File.ReadAllTextAsync("Template/ForgotPassword.html");
 
             bodyTemplate = bodyTemplate.Replace("[@PORTAL-NAME]", "Printer BI System");
             bodyTemplate = bodyTemplate.Replace("[@FULLNAME]", emailaddress);
             bodyTemplate = bodyTemplate.Replace("[@LINK]", resetPassUrl);
 
             _emailNotificationService.SendAsyncEmail(emailaddress, "Forgot Password Link", bodyTemplate, true);
-            
+
         }
     }
 }

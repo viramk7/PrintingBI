@@ -49,6 +49,18 @@
             <param name="model">Host name to be validated</param>
             <returns></returns>
         </member>
+        <member name="M:PrintingBI.API.Controllers.CommonController.GetAllDepartments">
+            <summary>
+            This api returns list of departments with Id and Name
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PrintingBI.API.Controllers.CommonController.GetAllRoleRights">
+            <summary>
+            This api returns list of role-rights with Id and Name
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:PrintingBI.API.Controllers.LoginController.AuthenticateUser(PrintingBI.API.Models.LoginDto)">
             <summary>
             Authenticates given user for provided hostname
@@ -58,25 +70,25 @@
         </member>
         <member name="M:PrintingBI.API.Controllers.LoginController.ForgotPassword(PrintingBI.API.Models.ForgotPassDto)">
             <summary>
-            Forgot Password API for User
+            Forgot Password API for User which checks for email is valid or not 
             </summary>
-            <param name="model"></param>
+            <param name="model">Model contains HostName and email address</param>
             <returns></returns>
-            <remarks>\
-            If the user is valid a token will be sent to the registered email \
+            <remarks>
+            If it is valid email then it will send an email with link to reset password
             The token is valid for 3 hours
             </remarks>
         </member>
         <member name="M:PrintingBI.API.Controllers.LoginController.ResetPassword(PrintingBI.API.Models.ResetPassDto)">
             <summary>
-            Reset Password with token
+            Reset Password GET api with token 
             </summary>
-            <param name="model"></param>
+            <param name="model">Model contains HostName , Token , Email address</param>
             <returns></returns>
         </member>
         <member name="M:PrintingBI.API.Controllers.LoginController.ChangePassword(PrintingBI.API.Models.ChangePassDto)">
             <summary>
-            Change User password
+            Change User password with Email address , old pass and new Pass
             </summary>
             <param name="model"></param>
             <returns></returns>
@@ -89,22 +101,37 @@
         </member>
         <member name="M:PrintingBI.API.Controllers.UserMasterController.GetAllUsers">
             <summary>
-            Gets all the users
+            This api returns the list of Users
             </summary>
             <returns>List of users</returns>
         </member>
         <member name="M:PrintingBI.API.Controllers.UserMasterController.GetUser(System.Int32)">
             <summary>
-            Gets the user by id
+            this api returns single user object 
             </summary>
-            <param name="id"></param>
+            <param name="id"> Pass User Id </param>
             <returns>Individual user</returns>
         </member>
         <member name="M:PrintingBI.API.Controllers.UserMasterController.CreateUser(PrintingBI.API.Models.CreateUserDto)">
             <summary>
-            Create new user
+            Create new user with required details
             </summary>
-            <param name="obj"></param>
+            <param name="obj">User object with all required information</param>
+            <returns></returns>
+        </member>
+        <member name="M:PrintingBI.API.Controllers.UserMasterController.UpdateUser(System.Int32,PrintingBI.API.Models.UpdateUserDto)">
+            <summary>
+            This api will update the user object with passed information
+            </summary>
+            <param name="id">user id</param>
+            <param name="obj">user model with updated information</param>
+            <returns></returns>
+        </member>
+        <member name="M:PrintingBI.API.Controllers.UserMasterController.DeleteUser(System.Int32)">
+            <summary>
+            this api will delete specified user object
+            </summary>
+            <param name="id">pass user id</param>
             <returns></returns>
         </member>
         <member name="T:PrintingBI.API.Models.AuthenticateUserInputDto">
