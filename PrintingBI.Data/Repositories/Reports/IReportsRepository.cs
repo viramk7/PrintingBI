@@ -6,7 +6,7 @@ namespace PrintingBI.Data.Repositories.Reports
 {
     public interface IReportsRepository
     {
-        Task<bool> SyncReports(string connectionString, IEnumerable<PrinterBIReports> newReports);
-        Task<IEnumerable<PrinterBIReports>> GetAllReports(string connectionString);
+        Task<bool> SyncReports(string connectionString, IEnumerable<PrinterBIReportMaster> newReports);
+        Task<IEnumerable<PrinterBIReportMaster>> GetAllReports(string connectionString);
     }
 }

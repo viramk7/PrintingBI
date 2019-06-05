@@ -76,7 +76,8 @@ namespace PrintingBI.Services.PowerBIService
         {
             var client = GetPowerBiClient();
             var reports = client.Reports.GetReportsInGroupAsync(PBIWorkspaceId).Result.Value;
-            return reports.ToList();
+            var list = reports.ToList();
+            return list;
         }
 
         public PBReportViewModel GetPowerBIReport(string reportId)

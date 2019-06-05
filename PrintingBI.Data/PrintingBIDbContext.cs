@@ -19,7 +19,13 @@ namespace PrintingBI.Data
 
         public DbSet<PrinterBIDepartment> PrinterBIDepartments { get; set; }
 
-        public DbSet<PrinterBIReports> PrinterBIReports { get; set; }
+        public DbSet<AssignedReportsToAll> AssignedReportsToAll { get; set; }
+
+        public DbSet<AssignedReportsToUser> AssignedReportsToUser { get; set; }
+
+        public DbSet<BlockedReportsForUser> BlockedReportsForUser { get; set; }
+
+        public DbSet<PrinterBIReportMaster> PrinterBIReportMaster { get; set; }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

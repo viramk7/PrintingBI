@@ -8,7 +8,7 @@ namespace PrintingBI.Data.Repositories.Reports
 {
     public class ReportsRepository : IReportsRepository
     {
-        public async Task<bool> SyncReports(string connectionString, IEnumerable<PrinterBIReports> newReports)
+        public async Task<bool> SyncReports(string connectionString, IEnumerable<PrinterBIReportMaster> newReports)
         {
             if (string.IsNullOrEmpty(connectionString))
                 throw new ArgumentException("connection string not provided!");
@@ -17,19 +17,19 @@ namespace PrintingBI.Data.Repositories.Reports
             var context = printingBIDbContextFactory.Create(connectionString);
 
             var oldReports = await context
-                        .PrinterBIReports
+                        .PrinterBIReportMaster
                         .ToListAsync();
 
-            context.PrinterBIReports.RemoveRange(oldReports);
+            context.PrinterBIReportMaster.RemoveRange(oldReports);
             await context.SaveChangesAsync();
 
-            await context.PrinterBIReports.AddRangeAsync(newReports);
+            await context.PrinterBIReportMaster.AddRangeAsync(newReports);
             await context.SaveChangesAsync();
 
             return true;
         }
 
-        public async Task<IEnumerable<PrinterBIReports>> GetAllReports(string connectionString)
+        public async Task<IEnumerable<PrinterBIReportMaster>> GetAllReports(string connectionString)
         {
             if (string.IsNullOrEmpty(connectionString))
                 throw new ArgumentException("connection string not provided!");
@@ -37,7 +37,7 @@ namespace PrintingBI.Data.Repositories.Reports
             var printingBIDbContextFactory = new PrintingBIDbContextFactory();
             var context = printingBIDbContextFactory.Create(connectionString);
 
-            return await context.PrinterBIReports.ToListAsync();
+            return await context.PrinterBIReportMaster.ToListAsync();
         }
     }
 }
