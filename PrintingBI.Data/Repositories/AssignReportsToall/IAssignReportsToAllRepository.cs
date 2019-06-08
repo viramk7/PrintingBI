@@ -1,0 +1,14 @@
+﻿using PrintingBI.Data.Entities;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PrintingBI.Data.Repositories.AssignReportsToall
+{
+    public interface IAssignReportsToAllRepository
+    {
+        Task<List<AssignedReportsToAll>> GetAllAssignToAllReports();
+        Task SaveAssignToAllReports(IEnumerable<Guid> reports);
+    }
+}

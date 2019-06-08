@@ -1,5 +1,6 @@
 ﻿using PrintingBI.Common.Configurations;
 using PrintingBI.Data.Infrastructure;
+using PrintingBI.Data.Repositories.AssignReportsToall;
 using PrintingBI.Data.Repositories.Common;
 using PrintingBI.Data.Repositories.Departments;
 using PrintingBI.Data.Repositories.Generic;
@@ -9,6 +10,7 @@ using PrintingBI.Data.Repositories.ReportMaster;
 using PrintingBI.Data.Repositories.UserMaster;
 using PrintingBI.Data.Repositories.Users;
 using PrintingBI.Services.AdminTenantService;
+using PrintingBI.Services.AssignToAllService;
 using PrintingBI.Services.Common;
 using PrintingBI.Services.Departments;
 using PrintingBI.Services.Entities;
@@ -42,6 +44,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<ICommonRepository, CommonRepository>();
             services.AddTransient<IUserMasterRepository, UserMasterRepository>();
             services.AddTransient<IReportMasterRepository, ReportMasterRepository>();
+            services.AddTransient<IAssignReportsToAllRepository, AssignReportsToAllRepository>();
 
             // Services
             services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
@@ -56,6 +59,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<IUserMasterService, UserMasterService>();
             services.AddTransient<IPowerBIService, PowerBIService>();
             services.AddTransient<IReportMasterService, ReportMasterService>();
+            services.AddTransient<IAssignToAllService, AssignToAllService>();
 
             // Helpers
             services.AddTransient<IExtractDeptDataFromExcel, ExtractDeptDataFromExcel>();
