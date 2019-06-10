@@ -15,13 +15,11 @@ namespace PrintingBI.Services.AssignToAllService
     {
         private readonly IAssignReportsToAllRepository _assignReportsToAllRepository;
         private readonly IReportMasterRepository _reportMasterRepository;
-        private readonly IMapper _mapper;
 
-        public AssignToAllService(IAssignReportsToAllRepository assignReportsToAllRepository, IReportMasterRepository reportMasterRepository, IMapper mapper)
+        public AssignToAllService(IAssignReportsToAllRepository assignReportsToAllRepository, IReportMasterRepository reportMasterRepository)
         {
             _assignReportsToAllRepository = assignReportsToAllRepository;
             _reportMasterRepository = reportMasterRepository;
-            _mapper = mapper;
         }
 
         public async Task<List<AssignToAllReportDto>> GetAssignToAllReports()
