@@ -63,21 +63,7 @@ namespace PrintingBI.API.Controllers
                     return StatusCode(StatusCodes.Status401Unauthorized, "Invalid UserName and Password.");
                 }
 
-                var claims = new List<ClaimModel>
-                {
-                    new ClaimModel(AuthConstants.DbServer,intialInfo.TenantDBServer),
-                    new ClaimModel(AuthConstants.DbName,intialInfo.TenantDBName),
-                    new ClaimModel(AuthConstants.DbUser,intialInfo.TenantDBUser),
-                    new ClaimModel(AuthConstants.DbPwd,intialInfo.TenantDBPassword),
-                    new ClaimModel(AuthConstants.PBAppId,intialInfo.ApplicationId),
-                    new ClaimModel(AuthConstants.PBUserName,intialInfo.PowerBIUserName),
-                    new ClaimModel(AuthConstants.PBPass,intialInfo.PowerBIUserPass),
-                    new ClaimModel(AuthConstants.WorkspaceID,intialInfo.WorkSpaceId),
-                    new ClaimModel(AuthConstants.IsSuperAdmin,result.IsSuperAdmin.ToString()),
-                    new ClaimModel(AuthConstants.FTabName,string.IsNullOrEmpty(intialInfo.FilterTableName) ? "" : intialInfo.FilterTableName),
-                    new ClaimModel(AuthConstants.FColumnName,string.IsNullOrEmpty(intialInfo.FilterColumnName) ? "" : intialInfo.FilterColumnName),
-                    new ClaimModel(AuthConstants.FUserColumname,string.IsNullOrEmpty(intialInfo.FilterUserColumnName) ? "" : intialInfo.FilterUserColumnName)
-                };
+                List<ClaimModel> claims = SetClaims(intialInfo, result);
 
                 var token = TokenBuilder.CreateJsonWebToken(
                             model.UserNameOrEmail,
@@ -95,7 +81,7 @@ namespace PrintingBI.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong!");
             }
         }
-
+        
         /// <summary>
         /// When the user forgets his/her password and wants to reset using email. 
         /// </summary>
@@ -225,6 +211,25 @@ namespace PrintingBI.API.Controllers
             intialInfo.TenantDBPassword = "Printerbi@.";
 
             return intialInfo;
+        }
+
+        private static List<ClaimModel> SetClaims(CustomerInitialInfoModel intialInfo, AuthenticateUserResultDto result)
+        {
+            return new List<ClaimModel>
+                {
+                    new ClaimModel(AuthConstants.DbServer,intialInfo.TenantDBServer),
+                    new ClaimModel(AuthConstants.DbName,intialInfo.TenantDBName),
+                    new ClaimModel(AuthConstants.DbUser,intialInfo.TenantDBUser),
+                    new ClaimModel(AuthConstants.DbPwd,intialInfo.TenantDBPassword),
+                    new ClaimModel(AuthConstants.PBAppId,intialInfo.ApplicationId),
+                    new ClaimModel(AuthConstants.PBUserName,intialInfo.PowerBIUserName),
+                    new ClaimModel(AuthConstants.PBPass,intialInfo.PowerBIUserPass),
+                    new ClaimModel(AuthConstants.WorkspaceID,intialInfo.WorkSpaceId),
+                    new ClaimModel(AuthConstants.IsSuperAdmin,result.IsSuperAdmin.ToString()),
+                    new ClaimModel(AuthConstants.FTabName,string.IsNullOrEmpty(intialInfo.FilterTableName) ? "" : intialInfo.FilterTableName),
+                    new ClaimModel(AuthConstants.FColumnName,string.IsNullOrEmpty(intialInfo.FilterColumnName) ? "" : intialInfo.FilterColumnName),
+                    new ClaimModel(AuthConstants.FUserColumname,string.IsNullOrEmpty(intialInfo.FilterUserColumnName) ? "" : intialInfo.FilterUserColumnName)
+                };
         }
 
         #endregion

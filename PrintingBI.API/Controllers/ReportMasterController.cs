@@ -14,7 +14,6 @@ using PrintingBI.Services.ReportsService;
 
 namespace PrintingBI.API.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("api/reports")]
     [Produces("application/json")]
