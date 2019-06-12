@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PrintingBI.API.Security;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace PrintingBI.API
@@ -96,6 +97,10 @@ namespace PrintingBI.API
             services.AddAuthorization(options =>
             {
                 options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme).RequireAuthenticatedUser().Build();
+                options.AddPolicy(PolicyConstants.AdminAccessOnly, policy =>
+                {
+                    policy.AddRequirements(new AdminAccessOnly());
+                });
             });
 
             services.AddSingleton(new MapperConfiguration(c =>

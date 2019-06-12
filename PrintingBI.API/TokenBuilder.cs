@@ -72,13 +72,17 @@ namespace PrintingBI.API
             {
                 foreach (var claim in claimsList)
                 {
-                    if(claim.Key == AuthConstants.IsSuperAdmin && claim.Value == true.ToString())
+                    if (claim.Key == AuthConstants.IsSuperAdmin)
                     {
-                        claims.Add(new Claim(ClaimTypes.Role, RoleModel.SuperAdmin));
-                        continue;
+                        claims.Add(new Claim(ClaimTypes.Role,
+                            bool.Parse(claim.Value)
+                                ? RoleModel.SuperAdmin
+                                : RoleModel.NormalUser));
                     }
-
-                    claims.Add(new Claim(claim.Key, claim.Value));
+                    else
+                    {
+                        claims.Add(new Claim(claim.Key, claim.Value));
+                    }                    
                 }
             }
             var head = new JwtHeader();

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +16,7 @@ namespace PrintingBI.API.Controllers
     [Produces("application/json")]
     [Consumes("application/json")]
     [Authorize(Roles = RoleModel.SuperAdmin)]
+    //[Authorize(Policy = PolicyConstants.AdminAccessOnly)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public class AssignReportsToAllController : ControllerBase
     {
