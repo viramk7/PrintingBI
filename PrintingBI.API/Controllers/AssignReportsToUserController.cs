@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PrintingBI.Common;
 using PrintingBI.Data.CustomModel;
 using PrintingBI.Services.AssignReportsToUser;
 
@@ -16,6 +17,8 @@ namespace PrintingBI.API.Controllers
     [Route("api/user")]
     [Produces("application/json")]
     [Consumes("application/json")]
+    [Authorize(Roles = RoleModel.SuperAdmin)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public class AssignReportsToUserController : ControllerBase
     {
         private readonly ILogger<AssignReportsToUserController> _logger;
@@ -54,7 +57,7 @@ namespace PrintingBI.API.Controllers
         /// <param name="reportlist"></param>
         /// <returns></returns>
         /// <remarks>
-        /// If any of the report which is assigned to all users is not provided \
+        /// If any of the report which is assigned to all users is not provided
         /// then that report will be blocked for the user. 
         /// </remarks>
         [HttpPost("{userid}/reports")]
@@ -62,13 +65,15 @@ namespace PrintingBI.API.Controllers
         {
             try
             {
-                var list = await _assignToUserService.SaveAssignReportsToUser(userid, reportlist);
-                if (list.Count > 0)
+                var result = await _assignToUserService.SaveAssignReportsToUser(userid, reportlist);
+                if (string.IsNullOrEmpty(result))
                 {
-                    return NotFound(list);
+                    return Ok();
                 }
-
-                return Ok();
+                else
+                {
+                    return NotFound(result);
+                }
             }
             catch (Exception ex)
             {

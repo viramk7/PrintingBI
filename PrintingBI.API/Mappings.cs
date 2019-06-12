@@ -18,6 +18,8 @@ namespace PrintingBI.API
                 .ForMember(dest => dest.Id , opt => opt.MapFrom(src =>src.Id))
                 .ForMember(dest => dest.ReportName, opt => opt.MapFrom(src => src.Name));
 
+            CreateMap<PrinterBIReportMaster, ReportMasterCustomModel>();
+
         }
     }
 }

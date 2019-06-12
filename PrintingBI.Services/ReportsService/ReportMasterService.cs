@@ -22,9 +22,10 @@ namespace PrintingBI.Services.ReportsService
             _mapper = mapper;
         }
 
-        public async Task<List<PrinterBIReportMaster>> GetAllReports()
+        public async Task<List<ReportMasterCustomModel>> GetAllReports()
         {
-            return await _reportMasterRepository.GetAllReports();
+            var list =  await _reportMasterRepository.GetAllReports();
+            return _mapper.Map<List<ReportMasterCustomModel>>(list);
         }
 
         public async Task SyncReports()

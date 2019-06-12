@@ -9,6 +9,6 @@ namespace PrintingBI.Data.Repositories.AssignReportsToall
     public interface IAssignReportsToAllRepository
     {
         Task<List<AssignedReportsToAll>> GetAllAssignToAllReports();
-        Task SaveAssignToAllReports(IEnumerable<Guid> reports);
+        Task<string> SaveAssignToAllReports(IEnumerable<Guid> reports);
     }
 }

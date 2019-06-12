@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PrintingBI.API.Models;
+using PrintingBI.Common;
 using PrintingBI.Data.Entities;
 using PrintingBI.Services.PowerBIService;
 using PrintingBI.Services.ReportsService;
@@ -18,6 +19,8 @@ namespace PrintingBI.API.Controllers
     [Route("api/reports")]
     [Produces("application/json")]
     [Consumes("application/json")]
+    [Authorize(Roles = RoleModel.SuperAdmin)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public class ReportMasterController : ControllerBase
     {
         private readonly IReportMasterService _service;
@@ -34,7 +37,7 @@ namespace PrintingBI.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<List<PrinterBIReportMaster>>> GetAllReports()
+        public async Task<ActionResult<List<ReportMasterCustomModel>>> GetAllReports()
         {
             try
             {

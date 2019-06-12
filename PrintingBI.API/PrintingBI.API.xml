@@ -77,7 +77,7 @@
             <param name="reportlist"></param>
             <returns></returns>
             <remarks>
-            If any of the report which is assigned to all users is not provided \
+            If any of the report which is assigned to all users is not provided
             then that report will be blocked for the user. 
             </remarks>
         </member>

@@ -9,7 +9,7 @@ namespace PrintingBI.Services.ReportsService
 {
     public interface IReportMasterService
     {
-        Task<List<PrinterBIReportMaster>> GetAllReports();
+        Task<List<ReportMasterCustomModel>> GetAllReports();
         Task SyncReports();
         Task<PBReportViewModel> GetSingleReportData(string reportid);
     }

@@ -21,7 +21,7 @@ namespace PrintingBI.Services.AssignReportsToUser
             return await _assignReportsToUSerRepository.GetAllReportsAssignToUser(userId);
         }
 
-        public async Task<List<Guid>> SaveAssignReportsToUser(int userId, List<Guid> reports)
+        public async Task<string> SaveAssignReportsToUser(int userId, List<Guid> reports)
         {
             return await _assignReportsToUSerRepository.SaveAssignReportsToUser(userId, reports);
         }

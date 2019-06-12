@@ -40,34 +40,9 @@ namespace PrintingBI.Services.AssignToAllService
             return assignToAllReportsList;
         }
 
-        public async Task<(bool,string)> SaveAssignReportsToAll(List<Guid> reportlist)
+        public async Task<string> SaveAssignReportsToAll(List<Guid> reportlist)
         {
-            List<Guid> correctReportIdlist = new List<Guid>();
-            List<Guid> wrongReportIdlist = new List<Guid>();
-
-            var allreports = await _reportMasterRepository.GetAllReports();
-
-            foreach(Guid id in reportlist)
-            {
-                if(allreports.Any(x=>x.Id == id))
-                {
-                    correctReportIdlist.Add(id);
-                }
-                else
-                {
-                    wrongReportIdlist.Add(id);
-                }
-            }
-
-            if(correctReportIdlist.Count > 0)
-            {
-                await _assignReportsToAllRepository.SaveAssignToAllReports(correctReportIdlist);
-            }
-            if(wrongReportIdlist.Count > 0)
-            {
-                return (false, String.Join(',', wrongReportIdlist));
-            }
-            return (true, "All reports saved suuceefully.");
+            return await _assignReportsToAllRepository.SaveAssignToAllReports(reportlist);
         }
     }
 }

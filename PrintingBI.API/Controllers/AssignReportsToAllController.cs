@@ -54,12 +54,19 @@ namespace PrintingBI.API.Controllers
         /// <param name="reportlist">ex: ["reportid1","reportid2"]</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<(bool, string)>> SaveAssignReportsToAll(List<Guid> reportlist)
+        public async Task<ActionResult> SaveAssignReportsToAll(List<Guid> reportlist)
         {
             try
             {
-                (bool, string) result = await _assignToAllService.SaveAssignReportsToAll(reportlist);
-                return result;
+                string result = await _assignToAllService.SaveAssignReportsToAll(reportlist);
+                if (string.IsNullOrEmpty(result))
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound(result);
+                }
             }
             catch (Exception ex)
             {
