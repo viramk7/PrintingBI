@@ -57,7 +57,7 @@ namespace PrintingBI.API.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var result = await _loginService.AuthenticateUser(intialInfo.GetConnectionString(), model.UserNameOrEmail, model.Password);
+                var result = await _loginService.AuthenticateUser(intialInfo.GetConnectionString(), model.UserNameOrEmail, model.Password, _jwtConfiguration.RefreshTokenExpiryTime);
                 if (!result.IsAuthenticated)
                 {
                     return StatusCode(StatusCodes.Status401Unauthorized, "Invalid UserName and Password.");
@@ -73,7 +73,7 @@ namespace PrintingBI.API.Controllers
                             Guid.NewGuid(),
                             DateTime.UtcNow.AddMinutes(Convert.ToInt32(_jwtConfiguration.ExpireTime)));
 
-                return new AuthenticateUserOutputDto(!result.IsPasswordChange, token, _jwtConfiguration.ExpireTime);
+                return new AuthenticateUserOutputDto(!result.IsPasswordChange, token, _jwtConfiguration.ExpireTime,result.RefreshToken);
             }
             catch (Exception ex)
             {
@@ -197,7 +197,53 @@ namespace PrintingBI.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong!");
             }
         }
-        
+
+        /// <summary>
+        /// This api validates refresh token given for provided hostname and user 
+        /// this will genertes new token if refresh token is valid and does not expired
+        /// </summary>
+        /// <param name="model">Provide the hostname, username or email and refresh token</param>
+        /// <returns></returns>
+        [HttpPost("ValidateRefreshToken")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<AuthenticateUserOutputDto>> ValidateRefreshToken(RefreshTokenDto model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var intialInfo = await GetTenantDbInfo(model.HostName);
+                if (intialInfo == null || string.IsNullOrEmpty(intialInfo.TenantDBServer))
+                {
+                    ModelState.AddModelError("", "Invalid Host Name.");
+                    return BadRequest(ModelState);
+                }
+
+                var result = await _loginService.ValidateRefreshToken(intialInfo.GetConnectionString(), model.UserNameOrEmail, model.RefreshToken, _jwtConfiguration.RefreshTokenExpiryTime);
+                if (!result.IsAuthenticated)
+                {
+                    return StatusCode(StatusCodes.Status401Unauthorized, "Refresh token is not valid or it is expired.");
+                }
+
+                List<ClaimModel> claims = SetClaims(intialInfo, result);
+
+                var token = TokenBuilder.CreateJsonWebToken(
+                            model.UserNameOrEmail,
+                            claims,
+                            _jwtConfiguration.Audience,
+                            _jwtConfiguration.Issuer,
+                            Guid.NewGuid(),
+                            DateTime.UtcNow.AddMinutes(Convert.ToInt32(_jwtConfiguration.ExpireTime)));
+
+                return new AuthenticateUserOutputDto(!result.IsPasswordChange, token, _jwtConfiguration.ExpireTime, result.RefreshToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.StackTrace);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong!");
+            }
+        }
         #region Helpers
 
         private async Task<CustomerInitialInfoModel> GetTenantDbInfo(string hostName)

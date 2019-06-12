@@ -9,5 +9,7 @@
         public string Key { get; set; }
 
         public int ExpireTime { get; set; }
+
+        public int RefreshTokenExpiryTime { get; set; }
     }
 }

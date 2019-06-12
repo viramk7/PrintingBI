@@ -23,6 +23,8 @@ namespace PrintingBI.Data.Entities
         public Guid? RoleRightsId { get; set; }
         public string Token { get; set; }
         public DateTime? TokenExpiryDate { get; set; }
+        public string RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpiryDate { get; set; }
         public bool IsSuperAdmin { get; set; }
         public bool IsPassChange { get; set; }
     }

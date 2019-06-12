@@ -6,5 +6,6 @@
         int ExpireTime { get; set; }
         string Issuer { get; set; }
         string Key { get; set; }
+        int RefreshTokenExpiryTime { get; set; }
     }
 }

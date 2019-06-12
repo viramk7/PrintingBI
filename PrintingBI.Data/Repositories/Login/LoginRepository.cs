@@ -7,7 +7,7 @@ namespace PrintingBI.Data.Repositories.Login
 {
     public class LoginRepository : ILoginRepository
     {
-        public async Task<AuthenticateUserResultDto> AuthenticateUser(string connectionString, string userNameOrEmail, string password)
+        public async Task<AuthenticateUserResultDto> AuthenticateUser(string connectionString, string userNameOrEmail, string password,int refreshTokenExpiry)
         {
             if (string.IsNullOrEmpty(connectionString))
                 throw new ArgumentException("connection string not provided!");
@@ -26,19 +26,29 @@ namespace PrintingBI.Data.Repositories.Login
             if (user.Password != password)
                 return new AuthenticateUserResultDto { IsAuthenticated = false, IsSuperAdmin = false, IsPasswordChange = false };
 
-            AuthenticateUserResultDto obj = new AuthenticateUserResultDto();
-            obj.IsAuthenticated = true;
-
-            if (user.IsSuperAdmin)
-                obj.IsSuperAdmin = true;
             else
-                obj.IsSuperAdmin = false;
+            {
+                string refreshToken = Guid.NewGuid().ToString();
+                user.RefreshToken = refreshToken;
+                user.RefreshTokenExpiryDate = DateTime.Now.AddMinutes(refreshTokenExpiry);
+                context.PrinterBIUsers.Update(user);
+                context.SaveChanges();
 
-            if (user.IsPassChange)
-                obj.IsPasswordChange = true;
-            else
-                obj.IsPasswordChange = false;
-            return obj;
+                AuthenticateUserResultDto obj = new AuthenticateUserResultDto();
+                obj.IsAuthenticated = true;
+                obj.RefreshToken = refreshToken;
+
+                if (user.IsSuperAdmin)
+                    obj.IsSuperAdmin = true;
+                else
+                    obj.IsSuperAdmin = false;
+
+                if (user.IsPassChange)
+                    obj.IsPasswordChange = true;
+                else
+                    obj.IsPasswordChange = false;
+                return obj;
+            }
         }
 
         public async Task<bool> AuthenticateUserByEmail(string connectionString, string Email)
@@ -125,6 +135,50 @@ namespace PrintingBI.Data.Repositories.Login
                 return true;
             }
             return false;
+        }
+
+        public async Task<AuthenticateUserResultDto> ValidateRefreshToken(string connectionString, string userNameOrEmail, string refreshToken,int refreshTokenExpiry)
+        {
+            if (string.IsNullOrEmpty(connectionString))
+                throw new ArgumentException("connection string not provided!");
+
+
+            var printingBIDbContextFactory = new PrintingBIDbContextFactory();
+            var context = printingBIDbContextFactory.Create(connectionString);
+
+            var user = context.PrinterBIUsers
+                        .FirstOrDefault(m => m.UserName.ToLower() == userNameOrEmail.ToLower()
+                                          || m.Email.ToLower() == userNameOrEmail.ToLower());
+
+            if (user == null)
+                return new AuthenticateUserResultDto { IsAuthenticated = false, IsSuperAdmin = false, IsPasswordChange = false };
+
+            if (user.RefreshToken != refreshToken || user.RefreshTokenExpiryDate < DateTime.Now)
+                return new AuthenticateUserResultDto { IsAuthenticated = false, IsSuperAdmin = false, IsPasswordChange = false };
+
+            else
+            {
+                string newrefreshToken = Guid.NewGuid().ToString();
+                user.RefreshToken = newrefreshToken;
+                user.RefreshTokenExpiryDate = DateTime.Now.AddMinutes(refreshTokenExpiry);
+                context.PrinterBIUsers.Update(user);
+                context.SaveChanges();
+
+                AuthenticateUserResultDto obj = new AuthenticateUserResultDto();
+                obj.IsAuthenticated = true;
+                obj.RefreshToken = newrefreshToken;
+
+                if (user.IsSuperAdmin)
+                    obj.IsSuperAdmin = true;
+                else
+                    obj.IsSuperAdmin = false;
+
+                if (user.IsPassChange)
+                    obj.IsPasswordChange = true;
+                else
+                    obj.IsPasswordChange = false;
+                return obj;
+            }
         }
     }
 }

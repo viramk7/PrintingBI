@@ -5,11 +5,12 @@
     /// </summary>
     public class AuthenticateUserOutputDto
     {
-        public AuthenticateUserOutputDto(bool isSystemGeneratedPassword, string token, int expiresTime)
+        public AuthenticateUserOutputDto(bool isSystemGeneratedPassword, string token, int expiresTime,string refreshToken)
         {
             IsSystemGeneratedPassword = isSystemGeneratedPassword;
             Token = token;
             ExpiresTime = expiresTime;
+            RefreshToken = refreshToken;
         }
 
         /// <summary>
@@ -29,5 +30,10 @@
         /// Token expire time
         /// </summary>
         public int ExpiresTime { get; set; }
+
+        /// <summary>
+        /// Refresh token - it will helps to validates user with refresh token
+        /// </summary>
+        public string RefreshToken { get; set; }
     }
 }

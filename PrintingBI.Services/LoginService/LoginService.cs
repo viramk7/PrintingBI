@@ -19,9 +19,9 @@ namespace PrintingBI.Services.LoginService
             _adminConfiguration = adminConfiguration;
         }
 
-        public async Task<AuthenticateUserResultDto> AuthenticateUser(string connectionString, string userNameOrEmail, string password)
+        public async Task<AuthenticateUserResultDto> AuthenticateUser(string connectionString, string userNameOrEmail, string password, int refreshTokenExpiry)
         {
-            return await _loginRepository.AuthenticateUser(connectionString, userNameOrEmail, password);
+            return await _loginRepository.AuthenticateUser(connectionString, userNameOrEmail, password,refreshTokenExpiry);
         }
 
         public async Task<bool> AuthenticateUserByEmail(string connectionString, string Email)
@@ -56,6 +56,11 @@ namespace PrintingBI.Services.LoginService
 
             _emailNotificationService.SendAsyncEmail(emailaddress, "Forgot Password Link", bodyTemplate, true);
 
+        }
+
+        public async Task<AuthenticateUserResultDto> ValidateRefreshToken(string connectionString, string userNameOrEmail, string refreshToken, int refreshTokenExpiry)
+        {
+            return await _loginRepository.ValidateRefreshToken(connectionString, userNameOrEmail, refreshToken, refreshTokenExpiry);
         }
     }
 }

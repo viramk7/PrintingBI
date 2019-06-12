@@ -122,6 +122,14 @@
             <param name="model"></param>
             <returns></returns>
         </member>
+        <member name="M:PrintingBI.API.Controllers.LoginController.ValidateRefreshToken(PrintingBI.API.Models.RefreshTokenDto)">
+            <summary>
+            This api validates refresh token given for provided hostname and user 
+            this will genertes new token if refresh token is valid and does not expired
+            </summary>
+            <param name="model">Provide the hostname, username or email and refresh token</param>
+            <returns></returns>
+        </member>
         <member name="M:PrintingBI.API.Controllers.ReportMasterController.GetAllReports">
             <summary>
             Returns all the reports in database
@@ -205,6 +213,11 @@
         <member name="P:PrintingBI.API.Models.AuthenticateUserOutputDto.ExpiresTime">
             <summary>
             Token expire time
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.AuthenticateUserOutputDto.RefreshToken">
+            <summary>
+            Refresh token - it will helps to validates user with refresh token
             </summary>
         </member>
         <member name="T:PrintingBI.API.Models.ChangePassDto">
@@ -360,6 +373,21 @@
         <member name="P:PrintingBI.API.Models.LoginDto.Password">
             <summary>
             Password for provided username/email
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.RefreshTokenDto.HostName">
+            <summary>
+            Host name
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.RefreshTokenDto.UserNameOrEmail">
+            <summary>
+            Provide the user name or the email of the user
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.RefreshTokenDto.RefreshToken">
+            <summary>
+            Refresh Token for provided username/email
             </summary>
         </member>
         <member name="T:PrintingBI.API.Models.ResendConfirmationEmailInputDto">

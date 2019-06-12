@@ -16,5 +16,10 @@
         /// Is User First Time Pass Change Done ?
         /// </summary>
         public bool IsPasswordChange { get; set; }
+
+        /// <summary>
+        /// Refresh Token for User
+        /// </summary>
+        public string RefreshToken { get; set; }
     }
 }
