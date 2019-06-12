@@ -56,67 +56,85 @@ namespace PrintingBI.Data.Repositories.AssignReportsToUser
             return allUserReports;
         }
 
-        public async Task<List<Guid>> SaveAssignReportsToUser(int userId, List<Guid> reports)
+        public async Task<string> SaveAssignReportsToUser(int userId, List<Guid> reports)
         {
-            var oldUserReports = await _context.AssignedReportsToUser.Where(x => x.UserId == userId).ToListAsync();
-            _context.AssignedReportsToUser.RemoveRange(oldUserReports);
-            await _context.SaveChangesAsync();
-
-            var oldBlockedReports = await _context.BlockedReportsForUser.Where(x => x.UserId == userId).ToListAsync();
-            _context.BlockedReportsForUser.RemoveRange(oldBlockedReports);
-            await _context.SaveChangesAsync();
+            List<Guid> correctReportIdlist = new List<Guid>();
+            List<Guid> wrongReportIdlist = new List<Guid>();
+            List<Guid> blockedReports = new List<Guid>();
 
             var allReports = await _context.PrinterBIReportMaster.ToListAsync();
 
-            var assignedToall = await _context.AssignedReportsToAll.ToListAsync();
-
-            var blockedReports = new List<Guid>();
-
-            foreach (var assignObj in assignedToall)
+            foreach (Guid id in reports)
             {
-                if (reports.Any(e => e == assignObj.ReportId))
+                if (allReports.Any(x => x.Id == id))
                 {
-                    reports.Remove(assignObj.ReportId);
+                    correctReportIdlist.Add(id);
                 }
                 else
                 {
-                    blockedReports.Add(assignObj.ReportId);
+                    wrongReportIdlist.Add(id);
                 }
             }
 
-            List<BlockedReportsForUser> blockedlist = new List<BlockedReportsForUser>();
-            foreach (var obj in blockedReports)
+            if (wrongReportIdlist.Count > 0)
             {
-                blockedlist.Add(new BlockedReportsForUser
-                {
-                    ReportId = obj,
-                    UserId = userId
-                });
+                return string.Join(',', wrongReportIdlist);
             }
-
-            List<Guid> notExistsReports = new List<Guid>();
-            List<AssignedReportsToUser> userreportlist = new List<AssignedReportsToUser>();
-            foreach (var obj in reports)
+            else
             {
-                if (allReports.Any(x => x.Id == obj))
+                var oldUserReports = await _context.AssignedReportsToUser.Where(x => x.UserId == userId).ToListAsync();
+                _context.AssignedReportsToUser.RemoveRange(oldUserReports);
+                await _context.SaveChangesAsync();
+
+                var oldBlockedReports = await _context.BlockedReportsForUser.Where(x => x.UserId == userId).ToListAsync();
+                _context.BlockedReportsForUser.RemoveRange(oldBlockedReports);
+                await _context.SaveChangesAsync();
+
+                var assignedToall = await _context.AssignedReportsToAll.ToListAsync();
+
+                foreach (var assignObj in assignedToall)
                 {
-                    userreportlist.Add(new AssignedReportsToUser
+                    if (reports.Any(e => e == assignObj.ReportId))
+                    {
+                        reports.Remove(assignObj.ReportId);
+                    }
+                    else
+                    {
+                        blockedReports.Add(assignObj.ReportId);
+                    }
+                }
+
+                List<BlockedReportsForUser> blockedlist = new List<BlockedReportsForUser>();
+                foreach (var obj in blockedReports)
+                {
+                    blockedlist.Add(new BlockedReportsForUser
                     {
                         ReportId = obj,
                         UserId = userId
                     });
                 }
-                else
+
+                List<AssignedReportsToUser> userreportlist = new List<AssignedReportsToUser>();
+                foreach (var obj in reports)
                 {
-                    notExistsReports.Add(obj);
+                    if (allReports.Any(x => x.Id == obj))
+                    {
+                        userreportlist.Add(new AssignedReportsToUser
+                        {
+                            ReportId = obj,
+                            UserId = userId
+                        });
+                    }
                 }
+
+                await _context.BlockedReportsForUser.AddRangeAsync(blockedlist);
+                await _context.AssignedReportsToUser.AddRangeAsync(userreportlist);
+                await _context.SaveChangesAsync();
+
+                return string.Empty;
             }
 
-            await _context.BlockedReportsForUser.AddRangeAsync(blockedlist);
-            await _context.AssignedReportsToUser.AddRangeAsync(userreportlist);
-            await _context.SaveChangesAsync();
-
-            return notExistsReports;
         }
     }
 }
+

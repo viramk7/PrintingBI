@@ -9,6 +9,6 @@ namespace PrintingBI.Services.AssignReportsToUser
     public interface IAssignReportsToUserService
     {
         Task<List<AssignToUserReportDto>> GetAllReportsAssignToUser(int userId);
-        Task<List<Guid>> SaveAssignReportsToUser(int userId, List<Guid> reports);
+        Task<string> SaveAssignReportsToUser(int userId, List<Guid> reports);
     }
 }

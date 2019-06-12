@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PrintingBI.API.Models;
+using PrintingBI.Common;
 using PrintingBI.Services.UserMaster;
 
 namespace PrintingBI.API.Controllers
@@ -16,6 +17,8 @@ namespace PrintingBI.API.Controllers
     [Route("api/user")]
     [Produces("application/json")]
     [Consumes("application/json")]
+    [Authorize(Roles = RoleModel.SuperAdmin)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public class UserMasterController : ControllerBase
     {
         private readonly IUserMasterService _userService;

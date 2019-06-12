@@ -3,6 +3,7 @@ using PrintingBI.Data.Entities;
 using PrintingBI.Data.Infrastructure;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,24 +23,50 @@ namespace PrintingBI.Data.Repositories.AssignReportsToall
             return await _context.AssignedReportsToAll.ToListAsync();
         }
 
-        public async Task SaveAssignToAllReports(IEnumerable<Guid> reports)
+        public async Task<string> SaveAssignToAllReports(IEnumerable<Guid> reports)
         {
-            var oldReports = await _context.AssignedReportsToAll.ToListAsync();
-            _context.AssignedReportsToAll.RemoveRange(oldReports);
-            await _context.SaveChangesAsync();
-
             List<AssignedReportsToAll> reportlist = new List<AssignedReportsToAll>();
+            List<Guid> correctReportIdlist = new List<Guid>();
+            List<Guid> wrongReportIdlist = new List<Guid>();
 
-            foreach (Guid reportId in reports)
+            var allreports = await _context.PrinterBIReportMaster.ToListAsync();
+
+            foreach (Guid id in reports)
             {
-                reportlist.Add(new AssignedReportsToAll
+                if (allreports.Any(x => x.Id == id))
                 {
-                    ReportId = reportId
-                });
+                    correctReportIdlist.Add(id);
+                }
+                else
+                {
+                    wrongReportIdlist.Add(id);
+                }
             }
 
-            await _context.AssignedReportsToAll.AddRangeAsync(reportlist);
-            await _context.SaveChangesAsync();
+            if(wrongReportIdlist.Count > 0)
+            {
+                return string.Join(',', wrongReportIdlist);
+            }
+            else
+            {
+                var oldReports = await _context.AssignedReportsToAll.ToListAsync();
+                _context.AssignedReportsToAll.RemoveRange(oldReports);
+                await _context.SaveChangesAsync();
+
+                foreach (Guid reportId in reports)
+                {
+                    reportlist.Add(new AssignedReportsToAll
+                    {
+                        ReportId = reportId
+                    });
+                }
+
+                await _context.AssignedReportsToAll.AddRangeAsync(reportlist);
+                await _context.SaveChangesAsync();
+                return string.Empty;
+            }
+
+            
         }
     }
 }

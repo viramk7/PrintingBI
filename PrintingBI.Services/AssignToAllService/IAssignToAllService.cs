@@ -9,6 +9,6 @@ namespace PrintingBI.Services.AssignToAllService
     public interface IAssignToAllService
     {
         Task<List<AssignToAllReportDto>> GetAssignToAllReports();
-        Task<(bool, string)> SaveAssignReportsToAll(List<Guid> reportlist);
+        Task<string> SaveAssignReportsToAll(List<Guid> reportlist);
     }
 }
