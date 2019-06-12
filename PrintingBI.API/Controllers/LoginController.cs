@@ -73,7 +73,7 @@ namespace PrintingBI.API.Controllers
                     new ClaimModel(AuthConstants.PBUserName,intialInfo.PowerBIUserName),
                     new ClaimModel(AuthConstants.PBPass,intialInfo.PowerBIUserPass),
                     new ClaimModel(AuthConstants.WorkspaceID,intialInfo.WorkSpaceId),
-                    //new ClaimModel(AuthConstants.IsSuperAdmin.ToString(),result.IsSuperAdmin),
+                    new ClaimModel(AuthConstants.IsSuperAdmin,result.IsSuperAdmin.ToString()),
                     new ClaimModel(AuthConstants.FTabName,string.IsNullOrEmpty(intialInfo.FilterTableName) ? "" : intialInfo.FilterTableName),
                     new ClaimModel(AuthConstants.FColumnName,string.IsNullOrEmpty(intialInfo.FilterColumnName) ? "" : intialInfo.FilterColumnName),
                     new ClaimModel(AuthConstants.FUserColumname,string.IsNullOrEmpty(intialInfo.FilterUserColumnName) ? "" : intialInfo.FilterUserColumnName)

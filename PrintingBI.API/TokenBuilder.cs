@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using PrintingBI.Common;
 using PrintingBI.Common.Models;
 
 namespace PrintingBI.API
@@ -71,6 +72,12 @@ namespace PrintingBI.API
             {
                 foreach (var claim in claimsList)
                 {
+                    if(claim.Key == AuthConstants.IsSuperAdmin && claim.Value == true.ToString())
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, RoleModel.SuperAdmin));
+                        continue;
+                    }
+
                     claims.Add(new Claim(claim.Key, claim.Value));
                 }
             }

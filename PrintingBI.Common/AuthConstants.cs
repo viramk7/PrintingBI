@@ -10,7 +10,7 @@
         public const string PBUserName = "PBUserName";
         public const string PBPass = "PBPass";
         public const string WorkspaceID = "WorkspaceID";
-        public const bool IsSuperAdmin = false;
+        public const string IsSuperAdmin = "IsSuperAdmin";
         public const string FTabName = "FTabName";
         public const string FColumnName = "FColumnName";
         public const string FUserColumname = "FUserColumname";

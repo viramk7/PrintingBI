@@ -6,16 +6,18 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PrintingBI.Common;
 using PrintingBI.Data.CustomModel;
 using PrintingBI.Services.AssignToAllService;
 
 namespace PrintingBI.API.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("api/reportsassignedtoall")]
     [Produces("application/json")]
     [Consumes("application/json")]
+    [Authorize(Roles = RoleModel.SuperAdmin)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public class AssignReportsToAllController : ControllerBase
     {
         private readonly ILogger<AssignReportsToAllController> _logger;
