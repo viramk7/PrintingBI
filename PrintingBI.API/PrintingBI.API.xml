@@ -49,6 +49,38 @@
             <param name="model">Host name to be validated</param>
             <returns></returns>
         </member>
+        <member name="M:PrintingBI.API.Controllers.AssignReportsToAllController.GetAssignToAllReports">
+            <summary>
+            Gets all the reports with a flag isAssignedToAllUsers if assigned to all users
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PrintingBI.API.Controllers.AssignReportsToAllController.SaveAssignReportsToAll(System.Collections.Generic.List{System.Guid})">
+            <summary>
+            Assigns the provided reports to all the users
+            </summary>
+            <param name="reportlist">ex: ["reportid1","reportid2"]</param>
+            <returns></returns>
+        </member>
+        <member name="M:PrintingBI.API.Controllers.AssignReportsToUserController.GetAllReports(System.Int32)">
+            <summary>
+            Gets all the reports assigned to this user. Also reports which are assigned to all the users
+            </summary>
+            <param name="userid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PrintingBI.API.Controllers.AssignReportsToUserController.SaveAllReports(System.Int32,System.Collections.Generic.List{System.Guid})">
+            <summary>
+            Assigns the provided reports to user
+            </summary>
+            <param name="userid"></param>
+            <param name="reportlist"></param>
+            <returns></returns>
+            <remarks>
+            If any of the report which is assigned to all users is not provided \
+            then that report will be blocked for the user. 
+            </remarks>
+        </member>
         <member name="M:PrintingBI.API.Controllers.CommonController.GetAllDepartments">
             <summary>
             This api returns list of departments with department id and department name.
@@ -88,6 +120,18 @@
             Api to change the user password
             </summary>
             <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PrintingBI.API.Controllers.ReportMasterController.GetAllReports">
+            <summary>
+            Returns all the reports in database
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PrintingBI.API.Controllers.ReportMasterController.SyncReports">
+            <summary>
+            Syncs the reports with PowerBI
+            </summary>
             <returns></returns>
         </member>
         <member name="M:PrintingBI.API.Controllers.UserMasterController.GetAllUsers">

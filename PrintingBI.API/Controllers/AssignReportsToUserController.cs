@@ -15,6 +15,7 @@ namespace PrintingBI.API.Controllers
     [ApiController]
     [Route("api/user")]
     [Produces("application/json")]
+    [Consumes("application/json")]
     public class AssignReportsToUserController : ControllerBase
     {
         private readonly ILogger<AssignReportsToUserController> _logger;
@@ -26,6 +27,11 @@ namespace PrintingBI.API.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Gets all the reports assigned to this user. Also reports which are assigned to all the users
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <returns></returns>
         [HttpGet("{userid}/reports")]
         public async Task<ActionResult<List<AssignToUserReportDto>>> GetAllReports(int userid)
         {
@@ -41,13 +47,23 @@ namespace PrintingBI.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Assigns the provided reports to user
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <param name="reportlist"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// If any of the report which is assigned to all users is not provided \
+        /// then that report will be blocked for the user. 
+        /// </remarks>
         [HttpPost("{userid}/reports")]
-        public async Task<ActionResult> SaveAllReports(int userid,List<Guid> reportlist)
+        public async Task<ActionResult> SaveAllReports(int userid, List<Guid> reportlist)
         {
             try
             {
-                var list = await _assignToUserService.SaveAssignReportsToUser(userid,reportlist);
-                if(list.Count > 0)
+                var list = await _assignToUserService.SaveAssignReportsToUser(userid, reportlist);
+                if (list.Count > 0)
                 {
                     return NotFound(list);
                 }

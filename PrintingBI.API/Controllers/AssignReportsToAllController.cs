@@ -13,20 +13,25 @@ namespace PrintingBI.API.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/assignreportstoall")]
+    [Route("api/reportsassignedtoall")]
     [Produces("application/json")]
+    [Consumes("application/json")]
     public class AssignReportsToAllController : ControllerBase
     {
         private readonly ILogger<AssignReportsToAllController> _logger;
         private readonly IAssignToAllService _assignToAllService;
 
-        public AssignReportsToAllController(IAssignToAllService assignToAllService,ILogger<AssignReportsToAllController> logger)
+        public AssignReportsToAllController(IAssignToAllService assignToAllService, ILogger<AssignReportsToAllController> logger)
         {
             _assignToAllService = assignToAllService;
             _logger = logger;
         }
 
-        [HttpGet("GetAssignToAllReports")]
+        /// <summary>
+        /// Gets all the reports with a flag isAssignedToAllUsers if assigned to all users
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
         public async Task<ActionResult<List<AssignToAllReportDto>>> GetAssignToAllReports()
         {
             try
@@ -41,8 +46,13 @@ namespace PrintingBI.API.Controllers
             }
         }
 
-        [HttpPost("SaveAssignReportsToAll")]
-        public async Task<ActionResult<(bool,string)>> SaveAssignReportsToAll(List<Guid> reportlist)
+        /// <summary>
+        /// Assigns the provided reports to all the users
+        /// </summary>
+        /// <param name="reportlist">ex: ["reportid1","reportid2"]</param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ActionResult<(bool, string)>> SaveAssignReportsToAll(List<Guid> reportlist)
         {
             try
             {

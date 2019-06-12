@@ -15,8 +15,9 @@ namespace PrintingBI.API.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/reportmaster")]
+    [Route("api/reports")]
     [Produces("application/json")]
+    [Consumes("application/json")]
     public class ReportMasterController : ControllerBase
     {
         private readonly IReportMasterService _service;
@@ -28,7 +29,11 @@ namespace PrintingBI.API.Controllers
             _logger = logger;
         }
 
-        [HttpGet("GetAllReports")]
+        /// <summary>
+        /// Returns all the reports in database
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
         public async Task<ActionResult<List<PrinterBIReportMaster>>> GetAllReports()
         {
             try
@@ -36,14 +41,18 @@ namespace PrintingBI.API.Controllers
                 var list = await _service.GetAllReports();
                 return list;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.StackTrace);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong!");
             }
         }
 
-        [HttpGet("SyncReports")]
+        /// <summary>
+        /// Syncs the reports with PowerBI
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("Sync")]
         public async Task<ActionResult> SyncReports()
         {
             try
@@ -58,12 +67,12 @@ namespace PrintingBI.API.Controllers
             }
         }
 
-        [HttpGet("GetSingleReport")]
-        public async Task<ActionResult<PBReportViewModel>> GetSingleReport(string reportId)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<PBReportViewModel>> GetSingleReport(string id)
         {
             try
             {
-                return await _service.GetSingleReportData(reportId);
+                return await _service.GetSingleReportData(id);
             }
             catch (Exception ex)
             {

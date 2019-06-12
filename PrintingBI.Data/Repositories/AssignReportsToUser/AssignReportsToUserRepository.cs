@@ -50,7 +50,7 @@ namespace PrintingBI.Data.Repositories.AssignReportsToUser
                 {
                     Id = report.Id,
                     ReportName = report.ReportName,
-                    IsChecked = allAssignReportsIds.Any(x => x == report.Id)
+                    IsAssigned = allAssignReportsIds.Any(x => x == report.Id)
                 });
             }
             return allUserReports;

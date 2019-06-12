@@ -34,7 +34,7 @@ namespace PrintingBI.Services.AssignToAllService
                 {
                     Id = report.Id,
                     ReportName = report.ReportName,
-                    IsChecked = assigedReports.Any(a => a.ReportId == report.Id)
+                    IsAssignedToAllUsers = assigedReports.Any(a => a.ReportId == report.Id)
                 });
             }
             return assignToAllReportsList;

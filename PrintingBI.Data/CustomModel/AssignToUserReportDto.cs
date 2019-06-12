@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PrintingBI.Data.CustomModel
 {
+    /// <summary>
+    /// Report assigned to user
+    /// </summary>
     public class AssignToUserReportDto
     {
         /// <summary>
@@ -17,8 +18,8 @@ namespace PrintingBI.Data.CustomModel
         public string ReportName { get; set; }
 
         /// <summary>
-        /// Is Checked - if ture means report is assign to all
+        /// If ture the report is assigned to user
         /// </summary>
-        public bool IsChecked { get; set; }
+        public bool IsAssigned { get; set; }
     }
 }
