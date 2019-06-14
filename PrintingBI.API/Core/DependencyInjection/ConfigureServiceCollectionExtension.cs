@@ -37,6 +37,11 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddSingleton<IUserFileConfig>(sp =>
                 sp.GetRequiredService<IOptions<UserFileConfig>>().Value);
 
+            services.Configure<TestTenantInfo>(config.GetSection("TestTenantInfo"));
+
+            services.TryAddSingleton<ITestTenantInfo>(sp =>
+                sp.GetRequiredService<IOptions<TestTenantInfo>>().Value);
+
             return services;
         }
          

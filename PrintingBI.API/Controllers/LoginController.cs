@@ -24,16 +24,19 @@ namespace PrintingBI.API.Controllers
         private readonly IAdminTenantService _adminService;
         private readonly ILoginService _loginService;
         private readonly IJwtConfiguration _jwtConfiguration;
+        private readonly ITestTenantInfo _testTenantInfo;
 
         public LoginController(ILogger<LoginController> logger, 
                               IAdminTenantService adminService, 
                               ILoginService loginService, 
-                              IJwtConfiguration jwtConfiguration)
+                              IJwtConfiguration jwtConfiguration,
+                              ITestTenantInfo testTenantInfo)
         {
             _logger = logger;
             _adminService = adminService;
             _loginService = loginService;
             _jwtConfiguration = jwtConfiguration;
+            _testTenantInfo = testTenantInfo;
         }
 
         /// <summary>
@@ -249,12 +252,14 @@ namespace PrintingBI.API.Controllers
         {
             var intialInfo = await _adminService.GetCustomerInialInfo(hostName);
 
-            // TODO: Remove this in live
-            intialInfo.TenantDBServer = "74.208.24.39";
-            intialInfo.TenantDBName = "PrintingBI-Customer1";
-            intialInfo.TenantDBUser = "postgres";
-            intialInfo.TenantDBPassword = "Printerbi@.";
-
+            if (_testTenantInfo.UseTestTenantInfo)
+            {
+                intialInfo.TenantDBServer = _testTenantInfo.TenantDBServer;
+                intialInfo.TenantDBName = _testTenantInfo.TenantDBName;
+                intialInfo.TenantDBUser = _testTenantInfo.TenantDBUser;
+                intialInfo.TenantDBPassword = _testTenantInfo.TenantDBPassword;
+            }
+            
             return intialInfo;
         }
 
