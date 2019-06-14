@@ -124,8 +124,7 @@
         </member>
         <member name="M:PrintingBI.API.Controllers.LoginController.ValidateRefreshToken(PrintingBI.API.Models.RefreshTokenDto)">
             <summary>
-            This api validates refresh token given for provided hostname and user 
-            this will genertes new token if refresh token is valid and does not expired
+            Api used when the jwt token is expired. New token will be assigned for seamless user experience.
             </summary>
             <param name="model">Provide the hostname, username or email and refresh token</param>
             <returns></returns>

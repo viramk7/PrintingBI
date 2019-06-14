@@ -19,7 +19,7 @@ namespace PrintingBI.API.Models
         /// Provide the user name or the email of the user
         /// </summary>
         [Required]
-        [MaxLength(50)]
+        [MaxLength(Constants.EmailMaxLength)]
         public string UserNameOrEmail { get; set; }
 
         /// <summary>

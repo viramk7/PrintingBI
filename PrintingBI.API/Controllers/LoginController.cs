@@ -199,12 +199,11 @@ namespace PrintingBI.API.Controllers
         }
 
         /// <summary>
-        /// This api validates refresh token given for provided hostname and user 
-        /// this will genertes new token if refresh token is valid and does not expired
+        /// Api used when the jwt token is expired. New token will be assigned for seamless user experience.
         /// </summary>
         /// <param name="model">Provide the hostname, username or email and refresh token</param>
         /// <returns></returns>
-        [HttpPost("ValidateRefreshToken")]
+        [HttpPost("RefreshToken")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<AuthenticateUserOutputDto>> ValidateRefreshToken(RefreshTokenDto model)
         {

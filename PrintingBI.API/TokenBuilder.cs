@@ -81,7 +81,7 @@ namespace PrintingBI.API
                     }
                     else
                     {
-                        claims.Add(new Claim(claim.Key, claim.Value));
+                        claims.Add(new Claim(claim.Key, claim.Value ?? string.Empty));
                     }                    
                 }
             }
