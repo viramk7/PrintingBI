@@ -32,7 +32,9 @@ namespace PrintingBI.API
         }
 
         public IConfiguration Configuration { get; }
-        
+
+        readonly string AllowedOrigins = "_AllowedOrigins";
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -40,7 +42,13 @@ namespace PrintingBI.API
             services.AddAppConfiguration(Configuration)
                     .AddAppServices();
 
-            services.AddCors();
+            services.AddCors(option =>
+            {
+                option.AddPolicy(AllowedOrigins, buider =>
+                 {
+                     buider.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+                 });
+            });
             services.AddMvc(setupAction =>
             {
                 setupAction.Filters.Add(
@@ -158,10 +166,7 @@ namespace PrintingBI.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors(builder =>
-            builder.AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod());
+            app.UseCors(AllowedOrigins);
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
             // specifying the Swagger JSON endpoint.
