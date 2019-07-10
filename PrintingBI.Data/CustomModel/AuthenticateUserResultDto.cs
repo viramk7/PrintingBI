@@ -2,6 +2,8 @@
 {
     public class AuthenticateUserResultDto
     {
+        public int UserId { get; set; }
+
         /// <summary>
         /// Is User Authenticated ?
         /// </summary>

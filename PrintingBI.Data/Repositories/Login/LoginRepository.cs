@@ -40,7 +40,8 @@ namespace PrintingBI.Data.Repositories.Login
                 obj.Email = user.Email;
                 obj.FullName = user.FullName;
                 obj.UserName = user.UserName;
-
+                obj.UserId = user.Id;
+                
                 if (user.IsSuperAdmin)
                     obj.IsSuperAdmin = true;
                 else

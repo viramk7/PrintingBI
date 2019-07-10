@@ -203,6 +203,11 @@
             Model provided if the user is authenticated
             </summary>
         </member>
+        <member name="P:PrintingBI.API.Models.AuthenticateUserOutputDto.UserId">
+            <summary>
+            user id of the authenticated user
+            </summary>
+        </member>
         <member name="P:PrintingBI.API.Models.AuthenticateUserOutputDto.IsSystemGeneratedPassword">
             <summary>
             True if the user password is created by system 
