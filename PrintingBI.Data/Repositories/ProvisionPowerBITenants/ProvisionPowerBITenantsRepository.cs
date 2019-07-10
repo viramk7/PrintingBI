@@ -44,6 +44,26 @@ namespace PrintingBI.Data.Repositories.ProvisionPowerBITenants
             return (true, "De-Provisioned successfully.");
         }
 
+        public async Task<bool> ValidateDBInfo(string connectionString)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(connectionString))
+                    throw new ArgumentException("connection string not provided!");
+
+                var printingBIDbContextFactory = new PrintingBIDbContextFactory();
+                var context = printingBIDbContextFactory.Create(connectionString);
+
+                bool result = context.Database.CanConnect();
+
+                return result;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
+
         private string CreateDropTablesScript()
         {
             var tablesToDrop = new StringBuilder();

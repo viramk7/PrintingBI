@@ -188,5 +188,34 @@ namespace PrintingBI.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong!");
             }
         }
+
+        /// <summary>
+        /// This api used to validate the database connection
+        /// </summary>
+        /// <param name="model">Database credentials to validate database connection</param>
+        /// <returns></returns>
+        [HttpPost("ValidateCustomerDbInfo")]
+        [Consumes("application/json")]
+        public async Task<ActionResult> ValidateCustomerDbInfo(CustomerDbCredsInputDto model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var succeed = await
+                _provisionPowerBITenantsService.ValidateDBInfo(model.GetConnectionString());
+
+                if (succeed)
+                    return Ok();
+                else
+                    return StatusCode(StatusCodes.Status404NotFound, "Database credentials are not valid.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.StackTrace);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong!");
+            }
+        }
     }
 }

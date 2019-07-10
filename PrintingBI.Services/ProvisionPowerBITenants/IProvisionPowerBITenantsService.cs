@@ -6,5 +6,6 @@ namespace PrintingBI.Services.ProvisionPowerBITenants
     {
         Task<(bool, string)> Provision(string connectionString);
         Task<(bool, string)> DeProvision(string connectionString);
+        Task<bool> ValidateDBInfo(string connectionString);
     }
 }

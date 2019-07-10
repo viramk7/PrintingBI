@@ -49,6 +49,13 @@
             <param name="model">Host name to be validated</param>
             <returns></returns>
         </member>
+        <member name="M:PrintingBI.API.Controllers.AdminController.ValidateCustomerDbInfo(PrintingBI.API.Models.CustomerDbCredsInputDto)">
+            <summary>
+            This api used to validate the database connection
+            </summary>
+            <param name="model">Database credentials to validate database connection</param>
+            <returns></returns>
+        </member>
         <member name="M:PrintingBI.API.Controllers.AssignReportsToAllController.GetAssignToAllReports">
             <summary>
             Gets all the reports with a flag isAssignedToAllUsers if assigned to all users
@@ -217,6 +224,21 @@
         <member name="P:PrintingBI.API.Models.AuthenticateUserOutputDto.RefreshToken">
             <summary>
             Refresh token - it will helps to validates user with refresh token
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.AuthenticateUserOutputDto.FullName">
+            <summary>
+            Full Name for authenticated user
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.AuthenticateUserOutputDto.UserName">
+            <summary>
+            User Name for authenticated user
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.AuthenticateUserOutputDto.Email">
+            <summary>
+            Email for authenticated user
             </summary>
         </member>
         <member name="T:PrintingBI.API.Models.ChangePassDto">

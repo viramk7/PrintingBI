@@ -37,6 +37,9 @@ namespace PrintingBI.Data.Repositories.Login
                 AuthenticateUserResultDto obj = new AuthenticateUserResultDto();
                 obj.IsAuthenticated = true;
                 obj.RefreshToken = refreshToken;
+                obj.Email = user.Email;
+                obj.FullName = user.FullName;
+                obj.UserName = user.UserName;
 
                 if (user.IsSuperAdmin)
                     obj.IsSuperAdmin = true;
