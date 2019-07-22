@@ -316,6 +316,11 @@
             Role Rights GUID - if assigned
             </summary>
         </member>
+        <member name="P:PrintingBI.API.Models.CreateUserDto.IsSuperAdmin">
+            <summary>
+            Is User - Super admin ?
+            </summary>
+        </member>
         <member name="T:PrintingBI.API.Models.CustomerDbCredsInputDto">
             <summary>
             Model to provision the tenants
@@ -474,6 +479,11 @@
         <member name="P:PrintingBI.API.Models.UpdateUserDto.RoleRightsId">
             <summary>
             Role Rights GUID - if assigned
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.UpdateUserDto.IsSuperAdmin">
+            <summary>
+            Is User - Super admin ?
             </summary>
         </member>
         <member name="P:PrintingBI.API.Models.UserDto.Id">

@@ -46,6 +46,12 @@ namespace PrintingBI.API.Models
         /// </summary>
         public Guid? RoleRightsId { get; set; }
 
+        /// <summary>
+        /// Is User - Super admin ?
+        /// </summary>
+        [Required]
+        public bool IsSuperAdmin { get; set; }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var errors = new List<ValidationResult>();
