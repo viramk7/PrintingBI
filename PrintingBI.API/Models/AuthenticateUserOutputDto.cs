@@ -5,13 +5,34 @@
     /// </summary>
     public class AuthenticateUserOutputDto
     {
-        public AuthenticateUserOutputDto(bool isSystemGeneratedPassword, string token, int expiresTime,string refreshToken,string username, string fullname, string email)
+        /// <summary>
+        /// Initialize all the fields
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="isSystemGeneratedPassword"></param>
+        /// <param name="token"></param>
+        /// <param name="expiresTime"></param>
+        /// <param name="refreshToken"></param>
+        /// <param name="fullName"></param>
+        /// <param name="userName"></param>
+        /// <param name="email"></param>
+        public AuthenticateUserOutputDto(int userId, bool isSystemGeneratedPassword, string token, int expiresTime, string refreshToken, string fullName, string userName, string email)
         {
+            UserId = userId;
             IsSystemGeneratedPassword = isSystemGeneratedPassword;
             Token = token;
             ExpiresTime = expiresTime;
             RefreshToken = refreshToken;
+            FullName = fullName;
+            UserName = userName;
+            Email = email;
         }
+
+
+        /// <summary>
+        /// user id of the authenticated user
+        /// </summary>
+        public int UserId { get; set; }
 
         /// <summary>
         /// True if the user password is created by system 

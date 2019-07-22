@@ -203,6 +203,24 @@
             Model provided if the user is authenticated
             </summary>
         </member>
+        <member name="M:PrintingBI.API.Models.AuthenticateUserOutputDto.#ctor(System.Int32,System.Boolean,System.String,System.Int32,System.String,System.String,System.String,System.String)">
+            <summary>
+            Initialize all the fields
+            </summary>
+            <param name="userId"></param>
+            <param name="isSystemGeneratedPassword"></param>
+            <param name="token"></param>
+            <param name="expiresTime"></param>
+            <param name="refreshToken"></param>
+            <param name="fullName"></param>
+            <param name="userName"></param>
+            <param name="email"></param>
+        </member>
+        <member name="P:PrintingBI.API.Models.AuthenticateUserOutputDto.UserId">
+            <summary>
+            user id of the authenticated user
+            </summary>
+        </member>
         <member name="P:PrintingBI.API.Models.AuthenticateUserOutputDto.IsSystemGeneratedPassword">
             <summary>
             True if the user password is created by system 
