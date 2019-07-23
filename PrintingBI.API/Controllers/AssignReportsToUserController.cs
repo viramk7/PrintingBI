@@ -16,7 +16,6 @@ namespace PrintingBI.API.Controllers
     [Route("api/user")]
     [Produces("application/json")]
     [Consumes("application/json")]
-    [Authorize(Roles = RoleModel.SuperAdmin)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public class AssignReportsToUserController : ControllerBase
     {
@@ -59,6 +58,7 @@ namespace PrintingBI.API.Controllers
         /// If any of the report which is assigned to all users is not provided
         /// then that report will be blocked for the user. 
         /// </remarks>
+        [Authorize(Roles = RoleModel.SuperAdmin)]
         [HttpPost("{userid}/reports")]
         public async Task<ActionResult> SaveAllReports(int userid, List<Guid> reportlist)
         {
