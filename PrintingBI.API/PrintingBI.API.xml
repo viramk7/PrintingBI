@@ -203,7 +203,7 @@
             Model provided if the user is authenticated
             </summary>
         </member>
-        <member name="M:PrintingBI.API.Models.AuthenticateUserOutputDto.#ctor(System.Int32,System.Boolean,System.String,System.Int32,System.String,System.String,System.String,System.String)">
+        <member name="M:PrintingBI.API.Models.AuthenticateUserOutputDto.#ctor(System.Int32,System.Boolean,System.String,System.Int32,System.String,System.String,System.String,System.String,System.Boolean)">
             <summary>
             Initialize all the fields
             </summary>
@@ -257,6 +257,11 @@
         <member name="P:PrintingBI.API.Models.AuthenticateUserOutputDto.Email">
             <summary>
             Email for authenticated user
+            </summary>
+        </member>
+        <member name="P:PrintingBI.API.Models.AuthenticateUserOutputDto.IsAdmin">
+            <summary>
+            Specifies if the user is admin or not
             </summary>
         </member>
         <member name="T:PrintingBI.API.Models.ChangePassDto">

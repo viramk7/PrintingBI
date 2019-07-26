@@ -76,7 +76,15 @@ namespace PrintingBI.API.Controllers
                             Guid.NewGuid(),
                             DateTime.UtcNow.AddMinutes(Convert.ToInt32(_jwtConfiguration.ExpireTime)));
 
-                return new AuthenticateUserOutputDto(result.UserId,!result.IsPasswordChange, token, _jwtConfiguration.ExpireTime,result.RefreshToken, result.FullName,result.UserName, result.Email);
+                return new AuthenticateUserOutputDto(result.UserId,
+                    !result.IsPasswordChange, 
+                    token, 
+                    _jwtConfiguration.ExpireTime,
+                    result.RefreshToken, 
+                    result.FullName,
+                    result.UserName, 
+                    result.Email,
+                    result.IsSuperAdmin);
             }
             catch (Exception ex)
             {
@@ -238,7 +246,15 @@ namespace PrintingBI.API.Controllers
                             Guid.NewGuid(),
                             DateTime.UtcNow.AddMinutes(Convert.ToInt32(_jwtConfiguration.ExpireTime)));
 
-                return new AuthenticateUserOutputDto(result.UserId,!result.IsPasswordChange, token, _jwtConfiguration.ExpireTime, result.RefreshToken, result.UserName, result.FullName, result.Email);
+                return new AuthenticateUserOutputDto(result.UserId,
+                    !result.IsPasswordChange, 
+                    token, 
+                    _jwtConfiguration.ExpireTime, 
+                    result.RefreshToken,
+                    result.UserName, 
+                    result.FullName, 
+                    result.Email,
+                    result.IsSuperAdmin);
             }
             catch (Exception ex)
             {
