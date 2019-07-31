@@ -12,7 +12,7 @@ using PrintingBI.Services.AssignToAllService;
 namespace PrintingBI.API.Controllers
 {
     [ApiController]
-    [Route("api/reportsassignedtoall")]
+    [Route("api/printerbi/reportsassignedtoall")]
     [Produces("application/json")]
     [Consumes("application/json")]
     [Authorize(Roles = RoleModel.SuperAdmin)]

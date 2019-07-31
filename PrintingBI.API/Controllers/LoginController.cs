@@ -15,7 +15,7 @@ using PrintingBI.Services.LoginService;
 namespace PrintingBI.API.Controllers
 {
     [ApiController]
-    [Route("api/login")]
+    [Route("api/printerbi/login")]
     [Produces("application/json")]
     [Consumes("application/json")]
     public class LoginController : ControllerBase

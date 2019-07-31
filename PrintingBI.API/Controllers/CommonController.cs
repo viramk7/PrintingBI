@@ -9,7 +9,7 @@ namespace PrintingBI.API.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/common")]
+    [Route("api/printerbi/common")]
     [Produces("application/json")]
     [Consumes("application/json")]
     public class CommonController : ControllerBase

@@ -13,7 +13,7 @@ using PrintingBI.Services.AssignReportsToUser;
 namespace PrintingBI.API.Controllers
 {
     [ApiController]
-    [Route("api/user")]
+    [Route("api/printerbi/user")]
     [Produces("application/json")]
     [Consumes("application/json")]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]

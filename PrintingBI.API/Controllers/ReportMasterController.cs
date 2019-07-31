@@ -15,7 +15,7 @@ using PrintingBI.Services.ReportsService;
 namespace PrintingBI.API.Controllers
 {
     [ApiController]
-    [Route("api/reports")]
+    [Route("api/printerbi/reports")]
     [Produces("application/json")]
     [Consumes("application/json")]
     [Authorize(Roles = RoleModel.SuperAdmin)]

@@ -13,7 +13,7 @@ using PrintingBI.Services.UserMaster;
 namespace PrintingBI.API.Controllers
 {
     [ApiController]
-    [Route("api/user")]
+    [Route("api/printerbi/user")]
     [Produces("application/json")]
     [Consumes("application/json")]
     [Authorize(Roles = RoleModel.SuperAdmin)]
