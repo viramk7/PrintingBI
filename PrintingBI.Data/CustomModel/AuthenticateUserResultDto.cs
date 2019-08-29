@@ -38,5 +38,10 @@
         /// Email for authenticated user
         /// </summary>
         public string Email { get; set; }
+
+        /// <summary>
+        /// Department Id of the user
+        /// </summary>
+        public string DepartmentId { get; set; }
     }
 }

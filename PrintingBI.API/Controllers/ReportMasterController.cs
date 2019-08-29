@@ -18,7 +18,7 @@ namespace PrintingBI.API.Controllers
     [Route("api/printerbi/reports")]
     [Produces("application/json")]
     [Consumes("application/json")]
-    [Authorize(Roles = RoleModel.SuperAdmin)]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public class ReportMasterController : ControllerBase
     {

@@ -17,7 +17,7 @@
         /// <param name="userName"></param>
         /// <param name="email"></param>
         public AuthenticateUserOutputDto(int userId, bool isSystemGeneratedPassword, string token, 
-            int expiresTime, string refreshToken, string fullName, string userName, string email, bool isAdmin)
+            int expiresTime, string refreshToken, string fullName, string userName, string email, bool isAdmin,string departmentId)
         {
             UserId = userId;
             IsSystemGeneratedPassword = isSystemGeneratedPassword;
@@ -28,6 +28,7 @@
             UserName = userName;
             Email = email;
             IsAdmin = isAdmin;
+            DepartmentId = departmentId;
         }
 
 
@@ -79,5 +80,10 @@
         /// Specifies if the user is admin or not
         /// </summary>
         public bool IsAdmin { get; set; }
+
+        /// <summary>
+        /// Department Id of the user
+        /// </summary>
+        public string DepartmentId { get; set; }
     }
 }

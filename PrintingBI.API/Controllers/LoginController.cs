@@ -84,7 +84,8 @@ namespace PrintingBI.API.Controllers
                     result.FullName,
                     result.UserName, 
                     result.Email,
-                    result.IsSuperAdmin);
+                    result.IsSuperAdmin,
+                    result.DepartmentId);
             }
             catch (Exception ex)
             {
@@ -254,7 +255,8 @@ namespace PrintingBI.API.Controllers
                     result.UserName, 
                     result.FullName, 
                     result.Email,
-                    result.IsSuperAdmin);
+                    result.IsSuperAdmin,
+                    result.DepartmentId);
             }
             catch (Exception ex)
             {

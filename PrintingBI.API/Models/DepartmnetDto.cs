@@ -8,7 +8,12 @@ namespace PrintingBI.API.Models
         /// Primary Key for Departmnet
         /// </summary>
         public Guid Id { get; set; }
-        
+
+        /// <summary>
+        /// Parent Departmnet Id
+        /// </summary>
+        public Guid? ParentId { get; set; }
+
         /// <summary>
         /// Departmnet Name
         /// </summary>
