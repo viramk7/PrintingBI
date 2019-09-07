@@ -47,6 +47,11 @@ namespace PrintingBI.Data.Repositories.Login
                     obj.DepartmentId = user.DepartmentId.ToString();
                 }
 
+                if (user.RoleRightsId.HasValue)
+                {
+                    obj.RoleRightsId = user.RoleRightsId.ToString();
+                }
+
                 if (user.IsSuperAdmin)
                     obj.IsSuperAdmin = true;
                 else

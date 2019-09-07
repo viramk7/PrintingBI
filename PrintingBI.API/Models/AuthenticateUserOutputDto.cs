@@ -17,7 +17,7 @@
         /// <param name="userName"></param>
         /// <param name="email"></param>
         public AuthenticateUserOutputDto(int userId, bool isSystemGeneratedPassword, string token, 
-            int expiresTime, string refreshToken, string fullName, string userName, string email, bool isAdmin,string departmentId)
+            int expiresTime, string refreshToken, string fullName, string userName, string email, bool isAdmin,string departmentId = null,string rolerightsId = null)
         {
             UserId = userId;
             IsSystemGeneratedPassword = isSystemGeneratedPassword;
@@ -29,6 +29,7 @@
             Email = email;
             IsAdmin = isAdmin;
             DepartmentId = departmentId;
+            RoleRightsId = rolerightsId;
         }
 
 
@@ -85,5 +86,10 @@
         /// Department Id of the user
         /// </summary>
         public string DepartmentId { get; set; }
+
+        /// <summary>
+        /// Role Rights Id of the user
+        /// </summary>
+        public string RoleRightsId { get; set; }
     }
 }

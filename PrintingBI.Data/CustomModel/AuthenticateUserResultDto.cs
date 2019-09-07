@@ -43,5 +43,10 @@
         /// Department Id of the user
         /// </summary>
         public string DepartmentId { get; set; }
+
+        /// <summary>
+        /// Role Rights Id of the user
+        /// </summary>
+        public string RoleRightsId { get; set; }
     }
 }
